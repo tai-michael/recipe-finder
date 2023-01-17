@@ -211,6 +211,10 @@ html {
     line-height: 1.5;
     font-weight: 600;
   }
+
+  @media all and (max-width: 644px) {
+    display: none;
+  }
 }
 
 // TODO add new classes and change names to them here

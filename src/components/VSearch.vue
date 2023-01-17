@@ -56,6 +56,8 @@
 </template>
 
 <script>
+// import bootstrap from 'bootstrap';
+
 export default {
   name: 'VSearch',
 
@@ -76,6 +78,21 @@ export default {
   methods: {
     submitSearch() {
       this.$store.dispatch('home/searchRecipes', { query: this.query });
+      // var searchResultsDropdown = document.getElementById(
+      //   'searchResultsDropdown'
+      // );
+      // var bsCollapse = new bootstrap.Collapse(searchResultsDropdown, {
+      //   toggle: false,
+      // });
+
+      // bsCollapse.show();
+
+      // var collapseElementList = [].slice.call(
+      //   document.querySelectorAll('.collapse')
+      // );
+      // var collapseList = collapseElementList.map(function (collapseEl) {
+      //   return new bootstrap.Collapse(collapseEl);
+      // });
     },
     submitUserRecipeSearch() {
       this.$store.dispatch('home/searchUserRecipes', {

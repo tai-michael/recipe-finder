@@ -56,7 +56,7 @@
           </li>
 
           <button
-            class="navbar-toggler"
+            class="navbar-toggler rounded"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNavDropdown"
@@ -90,7 +90,7 @@
     </nav>
 
     <div
-      class="collapse navbar-collapse narrowscreen-navbar"
+      class="collapse navbar-collapse narrowscreen-navbar mb-3"
       id="navbarNavDropdown"
     >
       <ul class="navbar-nav">
@@ -103,20 +103,6 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
         </li> -->
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Saved Recipes
-          </a>
-          <ul class="dropdown-menu">
-            <VBookmarksMobile />
-          </ul>
-        </li>
         <li class="nav-item" v-if="!loggedIn">
           <a class="nav-link" @click="toggleLoginModal">Log In</a>
         </li>
@@ -137,8 +123,22 @@
             <span>Add recipe</span>
           </button> -->
           <a class="nav-link" @click="$store.dispatch('auth/logout')">
-            Logout
+            Log out
           </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Saved Recipes
+          </a>
+          <ul class="dropdown-menu mt-3">
+            <VBookmarksMobile />
+          </ul>
         </li>
       </ul>
     </div>
@@ -165,7 +165,7 @@
 
     <button
       v-if="!loadingSearchResults && $route.query.query"
-      class="navbar-toggler dropdown-toggle narrowscreen-navbar p-2"
+      class="navbar-toggler dropdown-toggle narrowscreen-navbar p-3"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#searchResultsDropdown"
@@ -177,7 +177,7 @@
     </button>
 
     <VSearchResults
-      class="collapse narrowscreen-navbar"
+      class="collapse navbar-nav-scroll narrowscreen-navbar"
       id="searchResultsDropdown"
     />
 
@@ -386,9 +386,14 @@ export default {
 }
 
 .nav-link {
+  display: inline;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.nav-item {
+  margin: 0.7rem 0;
 }
 
 .dropdown-item {

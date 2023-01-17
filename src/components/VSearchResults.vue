@@ -17,8 +17,6 @@
       v-else
       :recipes="searchResultsDisplay"
       :resultsActive="true"
-      data-bs-target="#searchResultsDropdown"
-      data-bs-toggle="collapse"
     />
 
     <div v-if="!loadingSearchResults && $route.query.query" class="page-nav">
@@ -192,7 +190,7 @@ export default {
   // min-width: 140px;
 
   @media only screen and (max-width: 648px) {
-    border-top: 1px solid rgb(231, 231, 231);
+    // border-top: 1px solid rgb(231, 231, 231);
     padding-top: 5px;
   }
 

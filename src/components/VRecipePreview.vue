@@ -16,48 +16,56 @@
             id: getId(recipe),
           },
         }"
-        class="preview__link"
-        :class="[!image && !resultsActive ? 'preview__link--image-error' : '']"
+        class="text-decoration-none"
         v-if="recipe"
         :title="recipe.label"
       >
-        <figure class="preview__fig" v-if="image">
-          <img
-            :src="recipe.image"
-            :alt="recipe.label"
-            @error="handleImageError"
-          />
-        </figure>
-        <div class="preview__data">
-          <h4
-            class="preview__title"
-            :class="{
-              'preview__title--active': getId(recipe) === $route.query.id,
-            }"
-          >
-            {{ recipe.label }}
-          </h4>
-          <p class="preview__publisher">{{ recipe.source }}</p>
-          <!-- NOTE uncomment to enable personal recipe tag -->
-          <!-- <div v-if="recipe.user_generated">
+        <div
+          class="preview__link d-flex"
+          :class="[
+            !image && !resultsActive ? 'preview__link--image-error' : '',
+          ]"
+          data-bs-target="#searchResultsDropdown"
+          data-bs-toggle="collapse"
+        >
+          <figure class="preview__fig" v-if="image">
+            <img
+              :src="recipe.image"
+              :alt="recipe.label"
+              @error="handleImageError"
+            />
+          </figure>
+          <div class="preview__data">
+            <h4
+              class="preview__title"
+              :class="{
+                'preview__title--active': getId(recipe) === $route.query.id,
+              }"
+            >
+              {{ recipe.label }}
+            </h4>
+            <p class="preview__publisher">{{ recipe.source }}</p>
+            <!-- NOTE uncomment to enable personal recipe tag -->
+            <!-- <div v-if="recipe.user_generated">
             <div v-if="resultsActive" class="preview__user-generated">
               <h4>
                 <span class="badge bg-primary text-uppercase">Personal</span>
               </h4>
             </div>
           </div> -->
-          <div v-if="isBookmarked(recipe.uri)">
-            <div
-              v-if="resultsActive"
-              class="preview__bookmarked btn--round"
-              :class="{
-                'preview__bookmarked--active':
-                  getId(recipe) === $route.query.id,
-              }"
-            >
-              <svg>
-                <use :href="`${icons}#icon-favorite-fill`"></use>
-              </svg>
+            <div v-if="isBookmarked(recipe.uri)">
+              <div
+                v-if="resultsActive"
+                class="preview__bookmarked btn--round"
+                :class="{
+                  'preview__bookmarked--active':
+                    getId(recipe) === $route.query.id,
+                }"
+              >
+                <svg>
+                  <use :href="`${icons}#icon-favorite-fill`"></use>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -159,12 +167,14 @@ export default {
 
 .preview {
   list-style: none;
+
   &__link {
+    padding: 1.5rem 3.25rem;
     &:link,
     &:visited {
       display: flex;
       align-items: center;
-      padding: 1.5rem 3.25rem;
+      // padding: 1.5rem 3.25rem;
       transition: all 0.3s;
       border-right: 1px solid #fff;
       text-decoration: none;

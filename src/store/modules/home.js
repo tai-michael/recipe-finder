@@ -37,6 +37,7 @@ export default {
       resultsPerPage: RESULTS_PER_PAGE,
     },
     loadingSearchResults: false,
+    searchSubmitted: false,
     loadingRecipe: false,
     loadingBookmarks: false,
     loadingUserRecipes: false,
@@ -81,6 +82,7 @@ export default {
     },
     loadingSearchResults: state => state.loadingSearchResults,
     loadingRecipe: state => state.loadingRecipe,
+    searchSubmitted: state => state.searchSubmitted,
     loadingBookmarks: state => state.loadingBookmarks,
     loadingUserRecipes: state => state.loadingUserRecipes,
     loginModal: state => state.loginModal,
@@ -102,6 +104,11 @@ export default {
     CREATE_SEARCH_RESULTS(state, { results, page = 1 }) {
       state.search.results = results;
       state.search.page = page;
+    },
+
+    TOGGLE_SEARCH_SUBMITTED(state, boolean) {
+      state.searchSubmitted = boolean;
+      console.log(state.searchSubmitted);
     },
 
     // NOTE need to access link to get next set of search results from API
@@ -380,6 +387,11 @@ export default {
           page: +page,
         });
         commit('TOGGLE_SEARCH_SPINNER', false);
+        // commit('TOGGLE_SEARCH_SUBMITTED', true);
+        commit('TOGGLE_SEARCH_SUBMITTED', false);
+        setTimeout(() => {
+          commit('TOGGLE_SEARCH_SUBMITTED', true);
+        }, 100);
       } catch (err) {
         console.log(err.errorCode, err.message);
         if (err.errorCode === '403')

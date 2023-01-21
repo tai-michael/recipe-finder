@@ -177,6 +177,9 @@
     </button>
 
     <VSearchResults
+      :class="{
+        show: searchSubmitted,
+      }"
       class="collapse navbar-nav-scroll narrowscreen-navbar"
       id="searchResultsDropdown"
     />
@@ -356,6 +359,9 @@ export default {
     },
     loadingSearchResults() {
       return this.$store.getters['home/loadingSearchResults'];
+    },
+    searchSubmitted() {
+      return this.$store.getters['home/searchSubmitted'];
     },
   },
   methods: {

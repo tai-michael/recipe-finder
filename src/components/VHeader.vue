@@ -177,6 +177,7 @@
     </button>
 
     <VSearchResults
+      ref="myEl"
       :class="{
         show: searchSubmitted,
       }"

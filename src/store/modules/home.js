@@ -108,7 +108,6 @@ export default {
 
     TOGGLE_SEARCH_SUBMITTED(state, boolean) {
       state.searchSubmitted = boolean;
-      console.log(state.searchSubmitted);
     },
 
     // NOTE need to access link to get next set of search results from API
@@ -391,7 +390,7 @@ export default {
         commit('TOGGLE_SEARCH_SUBMITTED', false);
         setTimeout(() => {
           commit('TOGGLE_SEARCH_SUBMITTED', true);
-        }, 100);
+        }, 1);
       } catch (err) {
         console.log(err.errorCode, err.message);
         if (err.errorCode === '403')

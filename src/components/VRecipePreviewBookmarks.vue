@@ -25,7 +25,7 @@
           :class="[
             !image && !resultsActive ? 'preview__link--image-error' : '',
           ]"
-          @click="test"
+          @click="collapseSearchResults"
         >
           <figure class="preview__fig" v-if="image">
             <img
@@ -146,11 +146,11 @@ export default {
       // console.log('image error handled');
       this.$store.commit('home/REMOVE_BOOKMARK_IMAGES');
     },
-    test() {
+    collapseSearchResults() {
       // console.log(
-      //   this.$root.$children[0].$children[0].$refs.myEl.$el.classList
+      //   this.$root.$children[0].$children[0].$refs.searchResults.$el.classList
       // );
-      this.$root.$children[0].$children[0].$refs.myEl.$el.classList.remove(
+      this.$root.$children[0].$children[0].$refs.searchResults.$el.classList.remove(
         'show'
       );
     },

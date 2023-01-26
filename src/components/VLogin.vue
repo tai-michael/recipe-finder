@@ -68,7 +68,11 @@
               Please enter a password to continue
             </div>
           </div>
-          <button class="btn btn-primary btn--submit" type="submit">
+          <button
+            class="btn btn-primary btn--submit"
+            type="submit"
+            :disabled="$v.$invalid"
+          >
             <span
               class="spinner-border"
               role="status"
@@ -195,7 +199,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 75rem;
+  width: 74rem;
   background-color: white;
   border-radius: 12px;
 
@@ -203,6 +207,11 @@ export default {
   box-shadow: 0 2rem 3rem rgba(0, 0, 0, 0.411);
   z-index: 1000;
   transition: all 0.5s;
+
+  @media all and (max-width: 644px) {
+    padding-left: 0rem;
+    width: 90%;
+  }
 
   .btn--close-modal {
     font-family: inherit;

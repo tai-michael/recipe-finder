@@ -126,7 +126,7 @@
             Log out
           </a>
         </li>
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" v-if="loggedIn">
           <a
             class="nav-link dropdown-toggle"
             href="#"
@@ -177,7 +177,7 @@
     </button>
 
     <VSearchResults
-      ref="myEl"
+      ref="searchResults"
       :class="{
         show: searchSubmitted,
       }"
@@ -298,7 +298,7 @@
           </button>
         </li> -->
 
-        <VBookmarks />
+        <VBookmarks v-if="loggedIn" />
         <li class="nav__item" v-if="!loggedIn">
           <button @click="toggleLoginModal" class="nav__btn">
             <span>Log In</span>
@@ -407,7 +407,7 @@ export default {
   font-size: 15px;
 }
 
-@media all and (max-width: 644px) {
+@media all and (max-width: 648px) {
   .widescreen-icons {
     display: none !important;
   }
@@ -519,7 +519,7 @@ export default {
       // border-bottom: 2px solid rgb(38, 81, 143);
     }
 
-    @media all and (max-width: 644px) {
+    @media all and (max-width: 648px) {
       padding: 0 0.8rem;
     }
   }

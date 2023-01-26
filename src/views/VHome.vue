@@ -8,7 +8,7 @@
             <VSearchResults class="col-sm-3 search-results" />
 
             <div class="col-sm-9 recipe">
-              <VLoadingSpinner v-if="loadingRecipe" />
+              <!-- <VLoadingSpinner v-if="loadingRecipe" /> -->
               <div
                 v-if="
                   (!$route.query.id && $route.query.query) ||
@@ -60,7 +60,7 @@
 
 <script>
 import VSearchResults from '@/components/VSearchResults.vue';
-import VLoadingSpinner from '@/components/VLoadingSpinner.vue';
+// import VLoadingSpinner from '@/components/VLoadingSpinner.vue';
 import VRecipe from '@/components/VRecipe.vue';
 import VLogin from '@/components/VLogin.vue';
 import VRegister from '@/components/VRegister.vue';
@@ -72,7 +72,7 @@ export default {
   name: 'VHome',
   components: {
     VSearchResults,
-    VLoadingSpinner,
+    // VLoadingSpinner,
     VRecipe,
     VLogin,
     VRegister,
@@ -212,7 +212,7 @@ html {
     font-weight: 600;
   }
 
-  @media all and (max-width: 644px) {
+  @media all and (max-width: 648px) {
     display: none;
   }
 }

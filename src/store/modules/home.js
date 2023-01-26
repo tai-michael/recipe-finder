@@ -303,6 +303,19 @@ export default {
         // NOTE resets error messages so they doesn't show
         commit('SHOW_SEARCH_RECIPES_ERROR_MESSAGE', '');
         commit('SHOW_RENDER_RECIPE_ERROR_MESSAGE', false);
+
+        // NOTE reset search results so that page buttons don't show when there are no results or a search error
+        commit('CREATE_SEARCH_RESULTS', {
+          results: '',
+          page: 1,
+        });
+
+        // NOTE the mutations below are necessary for expanding the search results dropdown when doing a search in mobile view
+        commit('TOGGLE_SEARCH_SUBMITTED', false);
+        setTimeout(() => {
+          commit('TOGGLE_SEARCH_SUBMITTED', true);
+        }, 1);
+
         commit('TOGGLE_SEARCH_SPINNER', true);
 
         // NOTE The guard clause prevents the router from replacing an existing query with the same query during page reloads, something which results in a redundancy error.
@@ -387,22 +400,24 @@ export default {
         });
         commit('TOGGLE_SEARCH_SPINNER', false);
         // commit('TOGGLE_SEARCH_SUBMITTED', true);
-        commit('TOGGLE_SEARCH_SUBMITTED', false);
-        setTimeout(() => {
-          commit('TOGGLE_SEARCH_SUBMITTED', true);
-        }, 1);
       } catch (err) {
-        console.log(err.errorCode, err.message);
-        if (err.errorCode === '403')
+        console.log(err);
+        console.log(err.code, err.message);
+        if (err.message.includes('Cannot read properties of undefined'))
           commit(
             'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
-            'You have sent too many requests for recipes. Please try again later.'
+            'No recipes for your search terms were found.\n\nTry different keywords or more general keywords.'
           );
-        else
+        else if (err.code === 'ERR_NETWORK')
           commit(
             'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
-            'Oops! Something went wrong. Please try again.'
+            'You have sent too many requests for recipes, or something is wrong with your network.\n\nPlease try again later.'
           );
+        // else
+        //   commit(
+        //     'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
+        //     'Oops! Something went wrong. Please try again.'
+        //   );
       }
     },
 

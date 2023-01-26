@@ -122,7 +122,7 @@ export default {
   box-shadow: 0 1px 8px rgb(67 41 163 / 10%);
   // box-sizing: border-box;
   // max-width: 450px;
-  @media all and (max-width: 644px) {
+  @media all and (max-width: 648px) {
     max-width: 80rem;
   }
 }

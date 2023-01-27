@@ -103,10 +103,10 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
         </li> -->
-        <li class="nav-item" v-if="!loggedIn">
+        <li class="nav-item not-logged-in" v-if="!loggedIn">
           <a class="nav-link" @click="toggleLoginModal">Log In</a>
         </li>
-        <li class="nav-item" v-if="!loggedIn">
+        <li class="nav-item not-logged-in" v-if="!loggedIn">
           <!-- <router-link :to="{ name: 'Home' }">
             <v-btn color="primary" large>
               <v-icon left>mdi-home</v-icon>
@@ -300,7 +300,7 @@
 
         <VBookmarks v-if="loggedIn" />
         <li class="nav__item" v-if="!loggedIn">
-          <button @click="toggleLoginModal" class="nav__btn">
+          <button @click="toggleLoginModal" class="nav__btn not-logged-in">
             <span>Log In</span>
           </button>
         </li>
@@ -311,7 +311,7 @@
               <span>Home</span>
             </v-btn>
           </router-link> -->
-          <button @click="toggleRegisterModal" class="nav__btn">
+          <button @click="toggleRegisterModal" class="nav__btn not-logged-in">
             <span>Sign Up</span>
           </button>
         </li>
@@ -377,7 +377,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/sass/style.scss';
 
-@media all and (max-width: 752px) {
+@media all and (max-width: 763px) {
   .logo-text {
     display: none;
   }
@@ -405,6 +405,13 @@ export default {
 
 .dropdown-item {
   font-size: 15px;
+}
+
+.not-logged-in {
+  @media all and (max-width: 655px) {
+    padding: 0 1rem !important;
+    transition: none !important;
+  }
 }
 
 @media all and (max-width: 648px) {

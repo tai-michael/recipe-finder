@@ -43,6 +43,13 @@ export default {
     VToast,
   },
 
+  data() {
+    return {
+      topCoord: 0,
+      leftCoord: 0,
+    };
+  },
+
   computed: {
     ...mapGetters([
       'userRecipesView',
@@ -92,9 +99,28 @@ export default {
     // console.log('VPersonal created');
     this.init();
   },
-  // destroyed() {
-  //   console.log('VPersonal destroyed');
+  // mounted() {
+  //   console.log('VPersonal mounted');
   // },
+  // NOTE stores the coordinates before leaving the page
+  beforeRouteLeave(to, from, next) {
+    this.topCoord = document.scrollingElement.scrollTop;
+    this.leftCoord = document.scrollingElement.scrollLeft;
+
+    next();
+  },
+  // NOTE applies the coordinates while re-entering the page. The callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      setTimeout(() => {
+        window.scrollTo({
+          top: vm.topCoord,
+          left: vm.leftCoord,
+          behavior: 'instant',
+        });
+      }, 1);
+    });
+  },
 };
 </script>
 

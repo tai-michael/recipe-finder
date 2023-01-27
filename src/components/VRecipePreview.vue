@@ -27,6 +27,7 @@
           ]"
           data-bs-target="#searchResultsDropdown"
           data-bs-toggle="collapse"
+          @click="scrollToTop"
         >
           <figure class="preview__fig" v-if="image">
             <img
@@ -146,6 +147,17 @@ export default {
       this.image = false;
       // console.log('image error handled');
       this.$store.commit('home/REMOVE_BOOKMARK_IMAGES');
+    },
+    scrollToTop() {
+      // NOTE timeout is necessary for mobile view b/c we need to wait for the 'collapsing' transition for the search results to finish before we can scroll to the top.
+      if (window.innerWidth <= 648) {
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 300);
+      } else {
+        // NOTE no need to wait for non-mobile view
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     },
   },
 };

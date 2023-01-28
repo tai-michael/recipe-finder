@@ -364,13 +364,35 @@ export default {
     searchSubmitted() {
       return this.$store.getters['home/searchSubmitted'];
     },
+    // TODO DELETE
+
+    // containsShow() {
+    //   return this.$refs.searchResults.$el.classList.contains('show');
+    // },
   },
+  // TODO DELETE
+  // watch: {
+  //   containsShow(newValue) {
+  //     console.log(newValue);
+  //   },
+  // },
   methods: {
     ...mapMutations({
       toggleLoginModal: 'TOGGLE_LOGIN_MODAL',
       toggleRegisterModal: 'TOGGLE_REGISTER_MODAL',
     }),
   },
+  // TODO DELETE
+  // mounted() {
+  //   this.$watch(
+  //     () => this.$refs.searchResults.$el.classList.contains('show'),
+  //     newValue => {
+  //       if (newValue) {
+  //         console.log('class active was added to my-element');
+  //       }
+  //     }
+  //   );
+  // },
 };
 </script>
 

@@ -4,9 +4,12 @@
     <html>
       <body class="min-vh-80">
         <div class="container-fluid">
-          <div class="row justify-content-sm-center d-flex flex-wrap-reverse">
+          <!-- TODO test whether below works on an actual mobile phone -->
+          <div
+            :class="{ 'position-fixed': searchResultsExpanded && mobileView }"
+            class="row justify-content-sm-center d-flex flex-wrap-reverse"
+          >
             <VSearchResults class="col-sm-3 search-results" />
-
             <div class="col-sm-9 recipe">
               <!-- <VLoadingSpinner v-if="loadingRecipe" /> -->
               <div
@@ -84,6 +87,8 @@ export default {
       icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
       leftCoord: 0,
+      searchResultsExpanded: false,
+      mobileView: false,
     };
   },
 
@@ -156,6 +161,24 @@ export default {
         console.log(err);
       }
     },
+
+    // NOTE allows us to set 'position: fixed' if in mobile view and search results dropdown is expanded
+    onClassChange(classAttrValue) {
+      const classList = classAttrValue.split(' ');
+      if (classList.includes('show')) {
+        // console.log('has "show" class');
+        this.searchResultsExpanded = true;
+      } else {
+        this.searchResultsExpanded = false;
+      }
+    },
+
+    // NOTE Allows us to add/remove class depending on viewport/screen size. See below in mounted for 'addEventListener'.
+    handleResize() {
+      this.mobileView = window.matchMedia('(max-width: 648px)').matches
+        ? true
+        : false;
+    },
   },
 
   created() {
@@ -164,9 +187,35 @@ export default {
     // console.log('VHome created');
     this.init();
   },
-  // mounted() {
-  //   console.log('VHome mounted');
-  // },
+  mounted() {
+    // console.log('VHome mounted');
+    // NOTE used to detect whether the search results dropdown in mobile view is expanded or not
+    this.observer = new MutationObserver(mutations => {
+      for (const m of mutations) {
+        const newValue = m.target.getAttribute(m.attributeName);
+        this.$nextTick(() => {
+          this.onClassChange(newValue, m.oldValue);
+        });
+      }
+    });
+
+    this.observer.observe(
+      this.$root.$children[0].$children[0].$refs.searchResults.$el,
+      {
+        attributes: true,
+        attributeOldValue: true,
+        attributeFilter: ['class'],
+      }
+    );
+
+    // NOTE allows us to add/remove class depending on viewport size
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+
   // NOTE stores the coordinates before leaving the page
   beforeRouteLeave(to, from, next) {
     this.topCoord = document.scrollingElement.scrollTop;

@@ -240,7 +240,6 @@ export default {
   methods: {
     // TODO delete the unused
     ...mapMutations({
-      updateServings: 'UPDATE_SERVINGS',
       toggleRecipeSpinner: 'TOGGLE_RECIPE_SPINNER',
       toggleBookmarksSpinner: 'TOGGLE_BOOKMARKS_SPINNER',
       toggleUserRecipesSpinner: 'TOGGLE_USER_RECIPES_SPINNER',
@@ -308,14 +307,6 @@ export default {
           .join(' ')}`;
       }
     },
-
-    // updateServings(amount) {
-    //   const prevServings = this.recipeServingsCopy;
-    //   this.recipeServingsCopy += amount;
-    //   this.recipeIngredients.forEach(ing => {
-    //     ing.quantity = (ing.quantity * this.recipeServingsCopy) / prevServings;
-    //   });
-    // },
 
     updateServings(amount) {
       if (this.recipe.yield + amount <= 0) return;

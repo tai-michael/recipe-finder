@@ -184,7 +184,7 @@ export default {
   // padding: 3rem 0;
   // display: flex;
   flex-direction: column;
-  // min-width: 140px;
+  min-width: 250px !important;
 
   @media only screen and (max-width: 648px) {
     border-top: 1px solid rgb(231, 231, 231);

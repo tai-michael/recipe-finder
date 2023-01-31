@@ -220,7 +220,7 @@ export default {
   computed: {
     ...mapGetters({
       recipe: 'userRecipe',
-      recipeBookmarked: 'recipeBookmarked',
+      // recipeBookmarked: 'recipeBookmarked',
       loadingRecipe: 'loadingRecipe',
       renderRecipeError: 'renderRecipeError',
       userRecipes: 'userRecipes',
@@ -237,16 +237,24 @@ export default {
   methods: {
     // TODO delete the unused
     ...mapMutations({
-      updateServings: 'UPDATE_SERVINGS',
       toggleRegisterModal: 'TOGGLE_REGISTER_MODAL',
     }),
     ingQuantity(ingredient) {
       return ingredient.quantity ? fracty(ingredient.quantity).toString() : '';
     },
-    bookmarkRecipe() {
-      // if (!this.loggedIn) this.$router.push({ name: 'register' });
-      if (!this.loggedIn) this.toggleRegisterModal();
-      else this.$store.dispatch('home/toggleBookmark', this.recipe);
+    // bookmarkRecipe() {
+    //   // if (!this.loggedIn) this.$router.push({ name: 'register' });
+    //   if (!this.loggedIn) this.toggleRegisterModal();
+    //   else this.$store.dispatch('home/toggleBookmark', this.recipe);
+    // },
+    updateServings(amount) {
+      if (this.recipe.servings + amount <= 0) return;
+
+      const prevServings = this.recipe.servings;
+      this.recipe.servings += amount;
+      this.recipe.ingredients.forEach(ing => {
+        ing.quantity *= this.recipe.servings / prevServings;
+      });
     },
     editUserRecipe() {
       this.$router.push({ name: 'edit' }).catch(() => {});

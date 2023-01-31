@@ -161,15 +161,14 @@ export default {
 
     CREATE_USER_RECIPE_OBJECT(state, { data }) {
       state.userRecipe = { ...data, bookmarked: false };
-      if (
-        state.bookmarks.some(
-          bookmark =>
-            bookmark.uri.split('#recipe_')[1] ===
-            state.userRecipe.uri.split('#recipe_')[1]
-        )
-      )
-        state.userRecipe.bookmarked = true;
-      else state.userRecipe.bookmarked = false;
+      // if (
+      //   state.bookmarks.some(
+      //     bookmark =>
+      //     bookmark.id === state.userRecipe.id
+      //   )
+      // )
+      //   state.userRecipe.bookmarked = true;
+      // else state.userRecipe.bookmarked = false;
     },
 
     SHOW_RENDER_RECIPE_ERROR_MESSAGE(state, message) {
@@ -726,6 +725,9 @@ export default {
     async toggleBookmark({ state, commit, rootState }) {
       try {
         const docRef = doc(db, 'users', rootState.auth.user.uid);
+
+        // if (state.recipe.id) {
+        // }
 
         if (
           !state.bookmarks.some(

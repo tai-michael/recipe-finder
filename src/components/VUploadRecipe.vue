@@ -576,50 +576,6 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/sass/style.scss';
 
-// .overlay {
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   background-color: rgba(0, 0, 0, 0.4);
-//   backdrop-filter: blur(4px);
-//   z-index: 100;
-//   transition: all 0.5s;
-// }
-
-// .add-recipe-window {
-//   position: fixed;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   // height: 100rem;
-//   // width: 100rem;
-//   flex: 1 1 100px;
-//   min-width: 372px;
-//   max-width: 928px;
-//   width: 100%;
-//   background-color: white;
-//   border-radius: 9px;
-
-//   padding: 5rem 6rem;
-//   box-shadow: 0 4rem 6rem rgba(0, 0, 0, 0.25);
-//   z-index: 1000;
-//   transition: all 0.5s;
-
-//   .btn--close-modal {
-//     font-family: inherit;
-//     color: inherit;
-//     position: absolute;
-//     top: 0.5rem;
-//     right: 1.6rem;
-//     font-size: 3.5rem;
-//     cursor: pointer;
-//     border: none;
-//     background: none;
-//   }
-// }
-
 .upload {
   // display: grid;
   // grid-template-columns: 1fr 1fr;

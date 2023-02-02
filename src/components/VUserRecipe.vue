@@ -56,7 +56,7 @@
       </div>
 
       <div
-        class="recipe__details justify-content-between flex-wrap-reverse gap-5"
+        class="recipe__details justify-content-between flex-wrap-reverse gap-5 row-gap"
       >
         <div class="d-flex flex-row align-items-center">
           <div class="recipe__info">
@@ -66,7 +66,7 @@
             <span class="recipe__info-data recipe__info-data--minutes">{{
               recipe.cooking_time
             }}</span>
-            <span class="recipe__info-text">minutes</span>
+            <span>minutes</span>
           </div>
 
           <div class="recipe__info">
@@ -76,21 +76,15 @@
             <span class="recipe__info-data recipe__info-data--people">{{
               recipe.servings
             }}</span>
-            <span class="recipe__info-text">servings</span>
+            <span>servings</span>
 
             <div class="recipe__info-buttons">
-              <button
-                class="btn--tiny btn--update-servings"
-                @click="updateServings(-1)"
-              >
+              <button class="btn--tiny" @click="updateServings(-1)">
                 <svg>
                   <use :href="`${icons}#icon-minus-circle`"></use>
                 </svg>
               </button>
-              <button
-                class="btn--tiny btn--update-servings"
-                @click="updateServings(1)"
-              >
+              <button class="btn--tiny" @click="updateServings(1)">
                 <svg>
                   <use :href="`${icons}#icon-plus-circle`"></use>
                 </svg>
@@ -390,9 +384,13 @@ export default {
   font-weight: 700;
   color: black;
   text-transform: uppercase;
-  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
   text-align: center;
   // transform: skewY(-3deg);
+}
+
+.row-gap {
+  row-gap: 2.4rem !important;
 }
 
 @keyframes rotate {
@@ -493,7 +491,7 @@ export default {
     height: 2.35rem;
     width: 2.35rem;
     fill: $color-primary;
-    margin-right: 1.15rem;
+    margin-right: 0.8rem;
   }
 
   &__info-data {
@@ -503,7 +501,7 @@ export default {
 
   &__info-buttons {
     display: flex;
-    margin-left: 1.6rem;
+    margin-left: 1rem;
     transform: translateY(-1px);
   }
 
@@ -541,7 +539,7 @@ export default {
   ///////////
   // INGREDIENTS
   &__ingredients {
-    padding: 5rem 8rem;
+    padding: 5rem 4rem;
     font-size: 1.6rem;
     line-height: 1.4;
     background-color: #efeff2;
@@ -549,6 +547,10 @@ export default {
     flex-direction: column;
     align-items: center;
     border-radius: 12px;
+
+    @media all and (max-width: 648px) {
+      padding: 4rem 1.5rem;
+    }
   }
 
   &__ingredient-list {

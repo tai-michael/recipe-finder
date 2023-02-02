@@ -19,7 +19,7 @@
                     $route.query.query &&
                     !Object.keys(recipe).length)
                 "
-                class="message"
+                class="message message__click-recipe"
               >
                 <div>
                   <svg>
@@ -81,6 +81,8 @@ export default {
     VRegister,
     VToast,
   },
+
+  // props: ['searchResultsExpanded'],
 
   data() {
     return {
@@ -189,24 +191,6 @@ export default {
   },
   mounted() {
     // console.log('VHome mounted');
-    // NOTE used to detect whether the search results dropdown in mobile view is expanded or not
-    this.observer = new MutationObserver(mutations => {
-      for (const m of mutations) {
-        const newValue = m.target.getAttribute(m.attributeName);
-        this.$nextTick(() => {
-          this.onClassChange(newValue, m.oldValue);
-        });
-      }
-    });
-
-    this.observer.observe(
-      this.$root.$children[0].$children[0].$refs.searchResults.$el,
-      {
-        attributes: true,
-        attributeOldValue: true,
-        attributeFilter: ['class'],
-      }
-    );
 
     // NOTE allows us to add/remove class depending on viewport size
     this.handleResize();
@@ -223,10 +207,36 @@ export default {
 
     next();
   },
-  // NOTE applies the coordinates while re-entering the page. The callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'
+
+  // NOTE applies the coordinates while re-entering the page. The callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'. 'vm' refers to 'this'.
   beforeRouteEnter(to, from, next) {
     next(vm => {
       setTimeout(() => {
+        // NOTE below observers are used to detect whether the search results dropdown in mobile view is expanded or not. Need to put here instead of mounted() because otherwise, switching tabs will stop the observer, as the tabs are kept alive rather than re-mounted
+        vm.observer = new MutationObserver(mutations => {
+          for (const m of mutations) {
+            const newValue = m.target.getAttribute(m.attributeName);
+            vm.$nextTick(() => {
+              vm.onClassChange(newValue, m.oldValue);
+            });
+          }
+        });
+
+        vm.observer.observe(
+          vm.$root.$children[0].$children[0].$refs.searchResults.$el,
+          {
+            attributes: true,
+            attributeOldValue: true,
+            attributeFilter: ['class'],
+          }
+        );
+
+        // NOTE search results are expanded by default, so need this to ensure they're collapsed if user previously collapsed them before switching to 'My Recipes' tab
+        if (!vm.searchResultsExpanded)
+          vm.$root.$children[0].$children[0].$refs.searchResults.$el.classList.remove(
+            'show'
+          );
+
         window.scrollTo({
           top: vm.topCoord,
           left: vm.leftCoord,
@@ -282,8 +292,10 @@ html {
     font-weight: 600;
   }
 
-  @media all and (max-width: 648px) {
-    display: none;
+  &__click-recipe {
+    @media all and (max-width: 648px) {
+      display: none;
+    }
   }
 }
 

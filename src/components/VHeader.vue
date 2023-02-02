@@ -164,7 +164,9 @@
     </div>
 
     <button
-      v-if="!loadingSearchResults && $route.query.query"
+      v-if="
+        !loadingSearchResults && $route.query.query && $route.name === 'home'
+      "
       class="navbar-toggler dropdown-toggle narrowscreen-navbar p-3"
       type="button"
       data-bs-toggle="collapse"
@@ -177,6 +179,7 @@
     </button>
 
     <VSearchResults
+      v-if="$route.name === 'home'"
       ref="searchResults"
       :class="{
         show: searchSubmitted,

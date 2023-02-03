@@ -372,7 +372,6 @@ import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
 import { required, url, minLength } from 'vuelidate/lib/validators';
 import uniqid from 'uniqid';
-import { startCase, lowerCase } from 'lodash';
 
 export default {
   name: 'VUploadRecipe',
@@ -494,6 +493,10 @@ export default {
       }
     },
 
+    capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+
     async submitForm() {
       // is loading
       try {
@@ -509,7 +512,11 @@ export default {
         console.log('Passed client-side validation!');
         // TODO start loading bar or spinner
         this.formData.date_created = Date.now();
-        this.formData.title = startCase(lowerCase(this.formData.title));
+        this.formData.title = this.formData.title
+          .toLowerCase()
+          .split(' ')
+          .map(this.capitalize)
+          .join(' ');
 
         await this.$store.dispatch('home/uploadUserRecipe', {
           recipe: this.formData,

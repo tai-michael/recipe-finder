@@ -1,6 +1,9 @@
 <template>
   <div class="search-container">
-    <button @click="uploadUserRecipe" class="btn btn-success btn-lg">
+    <button
+      @click="uploadUserRecipe"
+      class="btn btn-success btn-lg btn__add-recipe"
+    >
       <svg>
         <use :href="`${icons}#icon-add-circle-fill`"></use>
       </svg>
@@ -187,8 +190,8 @@ export default {
   min-width: 250px !important;
 
   @media only screen and (max-width: 648px) {
-    border-top: 1px solid rgb(231, 231, 231);
-    padding-top: 5px;
+    border-bottom: 1px solid rgb(231, 231, 231);
+    padding-bottom: 5px;
   }
 
   // .header {
@@ -218,6 +221,12 @@ export default {
       font-weight: 500;
       align-self: center;
       font-size: 14px;
+    }
+
+    &__add-recipe {
+      @media only screen and (max-width: 648px) {
+        display: none !important;
+      }
     }
   }
 

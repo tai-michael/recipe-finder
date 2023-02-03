@@ -13,41 +13,50 @@
           name: 'user-recipes',
           query: { userRecipeId: result.id },
         }"
-        class="preview__link"
+        class="text-decoration-none"
+        :title="result.title"
       >
-        <figure class="preview__fig">
-          <img :src="result.image_url" :alt="result.title" />
-        </figure>
-        <div class="preview__data">
-          <h4
-            class="preview__title"
-            :class="{
-              'preview__title--active': result.id === $route.query.userRecipeId,
-            }"
-          >
-            {{ result.title }}
-          </h4>
-          <p class="preview__publisher">{{ result.publisher }}</p>
-          <!-- NOTE uncomment to enable personal recipe tag -->
-          <!-- <div v-if="result.user_generated">
+        <div
+          class="preview__link d-flex"
+          data-bs-target="#userRecipesDropdown"
+          data-bs-toggle="collapse"
+          @click="scrollToTop"
+        >
+          <figure class="preview__fig">
+            <img :src="result.image_url" :alt="result.title" />
+          </figure>
+          <div class="preview__data">
+            <h4
+              class="preview__title"
+              :class="{
+                'preview__title--active':
+                  result.id === $route.query.userRecipeId,
+              }"
+            >
+              {{ result.title }}
+            </h4>
+            <p class="preview__publisher">{{ result.publisher }}</p>
+            <!-- NOTE uncomment to enable personal recipe tag -->
+            <!-- <div v-if="result.user_generated">
             <div v-if="resultsActive" class="preview__user-generated">
               <h4>
                 <span class="badge bg-primary text-uppercase">Personal</span>
               </h4>
             </div>
           </div> -->
-          <div v-if="isBookmarked(result.id)">
-            <div
-              v-if="resultsActive"
-              class="preview__bookmarked btn--round"
-              :class="{
-                'preview__bookmarked--active':
-                  result.id === $route.query.userRecipeId,
-              }"
-            >
-              <svg>
-                <use :href="`${icons}#icon-favorite-fill`"></use>
-              </svg>
+            <div v-if="isBookmarked(result.id)">
+              <div
+                v-if="resultsActive"
+                class="preview__bookmarked btn--round"
+                :class="{
+                  'preview__bookmarked--active':
+                    result.id === $route.query.userRecipeId,
+                }"
+              >
+                <svg>
+                  <use :href="`${icons}#icon-favorite-fill`"></use>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -115,6 +124,17 @@ export default {
     isBookmarked(id) {
       return this.recipeBookmarks.some(recipe => recipe.id === id);
     },
+    scrollToTop() {
+      // NOTE timeout is necessary for mobile view b/c we need to wait for the 'collapsing' transition for the search results to finish before we can scroll to the top.
+      if (window.innerWidth <= 648) {
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 300);
+      } else {
+        // NOTE no need to wait for non-mobile view
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
   },
 };
 </script>
@@ -124,7 +144,7 @@ export default {
 
 .results {
   list-style: none;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 // NOTE unnecessary because of v-if
@@ -134,12 +154,14 @@ export default {
 // }
 
 .preview {
+  list-style: none;
+
   &__link {
+    padding: 1.5rem 3.25rem;
     &:link,
     &:visited {
       display: flex;
       align-items: center;
-      padding: 1.5rem 3.25rem;
       transition: all 0.3s;
       border-right: 1px solid #fff;
       text-decoration: none;

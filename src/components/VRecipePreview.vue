@@ -186,7 +186,6 @@ export default {
     &:visited {
       display: flex;
       align-items: center;
-      // padding: 1.5rem 3.25rem;
       transition: all 0.3s;
       border-right: 1px solid #fff;
       text-decoration: none;

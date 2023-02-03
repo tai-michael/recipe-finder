@@ -1,6 +1,7 @@
 <template>
   <header class="navbar sticky-top p-3 d-flex gap-4">
-    <nav class="nav ms-3 narrowscreen-navbar">
+    <!-- NOTE Top of the navbar in mobile view. Note that 'narrowscreen-navbar' classes only show up in mobile view -->
+    <nav class="narrowscreen-navbar nav ms-3">
       <ul class="nav__list justify-content-between">
         <a class="navbar-brand d-flex align-items-center me-4" href="/home">
           <img
@@ -89,8 +90,9 @@
       </ul>
     </nav>
 
+    <!-- NOTE Hamburger menu contents in mobile view -->
     <div
-      class="collapse navbar-collapse narrowscreen-navbar mb-3"
+      class="narrowscreen-navbar collapse navbar-collapse mb-3"
       id="navbarNavDropdown"
     >
       <ul class="navbar-nav">
@@ -143,6 +145,7 @@
       </ul>
     </div>
 
+    <!-- NOTE Remaining html below: search field & search results in both mobile and non-mobile view -->
     <div
       class="d-flex flex-row align-items-center flex-grow-1 ms-5 widescreen-search"
     >
@@ -167,7 +170,7 @@
       v-if="
         !loadingSearchResults && $route.query.query && $route.name === 'home'
       "
-      class="navbar-toggler dropdown-toggle narrowscreen-navbar p-3"
+      class="narrowscreen-navbar navbar-toggler dropdown-toggle p-3 mt-3"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#searchResultsDropdown"
@@ -184,7 +187,7 @@
       :class="{
         show: searchSubmitted,
       }"
-      class="collapse navbar-nav-scroll narrowscreen-navbar"
+      class="narrowscreen-navbar collapse navbar-nav-scroll"
       id="searchResultsDropdown"
     />
 
@@ -469,6 +472,10 @@ export default {
   background-color: white;
   border-bottom: 1px solid rgb(231, 231, 231);
   margin-bottom: 20px;
+
+  @media only screen and (max-width: 648px) {
+    margin-bottom: 15px !important;
+  }
   // TODO can remove below once I use bootstrap's modal
   z-index: 10;
 }

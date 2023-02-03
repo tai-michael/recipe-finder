@@ -625,6 +625,10 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media all and (max-width: 648px) {
+      padding: 4rem 5rem;
+    }
   }
 
   &__directions-text {

@@ -5,9 +5,41 @@
       <body class="min-vh-80">
         <!-- <VHeader /> -->
         <div class="container-fluid">
-          <div class="row justify-content-sm-center d-flex flex-wrap-reverse">
-            <VUserSearchResults class="col-sm-3 search-results" />
+          <div class="row justify-content-sm-center d-flex navbar">
+            <button
+              v-if="Object.keys(userRecipes).length"
+              class="narrowscreen navbar-toggler dropdown-toggle p-3"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#userRecipesDropdown"
+              aria-controls="userRecipesDropdown"
+              aria-expanded="false"
+              aria-label="Toggle user recipes display"
+            >
+              <span class="fs-2 fw-normal p-2">Created Recipes</span>
+            </button>
+
+            <VUserSearchResults
+              v-if="Object.keys(userRecipes).length"
+              ref="userRecipes"
+              class="narrowscreen collapse show navbar-nav-scroll mb-3"
+              id="userRecipesDropdown"
+            />
+
+            <button
+              @click="uploadUserRecipe"
+              class="btn btn-success btn-lg btn__add-recipe"
+            >
+              <svg>
+                <use :href="`${icons}#icon-add-circle-fill`"></use>
+              </svg>
+              <span>Add a recipe</span>
+            </button>
+
+            <VUserSearchResults class="search-results-widescreen col-sm-3" />
+
             <router-view></router-view>
+
             <VLogin v-if="loginModal" />
             <VRegister v-if="registerModal" />
             <VToast v-if="toastMessage" />
@@ -45,6 +77,7 @@ export default {
 
   data() {
     return {
+      icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
       leftCoord: 0,
     };
@@ -53,6 +86,7 @@ export default {
   computed: {
     ...mapGetters([
       'userRecipesView',
+      'userRecipes',
       'loginModal',
       'registerModal',
       'toastMessage',
@@ -62,6 +96,12 @@ export default {
     },
   },
   methods: {
+    uploadUserRecipe() {
+      this.$router
+        .replace({ name: 'upload', query: { userRecipeId: 'draft' } })
+        .catch(() => {});
+    },
+
     async init() {
       try {
         this.$store.commit('home/TOGGLE_USER_RECIPES_SPINNER', true);
@@ -147,8 +187,62 @@ html {
 //   margin: auto;
 // }
 
+.btn {
+  display: none;
+  width: 95%;
+  margin: 1rem auto 2rem auto;
+  align-items: center;
+  justify-content: center;
+  column-gap: 7px;
+
+  svg {
+    height: 2.25rem;
+    width: 2.25rem;
+    fill: currentColor;
+    // margin-right: 5px;
+    overflow: visible;
+    align-self: center;
+  }
+
+  span {
+    font-weight: 500;
+    align-self: center;
+    font-size: 14px;
+  }
+
+  &__add-recipe {
+    @media only screen and (max-width: 648px) {
+      display: flex;
+      margin-bottom: 4rem;
+    }
+  }
+}
+
 // TODO add new classes and change names to them here
-.search-results {
+
+.narrowscreen {
+  display: none;
+
+  @media only screen and (max-width: 648px) {
+    // min-width: 260px;
+
+    // width: 100%;
+    // border-right: none;
+    // min-height: 10vh;
+
+    display: block;
+    margin-right: 0 !important;
+    margin-left: 0.5rem !important;
+  }
+}
+
+.navbar-toggler {
+  width: 95%;
+  margin-left: 1.5rem !important;
+  margin-bottom: 2rem !important;
+}
+
+.search-results-widescreen {
   min-width: 260px;
   // max-width: 365px;
   min-height: 80vh;
@@ -159,8 +253,12 @@ html {
 
   @media only screen and (max-width: 648px) {
     // min-width: 260px;
-    width: 100%;
-    border-right: none;
+
+    // width: 100%;
+    // border-right: none;
+    // min-height: 10vh;
+
+    display: none !important;
   }
 }
 

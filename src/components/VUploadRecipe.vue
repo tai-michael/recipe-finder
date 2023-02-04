@@ -628,6 +628,12 @@ export default {
     flex-wrap: wrap;
   }
 
+  .col-1 {
+    @media only screen and (max-width: 648px) {
+      padding-left: 1px !important;
+    }
+  }
+
   .form-floating {
     // min-width: 218px;
     color: #78818a;

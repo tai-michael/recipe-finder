@@ -474,6 +474,10 @@ export default {
 .recipe {
   background-color: white;
 
+  @media only screen and (max-width: 648px) {
+    margin-right: 0.6rem !important;
+  }
+
   &__img {
     width: 100%;
     display: block;

@@ -189,9 +189,23 @@ export default {
   flex-direction: column;
   min-width: 250px !important;
 
+  // NOTE gives the search container a scroll bar when it exceeds the max-height
+  max-height: 700px;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
+
   @media only screen and (max-width: 648px) {
     border-bottom: 1px solid rgb(231, 231, 231);
     padding-bottom: 5px;
+    // TODO test on actual mobile phone to see if there's enough space at the bottom for 'Add a recipe' button. If not, then decrease the max-height 'vh' to '60' or something.
+    max-height: 70vh;
   }
 
   // .header {

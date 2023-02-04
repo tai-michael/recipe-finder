@@ -5,7 +5,15 @@
       <body class="min-vh-80">
         <!-- <VHeader /> -->
         <div class="container-fluid">
-          <div class="row justify-content-sm-center d-flex navbar">
+          <div
+            :class="{
+              'position-fixed':
+                userRecipesDropdownExpanded &&
+                mobileView &&
+                userRecipes.length > 7,
+            }"
+            class="row justify-content-sm-center d-flex navbar"
+          >
             <button
               v-if="Object.keys(userRecipes).length"
               class="narrowscreen navbar-toggler dropdown-toggle p-3"
@@ -20,11 +28,22 @@
             </button>
 
             <VUserSearchResults
-              v-if="Object.keys(userRecipes).length"
-              ref="userRecipes"
+              v-show="Object.keys(userRecipes).length"
+              ref="userRecipesDropdown"
+              :class="{
+                show: userRecipesSearchSubmitted,
+              }"
               class="narrowscreen collapse show navbar-nav-scroll mb-3"
               id="userRecipesDropdown"
             />
+
+            <!-- <div v-show="Object.keys(userRecipes).length">
+              <VUserSearchResults
+                ref="userRecipesDropdown"
+                class="narrowscreen collapse show navbar-nav-scroll mb-3"
+                id="userRecipesDropdown"
+              />
+            </div> -->
 
             <button
               @click="uploadUserRecipe"
@@ -80,28 +99,27 @@ export default {
       icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
       leftCoord: 0,
+      mobileView: false,
+      userRecipesDropdownExpanded: true,
     };
   },
 
   computed: {
     ...mapGetters([
-      'userRecipesView',
       'userRecipes',
       'loginModal',
       'registerModal',
       'toastMessage',
+      'userRecipesSearchSubmitted',
     ]),
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
     },
+    // userRecipesDropdownExpanded() {
+    //   return this.$refs.userRecipesDropdown.$el.classList.contains('show');
+    // },
   },
   methods: {
-    uploadUserRecipe() {
-      this.$router
-        .replace({ name: 'upload', query: { userRecipeId: 'draft' } })
-        .catch(() => {});
-    },
-
     async init() {
       try {
         this.$store.commit('home/TOGGLE_USER_RECIPES_SPINNER', true);
@@ -131,6 +149,30 @@ export default {
         console.log(err);
       }
     },
+
+    uploadUserRecipe() {
+      this.$refs.userRecipesDropdown.$el.classList.remove('show');
+
+      this.$router
+        .replace({ name: 'upload', query: { userRecipeId: 'draft' } })
+        .catch(() => {});
+    },
+
+    handleResize() {
+      this.mobileView = window.matchMedia('(max-width: 648px)').matches
+        ? true
+        : false;
+    },
+
+    onClassChange(classAttrValue) {
+      const classList = classAttrValue.split(' ');
+      if (classList.includes('show')) {
+        // console.log('has "show" class');
+        this.userRecipesDropdownExpanded = true;
+      } else {
+        this.userRecipesDropdownExpanded = false;
+      }
+    },
   },
 
   created() {
@@ -139,9 +181,31 @@ export default {
     // console.log('VPersonal created');
     this.init();
   },
-  // mounted() {
-  //   console.log('VPersonal mounted');
-  // },
+  mounted() {
+    // console.log('VPersonal mounted');
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+    console.log(this);
+    // await this.$nextTick();
+    // console.log(this);
+    this.observer = new MutationObserver(mutations => {
+      for (const m of mutations) {
+        const newValue = m.target.getAttribute(m.attributeName);
+        this.$nextTick(() => {
+          this.onClassChange(newValue, m.oldValue);
+        });
+      }
+    });
+
+    this.observer.observe(this.$refs.userRecipesDropdown.$el, {
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ['class'],
+    });
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   // NOTE stores the coordinates before leaving the page
   beforeRouteLeave(to, from, next) {
     this.topCoord = document.scrollingElement.scrollTop;
@@ -231,21 +295,34 @@ html {
     // min-height: 10vh;
 
     display: block;
-    margin-right: 0 !important;
-    margin-left: 0.5rem !important;
   }
+}
+
+.container-fluid {
+  @media only screen and (max-width: 648px) {
+    padding-right: 0px !important;
+  }
+}
+
+.navbar {
+  @media only screen and (max-width: 648px) {
+    margin-right: 0px !important;
+  }
+  align-items: start;
 }
 
 .navbar-toggler {
   width: 95%;
-  margin-left: 1.5rem !important;
   margin-bottom: 2rem !important;
+  @media only screen and (max-width: 648px) {
+    margin-left: 1.5rem !important;
+  }
 }
 
 .search-results-widescreen {
   min-width: 260px;
   // max-width: 365px;
-  min-height: 80vh;
+  min-height: 90vh;
   padding-right: 1.2rem;
   margin-bottom: 2rem;
   margin-right: 0.8rem;

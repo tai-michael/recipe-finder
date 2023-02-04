@@ -2,7 +2,7 @@
   <header class="navbar sticky-top p-3 d-flex gap-4">
     <!-- NOTE Top of the navbar in mobile view. Note that 'narrowscreen-navbar' classes only show up in mobile view -->
     <nav class="narrowscreen-navbar nav ms-3">
-      <ul class="nav__list justify-content-between">
+      <ul class="nav__list justify-content-between mb-2">
         <a class="navbar-brand d-flex align-items-center me-4" href="/home">
           <img
             src="@/assets/images/logo.svg"
@@ -344,7 +344,7 @@ import VBookmarksMobile from '@/components/VBookmarksMobile.vue';
 import VSearchResults from '@/components/VSearchResults.vue';
 // import VUserRecipes from '@/components/VUserRecipes.vue';
 import { createNamespacedHelpers } from 'vuex';
-const { mapMutations } = createNamespacedHelpers('home');
+const { mapGetters, mapMutations } = createNamespacedHelpers('home');
 
 export default {
   name: 'VHeader',
@@ -361,14 +361,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['loadingSearchResults', 'searchSubmitted']),
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
-    },
-    loadingSearchResults() {
-      return this.$store.getters['home/loadingSearchResults'];
-    },
-    searchSubmitted() {
-      return this.$store.getters['home/searchSubmitted'];
     },
     // TODO DELETE
 

@@ -6,7 +6,12 @@
         <div class="container-fluid">
           <!-- TODO test whether below works on an actual mobile phone -->
           <div
-            :class="{ 'position-fixed': searchResultsExpanded && mobileView }"
+            :class="{
+              'position-fixed':
+                searchResultsExpanded &&
+                mobileView &&
+                searchResultsDisplay.length > 7,
+            }"
             class="row justify-content-sm-center d-flex flex-wrap-reverse"
           >
             <VSearchResults class="col-sm-3 search-results" />
@@ -321,6 +326,9 @@ html {
   flex: 1 1 100px;
   min-width: 372px;
   max-width: 928px;
+  @media only screen and (max-width: 648px) {
+    margin-right: 0px !important;
+  }
 }
 
 // body {

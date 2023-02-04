@@ -38,6 +38,7 @@ export default {
     },
     loadingSearchResults: false,
     searchSubmitted: false,
+    userRecipesSearchSubmitted: false,
     loadingRecipe: false,
     loadingBookmarks: false,
     loadingUserRecipes: false,
@@ -48,8 +49,6 @@ export default {
     uploadingRecipe: false,
     toastMessage: '',
     toastTimeout: null,
-    // User recipes view variables
-    userRecipesView: false,
   },
 
   getters: {
@@ -83,6 +82,7 @@ export default {
     loadingSearchResults: state => state.loadingSearchResults,
     loadingRecipe: state => state.loadingRecipe,
     searchSubmitted: state => state.searchSubmitted,
+    userRecipesSearchSubmitted: state => state.userRecipesSearchSubmitted,
     loadingBookmarks: state => state.loadingBookmarks,
     loadingUserRecipes: state => state.loadingUserRecipes,
     loginModal: state => state.loginModal,
@@ -91,8 +91,6 @@ export default {
     searchRecipesError: state => state.searchRecipesError,
     uploadingRecipe: state => state.uploadingRecipe,
     toastMessage: state => state.toastMessage,
-    // User recipes view variables
-    userRecipesView: state => state.userRecipesView,
   },
 
   mutations: {
@@ -108,6 +106,10 @@ export default {
 
     TOGGLE_SEARCH_SUBMITTED(state, boolean) {
       state.searchSubmitted = boolean;
+    },
+
+    TOGGLE_USER_RECIPES_SEARCH_SUBMITTED(state, boolean) {
+      state.userRecipesSearchSubmitted = boolean;
     },
 
     // NOTE need to access link to get next set of search results from API
@@ -234,10 +236,6 @@ export default {
       state.registerModal = !state.registerModal;
     },
 
-    TOGGLE_USER_RECIPES_VIEW(state) {
-      state.userRecipesView = !state.userRecipesView;
-    },
-
     TOGGLE_UPLOAD_SPINNER(state, boolean) {
       state.uploadingRecipe = boolean;
     },
@@ -313,7 +311,7 @@ export default {
         commit('TOGGLE_SEARCH_SUBMITTED', false);
         setTimeout(() => {
           commit('TOGGLE_SEARCH_SUBMITTED', true);
-        }, 1);
+        }, 0);
 
         commit('TOGGLE_SEARCH_SPINNER', true);
 
@@ -425,6 +423,11 @@ export default {
       { query, page = 1, reloadingPage = false }
     ) {
       try {
+        commit('TOGGLE_USER_RECIPES_SEARCH_SUBMITTED', false);
+        setTimeout(() => {
+          commit('TOGGLE_USER_RECIPES_SEARCH_SUBMITTED', true);
+        }, 0);
+
         commit('TOGGLE_SEARCH_SPINNER', true);
 
         // NOTE The guard clause prevents the router from replacing an existing query with the same query during page reloads, something which results in a redundancy error.
@@ -439,6 +442,9 @@ export default {
               },
             })
             .catch(() => {});
+
+        if (!Object.keys(state.userRecipes).length)
+          commit('SET_TOAST_MESSAGE', 'Start by adding a recipe!');
 
         // console.log(state.userRecipes);
         // NOTE Remove 'split' below if I want to include partial-word results

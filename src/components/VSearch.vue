@@ -67,7 +67,6 @@ export default {
       // NOTE: retains search query in search field after reloading the page
       query: this.$route.query.query,
       userRecipeQuery: this.$route.query.userRecipeQuery,
-      status: '',
     };
   },
   watch: {
@@ -79,7 +78,6 @@ export default {
   methods: {
     submitSearch() {
       this.$store.dispatch('home/searchRecipes', { query: this.query });
-      this.status = 'collapse';
       // var searchResultsDropdown = document.getElementById(
       //   'searchResultsDropdown'
       // );

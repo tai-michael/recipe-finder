@@ -151,11 +151,38 @@
               {{ ing.food }}
             </div> -->
             <!-- !isNaN(ing.text.split(' ')[0]) -->
-            <div class="recipe__description">
+            <div>
               {{ ingDescription(ing) }}
             </div>
           </li>
         </ul>
+      </div>
+
+      <!-- <div class="table1">
+        <div v-for="(item, index) in items" :key="index" class="row1">
+          <div class="cell1">Nutrient {{ index }}</div>
+          <div class="cell1">DV</div>
+        </div>
+      </div> -->
+
+      <div class="d-flex">
+        <h2 class="heading--2">Recipe nutrients</h2>
+        <div v-for="column in columns" :key="column" class="col">
+          <div
+            v-for="item in Object.keys(column)"
+            :key="item"
+            class="item-container d-flex"
+          >
+            <svg class="recipe__icon">
+              <use :href="`${icons}#icon-check`"></use>
+            </svg>
+            <div>
+              {{ column[item].label }} - {{ Math.round(column[item].quantity)
+              }}{{ column[item].unit }}
+            </div>
+            <!-- <div class="cell1">DV</div> -->
+          </div>
+        </div>
       </div>
 
       <div class="recipe__directions">
@@ -199,6 +226,7 @@ export default {
       // recipeServingsCopy: null,
       // recipeIngredientsCopy: {},
       recipe: {},
+      cols: 3,
     };
   },
   watch: {
@@ -225,6 +253,21 @@ export default {
     },
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
+    },
+    columns: function () {
+      let columns = [];
+      let mid = Math.ceil(
+        Object.keys(this.recipe.totalNutrients).length / this.cols
+      );
+
+      for (let col = 0; col < this.cols; col++) {
+        columns.push(
+          Object.entries(this.recipe.totalNutrients)
+            .slice(col * mid, col * mid + mid)
+            .map(entry => entry[1])
+        );
+      }
+      return columns;
     },
     // validRecipe() {
     //   if (Object.keys(this.recipe).length) return true;
@@ -357,6 +400,56 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/sass/style.scss';
+
+.col {
+  margin: 10px;
+  border: 1px solid;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+// .item-container {
+//   border: 1px solid;
+//   padding: 5px;
+//   margin: 5px;
+// }
+
+// TODO delete
+.header1 {
+  font-weight: bold;
+}
+
+// TODO delete
+.cell1 {
+  // border: 1px solid black;
+  padding: 1rem;
+}
+
+// .container {
+//   display: grid;
+//   grid-template-columns: repeat(2, 1fr);
+//   grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
+//   grid-gap: 16px;
+// }
+
+// .item-1 {
+//   grid-column: 1 / 3;
+//   grid-row: 1 / 3;
+//   border: 1px solid black;
+// }
+
+// .item-2 {
+//   grid-column: 1 / 2;
+//   grid-row: 3 / 4;
+//   border: 1px solid black;
+// }
+
+// .item-3 {
+//   grid-column: 2 / 3;
+//   grid-row: 3 / 4;
+//   border: 1px solid black;
+// }
 
 .btn {
   padding: 1.5rem 4rem;
@@ -583,6 +676,7 @@ export default {
   // INGREDIENTS
   &__ingredients {
     padding: 5rem 4rem;
+    margin-bottom: 3rem;
     font-size: 1.6rem;
     line-height: 1.4;
     background-color: #efeff2;
@@ -621,6 +715,78 @@ export default {
   //   flex: 0 0 auto;
   // }
 
+  // <div class="recipe__nutrients">
+  //   <h2 class="heading--2">Recipe nutrients</h2>
+  //   <ul class="recipe__nutrient-list">
+  //     <li
+  //       v-for="(nutrient, index) in recipe.totalNutrients"
+  //       :key="index"
+  //       class="recipe__nutrient"
+  //     >
+  //       <svg class="recipe__icon">
+  //         <use :href="`${icons}#icon-check`"></use>
+  //       </svg>
+  //       <div class="nutrient__description">
+  //         {{ nutrient.label }} - {{ Math.round(nutrient.quantity)
+  //         }}{{ nutrient.unit }}
+  //       </div>
+
+  //       <!-- <div class="cell1">DV</div> -->
+  //     </li>
+  //   </ul>
+  // </div>
+
+  ///////////
+  // NUTRIENTS
+
+  &__nutrients {
+    padding: 5rem 4rem;
+    margin-bottom: 3rem;
+    font-size: 1.6rem;
+    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    // border-radius: 12px;
+    // background-color: #efeff2;
+
+    @media all and (max-width: 648px) {
+      padding: 4rem 1.5rem;
+    }
+  }
+
+  &__nutrient-list {
+    // display: grid;
+    // grid-template-columns: 1fr 1fr;
+    // gap: 2.5rem 3rem;
+    // list-style: none;
+
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 400px;
+    flex-direction: column;
+    column-gap: 1rem;
+    row-gap: 1rem;
+    justify-content: space-between;
+    font-size: 1.6rem;
+
+    @media all and (max-width: 648px) {
+      max-height: 800px !important;
+    }
+  }
+
+  &__nutrient {
+    // display: grid;
+    // // max-width: 200px;
+    // // max-height: 30px;
+    // grid-template-columns: 2fr 1fr;
+    // // grid-template-rows: auto;
+    // // grid-auto-flow: row;
+    // grid-gap: 1rem;
+
+    display: flex;
+  }
+
   ///////////
   // DIRECTIONS
   &__directions {
@@ -629,6 +795,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    border-radius: 12px;
+    background-color: #efeff2;
 
     @media all and (max-width: 648px) {
       padding: 4rem 5rem;

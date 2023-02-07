@@ -540,6 +540,7 @@ export default {
   // INGREDIENTS
   &__ingredients {
     padding: 5rem 4rem;
+    margin-bottom: 2rem;
     font-size: 1.6rem;
     line-height: 1.4;
     background-color: #efeff2;

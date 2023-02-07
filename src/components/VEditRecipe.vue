@@ -228,7 +228,7 @@
         </div> -->
 
       <div class="ingredients">
-        <div class="ingredients-heading mb-3">
+        <div class="ingredients-heading mb-2">
           <h3 class="upload__heading">Ingredients</h3>
           <button
             class="btn btn-success add-ingredient"
@@ -627,6 +627,7 @@ export default {
 
   @media only screen and (max-width: 648px) {
     // min-width: 260px;
+    padding: 1rem;
     margin-top: 0;
   }
 
@@ -659,11 +660,16 @@ export default {
     display: flex;
     margin-bottom: 34px;
     flex-wrap: wrap;
+
+    @media only screen and (max-width: 648px) {
+      row-gap: 38px;
+      margin-bottom: 38px;
+    }
   }
 
   .col-1 {
     @media only screen and (max-width: 648px) {
-      padding-left: 1px !important;
+      padding-left: 0px !important;
     }
   }
 
@@ -692,9 +698,12 @@ export default {
   }
 
   .ingredient-label {
-    margin-bottom: 3px;
+    margin-bottom: 8px;
     font-size: 14px;
     font-weight: 500;
+    @media only screen and (max-width: 648px) {
+      margin-top: 6px;
+    }
   }
 
   .form-control {

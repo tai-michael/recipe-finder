@@ -218,8 +218,13 @@ export default {
 }
 
 .page-nav {
-  margin-top: auto;
-  padding: 0 3.2rem;
+  margin-top: 3rem;
+  padding-left: 2rem;
+  padding-right: 1.2rem;
+
+  @media only screen and (max-width: 648px) {
+    padding: 0 3.2rem;
+  }
 
   &::after {
     content: '';

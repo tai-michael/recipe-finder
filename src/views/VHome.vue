@@ -276,6 +276,10 @@ html {
 //   margin: auto;
 // }
 
+.position-fixed {
+  width: 100%;
+}
+
 .message {
   max-width: 40rem;
   margin: 0 auto;

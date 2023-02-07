@@ -298,6 +298,10 @@ html {
   }
 }
 
+.position-fixed {
+  width: 100%;
+}
+
 .container-fluid {
   @media only screen and (max-width: 648px) {
     padding-right: 0px !important;

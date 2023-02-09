@@ -28,6 +28,7 @@ export default {
       results: [],
       page: 1,
       resultsPerPage: RESULTS_PER_PAGE,
+      totalSearchResultsLength: null,
       nextResultsLink: '',
     },
     userRecipeSearch: {
@@ -71,6 +72,7 @@ export default {
     },
     searchResults: state => state.search.results,
     nextResultsLink: state => state.search.nextResultsLink,
+    totalSearchResultsLength: state => state.search.totalSearchResultsLength,
     searchResultsCurrentPage: state => state.search.page,
     searchResultsPerPage: state => state.search.resultsPerPage,
     searchResultsDisplay: state => {
@@ -115,6 +117,10 @@ export default {
     // NOTE need to access link to get next set of search results from API
     CREATE_NEXT_SEARCH_RESULTS_LINK(state, link) {
       state.search.nextResultsLink = link;
+    },
+
+    SET_TOTAL_SEARCH_RESULTS_NUMBER(state, number) {
+      state.search.totalSearchResultsLength = number;
     },
 
     ADD_SEARCH_RESULTS(state, results) {
@@ -339,7 +345,7 @@ export default {
         const res = await axios.get(
           `${API_URL}?type=public&q=${query}&app_id=${ID}&app_key=${KEY}`
         );
-        // console.log(res);
+        console.log(res);
         // console.log(res.data.hits.length === 0);
         if (res.data.hits.length === 0) {
           commit('CREATE_SEARCH_RESULTS', {
@@ -356,6 +362,9 @@ export default {
 
         // NOTE creating this link here allows us to access the next set of results from the API in the future. Link will be accessed in VSearchResults component.
         commit('CREATE_NEXT_SEARCH_RESULTS_LINK', res.data._links.next.href);
+
+        // NOTE sets the total number of results, a figure which will be used for the conditional display of page nav buttons in VSearchResults
+        commit('SET_TOTAL_SEARCH_RESULTS_NUMBER', res.data.count);
 
         // const nextPageRes = res.data._links.next.href;
         // const res2 = await axios.get(nextPageRes);
@@ -410,11 +419,11 @@ export default {
             'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
             'You have sent too many requests for recipes, or something is wrong with your network.\n\nPlease try again later.'
           );
-        // else
-        //   commit(
-        //     'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
-        //     'Oops! Something went wrong. Please try again.'
-        //   );
+        else
+          commit(
+            'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
+            'Oops! Something went wrong. Please try again.'
+          );
       }
     },
 

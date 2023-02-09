@@ -131,7 +131,7 @@
       </div>
 
       <div class="recipe__ingredients">
-        <h2 class="heading--2">Recipe ingredients</h2>
+        <h2 class="heading--2">Ingredients</h2>
         <ul class="recipe__ingredient-list">
           <li
             class="recipe__ingredient"
@@ -159,7 +159,7 @@
       </div>
 
       <div class="recipe__nutrients">
-        <h2 class="heading--2">Recipe nutrients / serving</h2>
+        <h2 class="heading--2">Nutrients / serving</h2>
         <div class="recipe__nutrient-list">
           <div
             v-for="(column, i) in columns"

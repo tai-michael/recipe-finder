@@ -229,7 +229,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '@/assets/sass/style.scss';
+@import '@/assets/sass/style.scss';
 // @import '@/assets/sass/components.scss';
 // @import '@/assets/sass/custom.scss';
 
@@ -280,6 +280,15 @@ html {
       margin-bottom: 4rem;
     }
   }
+}
+
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar-toggler:hover {
+  background-color: $color-grey-light-2;
 }
 
 // TODO add new classes and change names to them here

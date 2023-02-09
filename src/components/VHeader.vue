@@ -67,25 +67,16 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-          <!-- <li class="nav__item">
-          </li> -->
-          <!-- <VBookmarks /> -->
 
-          <!-- <li class="nav__item" v-if="!loggedIn">
-            <button @click="toggleLoginModal" class="nav__btn">
-              <span>Log In</span>
-            </button>
-          </li>
-          <li class="nav__item" v-if="!loggedIn">
-            <button @click="toggleRegisterModal" class="nav__btn">
-              <span>Sign Up</span>
-            </button>
-          </li>
-          <li class="nav__item" v-else>
-            <button class="nav__btn" @click="$store.dispatch('auth/logout')">
-              Logout
-            </button>
-          </li> -->
+          <!-- <button
+            class="navbar-toggler rounded"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
         </div>
       </ul>
     </nav>
@@ -560,6 +551,15 @@ export default {
   &__icon {
     margin-top: 0.1rem;
   }
+}
+
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.navbar-toggler:hover {
+  background-color: $color-grey-light-2;
 }
 
 .router-link-active {

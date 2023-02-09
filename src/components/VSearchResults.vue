@@ -20,9 +20,12 @@
     />
 
     <div v-if="!loadingSearchResults && $route.query.query" class="page-nav">
-      <!-- If 1st page and there are multiple pages -->
+      <!-- NOTE If 1st page and there are multiple pages -->
       <button
-        v-if="searchResultsCurrentPage === 1 && numPages > 1"
+        v-if="
+          searchResultsCurrentPage === 1 &&
+          totalSearchResultsLength > searchResultsPerPage
+        "
         @click="goToNextPage()"
         class="btn--inline float-end"
         :disabled="loadingMoreResults"
@@ -52,9 +55,12 @@
         <span>Page {{ searchResultsCurrentPage - 1 }}</span>
       </button> -->
 
-      <!-- If last page and there are multiple pages-->
+      <!-- NOTE If last page and there are multiple pages-->
       <button
-        v-else-if="searchResultsCurrentPage === numPages && numPages > 1"
+        v-else-if="
+          searchResultsCurrentPage === pageLimit ||
+          searchResultsDisplay.length < searchResultsPerPage
+        "
         @click="goToPreviousPage()"
         class="btn--inline"
       >
@@ -64,11 +70,8 @@
         <span>Page {{ searchResultsCurrentPage - 1 }}</span>
       </button>
 
-      <!-- If between 1st & last page of multiple pages -->
-      <div
-        class="d-flex justify-content-between"
-        v-else-if="searchResultsCurrentPage < numPages"
-      >
+      <!-- NOTE If between 1st & last page of multiple pages -->
+      <div class="d-flex justify-content-between" v-else>
         <button @click="goToPreviousPage()" class="btn--inline">
           <svg class="search__icon">
             <use :href="`${icons}#icon-arrow-left`"></use>
@@ -125,6 +128,7 @@ export default {
       'searchResults',
       'searchResultsDisplay',
       'searchResultsCurrentPage',
+      'totalSearchResultsLength',
       'searchResultsPerPage',
       'loadingSearchResults',
       'searchRecipesError',
@@ -138,6 +142,9 @@ export default {
     //   if (resultId === id) return true;
     //   else return false;
     // },
+    pageLimit() {
+      return API_SEARCH_RESULTS_PAGE_LIMIT;
+    },
   },
 
   methods: {
@@ -146,18 +153,22 @@ export default {
       try {
         if (
           this.numPages < API_SEARCH_RESULTS_PAGE_LIMIT &&
-          this.searchResultsCurrentPage === this.numPages - 1 &&
-          this.numPages > 1
+          this.searchResultsCurrentPage === this.numPages
         ) {
           this.loadingMoreResults = true;
           const res = await axios.get(this.nextResultsLink);
-          this.$store.commit(
-            'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
-            res.data._links.next.href
-          );
+          // console.log(res);
+
+          if (Object.keys(res.data._links).length) {
+            this.$store.commit(
+              'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
+              res.data._links.next.href
+            );
+          }
           const newResults = res.data.hits.map(hit => hit.recipe);
           this.$store.commit('home/ADD_SEARCH_RESULTS', newResults);
           this.loadingMoreResults = false;
+          // console.log('triggered');
         }
         this.$store.commit('home/UPDATE_PAGINATION', 1);
       } catch (err) {
@@ -218,7 +229,7 @@ export default {
 }
 
 .page-nav {
-  margin-top: 3rem;
+  margin-top: 3.5rem;
   padding-left: 2rem;
   padding-right: 1.2rem;
 

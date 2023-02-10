@@ -19,7 +19,10 @@
       :resultsActive="true"
     />
 
-    <div v-if="!loadingSearchResults && $route.query.query" class="page-nav">
+    <div
+      v-if="!loadingSearchResults && $route.query.query && searchResults.length"
+      class="page-nav"
+    >
       <!-- NOTE If 1st page and there are multiple pages -->
       <button
         v-if="
@@ -229,7 +232,7 @@ export default {
 }
 
 .page-nav {
-  margin-top: 3.5rem;
+  margin-top: 3rem;
   padding-left: 2rem;
   padding-right: 1.2rem;
 

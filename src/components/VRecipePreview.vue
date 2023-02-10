@@ -155,8 +155,8 @@ export default {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }, 300);
       } else {
-        // NOTE no need to wait for non-mobile view
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // NOTE smooth behavior is buggy; it stops sometimes mid-scroll to the top, unless the method is placed in setTimeout with 200-300 delay
+        window.scrollTo({ top: 0, behavior: 'instant' });
       }
     },
   },
@@ -179,9 +179,11 @@ export default {
 
 .preview {
   list-style: none;
+  margin-bottom: 1px;
 
   &__link {
-    padding: 1.5rem 3.25rem;
+    padding: 0.75rem 1rem 0.75rem 0.75rem;
+
     &:link,
     &:visited {
       display: flex;
@@ -193,13 +195,13 @@ export default {
 
     &:hover {
       background-color: #efeff2;
-      transform: translateY(-2px);
-      border-radius: 8px;
+      // transform: translateY(-2px);
+      border-radius: 16px;
     }
 
     &--active {
       background-color: #efeff2;
-      border-radius: 8px;
+      border-radius: 16px;
     }
 
     &--image-error {
@@ -208,10 +210,11 @@ export default {
   }
 
   &__fig {
-    flex: 0 0 5.8rem;
-    border-radius: 50%;
+    flex: 0 0 8rem;
+    // border-radius: 50%;
+    border-radius: 16px;
     overflow: hidden;
-    height: 5.8rem;
+    height: 8rem;
     margin-right: 2rem;
     position: relative;
     backface-visibility: hidden;
@@ -242,11 +245,15 @@ export default {
   }
 
   &__data {
-    display: grid;
+    // display: grid;
     width: 100%;
-    grid-template-columns: 1fr 2.7rem;
-    row-gap: 0.1rem;
+    // grid-template-columns: 1fr 2.7rem;
+    row-gap: 0.5rem;
     align-items: center;
+    display: flex;
+    align-items: start;
+    flex-flow: column;
+    justify-content: center;
   }
 
   &__title {
@@ -259,8 +266,13 @@ export default {
     // NOTE This is how text is truncated!
     text-overflow: ellipsis;
     max-width: 40rem;
-    white-space: nowrap;
+    // white-space: nowrap;
     overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    // padding-top: 0.5rem;
+    padding-right: 1rem;
 
     &--active {
       font-weight: 800;
@@ -272,6 +284,9 @@ export default {
     color: $color-grey-dark-2;
     text-transform: uppercase;
     font-weight: 600;
+    padding-right: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__user-generated {

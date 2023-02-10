@@ -449,6 +449,13 @@ export default {
         description: '',
         id: uniqid(),
       });
+
+      setTimeout(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth',
+        });
+      }, 300);
     },
 
     removeIngredient(ing) {
@@ -624,6 +631,7 @@ export default {
   // flex-direction: column;
   margin-top: 2rem;
   max-width: 928px;
+  min-width: 300px;
 
   @media only screen and (max-width: 648px) {
     // min-width: 260px;

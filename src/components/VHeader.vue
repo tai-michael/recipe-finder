@@ -463,7 +463,7 @@ export default {
     margin-bottom: 15px !important;
   }
   // TODO can remove below once I use bootstrap's modal
-  z-index: 10;
+  // z-index: 10;
 }
 // .logo {
 //   margin-left: 3rem;

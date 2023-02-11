@@ -4,7 +4,7 @@
     <html>
       <body class="min-vh-80">
         <!-- <VHeader /> -->
-        <div class="container-fluid">
+        <div class="container-fluid h-100">
           <div
             :class="{
               'position-fixed':
@@ -12,7 +12,7 @@
                 mobileView &&
                 userRecipes.length > 7,
             }"
-            class="row justify-content-sm-center d-flex navbar"
+            class="row h-100 justify-content-sm-center d-flex navbar"
           >
             <button
               v-if="Object.keys(userRecipes).length"
@@ -45,17 +45,31 @@
               />
             </div> -->
 
+            <div class="col-sm-3">
+              <button
+                @click="uploadUserRecipe"
+                class="btn btn-success btn-lg btn__add-recipe"
+              >
+                <svg>
+                  <use :href="`${icons}#icon-add-circle-fill`"></use>
+                </svg>
+                <span>Add a recipe</span>
+              </button>
+
+              <VUserSearchResults class="search-results-widescreen" />
+            </div>
+
+            <!-- Shows 'Add a recipe' button under 'Created Recipes' dropdown in mobile view -->
             <button
               @click="uploadUserRecipe"
-              class="btn btn-success btn-lg btn__add-recipe"
+              class="btn btn-success btn-lg btn__add-recipe-mobile"
+              v-if="$route.name === 'user-recipes'"
             >
               <svg>
                 <use :href="`${icons}#icon-add-circle-fill`"></use>
               </svg>
               <span>Add a recipe</span>
             </button>
-
-            <VUserSearchResults class="search-results-widescreen col-sm-3" />
 
             <router-view></router-view>
 
@@ -99,6 +113,8 @@ export default {
       icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
       leftCoord: 0,
+      resultsContainerTopCoord: 0,
+      resultsContainerLeftCoord: 0,
       mobileView: false,
       userRecipesDropdownExpanded: true,
     };
@@ -206,11 +222,18 @@ export default {
   destroyed() {
     window.removeEventListener('resize', this.handleResize);
   },
-  // NOTE stores the coordinates before leaving the page
+  // NOTE stores the coordinates of entire window before leaving the page
   beforeRouteLeave(to, from, next) {
     this.topCoord = document.scrollingElement.scrollTop;
     this.leftCoord = document.scrollingElement.scrollLeft;
 
+    // NOTE stores the coordinates of the search results container before leaving the page
+    const resultsContainer = document.querySelector(
+      '.search-results-widescreen'
+    );
+    this.resultsContainerTopCoord = resultsContainer.scrollTop;
+    this.resultsContainerLeftCoord = resultsContainer.scrollLeft;
+    console.log(this.resultsContainerTopCoord);
     next();
   },
   // NOTE applies the coordinates while re-entering the page. The callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'
@@ -222,6 +245,14 @@ export default {
           left: vm.leftCoord,
           behavior: 'instant',
         });
+
+        // NOTE scrolls to previous position of search results container
+        const resultsContainer = document.querySelector(
+          '.search-results-widescreen'
+        );
+
+        resultsContainer.scrollTop = vm.resultsContainerTopCoord;
+        resultsContainer.scrollLeft = vm.resultsContainerLeftCoord;
       }, 1);
     });
   },
@@ -275,6 +306,13 @@ html {
   }
 
   &__add-recipe {
+    display: flex;
+    margin-top: 0rem;
+    margin-bottom: 2rem;
+    margin-left: 1rem;
+  }
+
+  &__add-recipe-mobile {
     @media only screen and (max-width: 648px) {
       display: flex;
       margin-bottom: 4rem;
@@ -318,6 +356,7 @@ html {
 }
 
 .navbar {
+  padding-top: 0 !important;
   @media only screen and (max-width: 648px) {
     margin-right: 0px !important;
   }
@@ -332,15 +371,69 @@ html {
   }
 }
 
+.col-sm-3 {
+  min-width: 260px;
+  // max-width: 365px;
+  // padding-right: 0rem;
+  margin-bottom: 2rem;
+  // margin-right: 0rem;
+  // border-right: 1px solid rgb(231, 231, 231);
+
+  // NOTE position STICKY attempt
+  position: sticky !important;
+  position: -webkit-sticky;
+  height: 85vh !important;
+  top: 85px !important;
+  // overflow: auto;
+
+  // // NOTE gives the container a scroll bar when it exceeds the max-height
+  // max-height: 800px;
+  // overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
+  @media only screen and (max-width: 648px) {
+    // min-width: 260px;
+
+    // width: 100%;
+    // border-right: none;
+    // min-height: 10vh;
+
+    display: none !important;
+  }
+}
+
 .search-results-widescreen {
   min-width: 260px;
   // max-width: 365px;
-  min-height: 90vh;
   padding-right: 1.2rem;
   margin-bottom: 2rem;
   margin-right: 0.8rem;
   border-right: 1px solid rgb(231, 231, 231);
 
+  // NOTE position STICKY attempt
+  position: sticky !important;
+  position: -webkit-sticky;
+  height: 83vh !important;
+  top: 85px !important;
+  overflow: auto;
+
+  // // NOTE gives the container a scroll bar when it exceeds the max-height
+  // max-height: 800px;
+  // overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
   @media only screen and (max-width: 648px) {
     // min-width: 260px;
 

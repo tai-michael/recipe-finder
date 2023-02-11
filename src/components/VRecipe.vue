@@ -527,7 +527,7 @@ export default {
 
 .recipe {
   background-color: white;
-  margin-bottom: 1rem;
+  padding-bottom: 1rem;
 
   @media only screen and (max-width: 648px) {
     margin-right: 0.6rem !important;

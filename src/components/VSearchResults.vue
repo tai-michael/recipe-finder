@@ -174,6 +174,7 @@ export default {
           // console.log('triggered');
         }
         this.$store.commit('home/UPDATE_PAGINATION', 1);
+        window.scrollTo({ top: 0, behavior: 'instant' });
       } catch (err) {
         console.log(err);
         // NOTE if api call fails (presumably b/c of hitting the daily limit), then the website will just navigate to the next page without doing an api call for additional results
@@ -183,6 +184,7 @@ export default {
     },
     goToPreviousPage() {
       this.$store.commit('home/UPDATE_PAGINATION', -1);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     },
   },
 

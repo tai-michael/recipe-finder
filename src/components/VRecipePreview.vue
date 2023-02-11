@@ -36,38 +36,33 @@
               @error="handleImageError"
             />
           </figure>
+
           <div class="preview__data">
-            <h4
-              class="preview__title"
-              :class="{
-                'preview__title--active': getId(recipe) === $route.query.id,
-              }"
-            >
-              {{ recipe.label }}
-            </h4>
-            <p class="preview__publisher">{{ recipe.source }}</p>
-            <!-- NOTE uncomment to enable personal recipe tag -->
-            <!-- <div v-if="recipe.user_generated">
-            <div v-if="resultsActive" class="preview__user-generated">
-              <h4>
-                <span class="badge bg-primary text-uppercase">Personal</span>
-              </h4>
-            </div>
-          </div> -->
-            <div v-if="isBookmarked(recipe.uri)">
-              <div
-                v-if="resultsActive"
-                class="preview__bookmarked btn--round"
+            <div class="preview__container">
+              <h4
+                class="preview__title"
                 :class="{
-                  'preview__bookmarked--active':
-                    getId(recipe) === $route.query.id,
+                  'preview__title--active': getId(recipe) === $route.query.id,
                 }"
               >
-                <svg>
-                  <use :href="`${icons}#icon-favorite-fill`"></use>
-                </svg>
+                {{ recipe.label }}
+              </h4>
+              <div v-if="isBookmarked(recipe.uri)" class="test">
+                <div
+                  v-if="resultsActive"
+                  class="preview__bookmarked btn--round"
+                  :class="{
+                    'preview__bookmarked--active':
+                      getId(recipe) === $route.query.id,
+                  }"
+                >
+                  <svg>
+                    <use :href="`${icons}#icon-favorite-fill`"></use>
+                  </svg>
+                </div>
               </div>
             </div>
+            <p class="preview__publisher">{{ recipe.source }}</p>
           </div>
         </div>
       </router-link>
@@ -256,6 +251,14 @@ export default {
     justify-content: center;
   }
 
+  &__container {
+    display: flex;
+    flex-direction: row;
+    // align-items: start;
+    justify-content: space-between;
+    width: 100%;
+  }
+
   &__title {
     grid-column: 1/-1;
     font-size: 1.45rem;
@@ -271,7 +274,6 @@ export default {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    // padding-top: 0.5rem;
     padding-right: 1rem;
 
     &--active {
@@ -287,6 +289,7 @@ export default {
     padding-right: 1rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-height: 15px;
   }
 
   &__user-generated {

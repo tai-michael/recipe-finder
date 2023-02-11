@@ -2,8 +2,8 @@
   <!-- <div id="app"> -->
   <div id="home">
     <html>
-      <body class="min-vh-80">
-        <div class="container-fluid">
+      <body>
+        <div class="container-fluid h-100">
           <!-- TODO test whether below works on an actual mobile phone -->
           <div
             :class="{
@@ -12,10 +12,10 @@
                 mobileView &&
                 searchResultsDisplay.length > 7,
             }"
-            class="row justify-content-sm-center d-flex flex-wrap-reverse"
+            class="row h-100 justify-content-sm-center d-flex flex-wrap-reverse"
           >
             <VSearchResults class="col-sm-3 search-results" />
-            <div class="col-sm-9 recipe">
+            <div class="col-sm-9 recipe overflow-auto h-100">
               <!-- <VLoadingSpinner v-if="loadingRecipe" /> -->
               <div
                 v-if="
@@ -94,6 +94,8 @@ export default {
       icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
       leftCoord: 0,
+      searchResultsContainerTopCoord: 0,
+      searchResultsContainerLeftCoord: 0,
       searchResultsExpanded: false,
       mobileView: false,
     };
@@ -205,11 +207,16 @@ export default {
     window.removeEventListener('resize', this.handleResize);
   },
 
-  // NOTE stores the coordinates before leaving the page
   beforeRouteLeave(to, from, next) {
+    // NOTE stores the coordinates of entire window before leaving the page
     this.topCoord = document.scrollingElement.scrollTop;
     this.leftCoord = document.scrollingElement.scrollLeft;
 
+    // NOTE stores the coordinates of the search results container before leaving the page
+    const searchResultsContainer = document.querySelector('.search-results');
+    this.searchResultsContainerTopCoord = searchResultsContainer.scrollTop;
+    this.searchResultsContainerLeftCoord = searchResultsContainer.scrollLeft;
+    console.log(this.searchResultsContainerTopCoord);
     next();
   },
 
@@ -242,11 +249,19 @@ export default {
             'show'
           );
 
+        // NOTE scrolls to previous position of entire window
         window.scrollTo({
           top: vm.topCoord,
           left: vm.leftCoord,
           behavior: 'instant',
         });
+
+        // NOTE scrolls to previous position of search results container
+        const searchResultsContainer =
+          document.querySelector('.search-results');
+
+        searchResultsContainer.scrollTop = vm.searchResultsContainerTopCoord;
+        searchResultsContainer.scrollLeft = vm.searchResultsContainerLeftCoord;
       }, 1);
     });
   },
@@ -278,6 +293,11 @@ html {
 
 .position-fixed {
   width: 100%;
+}
+
+.row {
+  // NOTE this was key to getting 'position: sticky' work
+  align-items: start;
 }
 
 .message {
@@ -312,11 +332,25 @@ html {
 .search-results {
   min-width: 260px;
   // max-width: 365px;
-  min-height: 80vh;
-  padding-right: 1.2rem;
-  margin-bottom: 2rem;
-  margin-right: 0.8rem;
+  padding-right: 1.5rem;
+  // margin-bottom: 2rem;
+  margin-right: 1rem;
   border-right: 1px solid rgb(231, 231, 231);
+
+  // NOTE fixes the search results container and gives it a scroll bar
+  position: sticky !important;
+  position: -webkit-sticky;
+  height: 88vh !important;
+  top: 85px !important;
+  overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
 
   @media only screen and (max-width: 648px) {
     // width: 100%;
@@ -333,6 +367,8 @@ html {
   @media only screen and (max-width: 648px) {
     margin-right: 0px !important;
   }
+  // height: 90vh !important;
+  // overflow: auto;
 }
 
 // body {

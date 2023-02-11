@@ -260,6 +260,7 @@ export default {
     text-overflow: ellipsis;
   }
 
+  // TODO probably remove, since it's not actually used for user recipes
   &__user-generated {
     // background-color: darken($color-grey-light-2, 2%);
 
@@ -287,6 +288,7 @@ export default {
     // }
   }
 
+  // TODO probably remove, since it's not actually used for user recipes
   &__bookmarked {
     // background-color: darken($color-grey-light-2, 2%);
 

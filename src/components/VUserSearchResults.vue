@@ -1,6 +1,6 @@
 <template>
   <div class="search-container">
-    <button
+    <!-- <button
       @click="uploadUserRecipe"
       class="btn btn-success btn-lg btn__add-recipe"
     >
@@ -8,7 +8,7 @@
         <use :href="`${icons}#icon-add-circle-fill`"></use>
       </svg>
       <span>Add a recipe</span>
-    </button>
+    </button> -->
 
     <VLoadingSpinner v-if="loadingUserRecipes || loadingSearchResults" />
 
@@ -187,11 +187,11 @@ export default {
   // padding: 3rem 0;
   // display: flex;
   flex-direction: column;
-  min-width: 250px !important;
+  min-width: 245px !important;
 
-  // NOTE gives the search container a scroll bar when it exceeds the max-height
-  max-height: 700px;
-  overflow: auto;
+  // NOTE gives the container a scroll bar when it exceeds the max-height
+  // max-height: 700px;
+  // overflow: auto;
 
   &::-webkit-scrollbar {
     width: 5px;

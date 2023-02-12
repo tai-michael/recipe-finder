@@ -13,17 +13,25 @@
       </div>
     </div>
 
-    <VRecipePreview
-      v-else
-      :recipes="searchResultsDisplay"
-      :resultsActive="true"
-    />
+    <VRecipePreview v-else :recipes="searchResults" :resultsActive="true" />
 
     <div
+      v-if="
+        $route.query.query &&
+        searchResults.length &&
+        !loadingSearchResults &&
+        !loadingMoreResults &&
+        numPages < pageLimit
+      "
+    >
+      <VLoadMoreResultsTrigger @triggerIntersected="goToNextPage()" />
+    </div>
+
+    <!-- <div
       v-if="!loadingSearchResults && $route.query.query && searchResults.length"
       class="page-nav"
     >
-      <!-- NOTE If 1st page and there are multiple pages -->
+      <!~~ NOTE If 1st page and there are multiple pages ~~>
       <button
         v-if="
           searchResultsCurrentPage === 1 &&
@@ -47,7 +55,7 @@
         </div>
       </button>
 
-      <!-- <button
+      <!~~ <button
         v-else-if="searchResultsCurrentPage === numPages-1 && numPages > 1"
         @click="goToNextPage(true)"
         class="btn--inline"
@@ -56,9 +64,9 @@
           <use :href="`${icons}#icon-arrow-left`"></use>
         </svg>
         <span>Page {{ searchResultsCurrentPage - 1 }}</span>
-      </button> -->
+      </button> ~~>
 
-      <!-- NOTE If last page and there are multiple pages-->
+      <!~~ NOTE If last page and there are multiple pages~~>
       <button
         v-else-if="
           searchResultsCurrentPage === pageLimit ||
@@ -73,7 +81,7 @@
         <span>Page {{ searchResultsCurrentPage - 1 }}</span>
       </button>
 
-      <!-- NOTE If between 1st & last page of multiple pages -->
+      <!~~ NOTE If between 1st & last page of multiple pages ~~>
       <div class="d-flex justify-content-between" v-else>
         <button @click="goToPreviousPage()" class="btn--inline">
           <svg class="search__icon">
@@ -101,13 +109,14 @@
           </div>
         </button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import VRecipePreview from '@/components/VRecipePreview.vue';
 import VLoadingSpinner from '@/components/VLoadingSpinner.vue';
+import VLoadMoreResultsTrigger from '@/components/VLoadMoreResultsTrigger.vue';
 import { API_SEARCH_RESULTS_PAGE_LIMIT } from '@/common/config.js';
 import axios from 'axios';
 import { createNamespacedHelpers } from 'vuex';
@@ -118,14 +127,23 @@ export default {
   components: {
     VRecipePreview,
     VLoadingSpinner,
+    VLoadMoreResultsTrigger,
   },
 
   data() {
     return {
       icons: require('@/assets/images/icons.svg'),
       loadingMoreResults: false,
+      // searchResultsObserver: null,
     };
   },
+  //   watch: {
+  //   '$v.formData.$anyDirty': {
+  //     handler() {
+  //       console.log('change detected! ');
+  //     },
+  //   },
+  // },
   computed: {
     ...mapGetters([
       'searchResults',
@@ -154,10 +172,12 @@ export default {
     // ...mapMutations({ updatePagination: 'UPDATE_PAGINATION' }),
     async goToNextPage() {
       try {
+        // FIXME the conditional might actually be okay if reloading correctly calls all the results up to the specified pages
         if (
           this.numPages < API_SEARCH_RESULTS_PAGE_LIMIT &&
           this.searchResultsCurrentPage === this.numPages
         ) {
+          console.log('Trigger 1');
           this.loadingMoreResults = true;
           const res = await axios.get(this.nextResultsLink);
           // console.log(res);
@@ -170,9 +190,14 @@ export default {
           }
           const newResults = res.data.hits.map(hit => hit.recipe);
           this.$store.commit('home/ADD_SEARCH_RESULTS', newResults);
-          this.loadingMoreResults = false;
+          // NOTE prevents rapid API calls for more results, and therefore key redundancy errors. There's probably be a better way to circumvent the errors.
+          setTimeout(() => {
+            this.loadingMoreResults = false;
+          }, 1000);
+
           // console.log('triggered');
         }
+        console.log('Trigger 2');
         this.$store.commit('home/UPDATE_PAGINATION', 1);
         window.scrollTo({ top: 0, behavior: 'instant' });
       } catch (err) {
@@ -182,12 +207,11 @@ export default {
         this.$store.commit('home/UPDATE_PAGINATION', 1);
       }
     },
-    goToPreviousPage() {
-      this.$store.commit('home/UPDATE_PAGINATION', -1);
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    },
+    // goToPreviousPage() {
+    //   this.$store.commit('home/UPDATE_PAGINATION', -1);
+    //   window.scrollTo({ top: 0, behavior: 'instant' });
+    // },
   },
-
   // methods: {
   //   renderRecipe() {
   //     this.$store.dispatch('renderRecipe');
@@ -204,6 +228,14 @@ export default {
   // display: flex;
   flex-direction: column;
   min-width: 250px !important;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
 
   @media only screen and (max-width: 648px) {
     // border-top: 1px solid rgb(231, 231, 231);

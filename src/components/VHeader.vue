@@ -172,8 +172,9 @@
       <span class="fs-2 fw-normal p-2">Search results</span>
     </button>
 
+    <!-- NOTE v-show instead of v-if keeps the scrollbar position after switching tabs -->
     <VSearchResults
-      v-if="$route.name === 'home'"
+      v-show="$route.name === 'home'"
       ref="searchResults"
       :class="{
         show: searchSubmitted,
@@ -553,6 +554,10 @@ export default {
   }
 }
 
+// NOTE sets height of the search results container in mobile view
+.navbar-nav-scroll {
+  max-height: 77vh;
+}
 .navbar-toggler:focus {
   outline: none;
   box-shadow: none;

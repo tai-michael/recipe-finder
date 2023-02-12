@@ -8,9 +8,7 @@
           <div
             :class="{
               'position-fixed':
-                searchResultsExpanded &&
-                mobileView &&
-                searchResultsDisplay.length > 7,
+                searchResultsExpanded && mobileView && searchResults.length > 7,
             }"
             class="row h-100 justify-content-sm-center d-flex flex-wrap-reverse"
           >
@@ -123,7 +121,7 @@ export default {
       'loginModal',
       'registerModal',
       'toastMessage',
-      'searchResultsDisplay',
+      'searchResults',
     ]),
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
@@ -198,7 +196,7 @@ export default {
   },
   mounted() {
     // console.log('VHome mounted');
-
+    console.log(this.$root);
     // NOTE allows us to add/remove class depending on viewport size
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
@@ -216,7 +214,6 @@ export default {
     const searchResultsContainer = document.querySelector('.search-results');
     this.searchResultsContainerTopCoord = searchResultsContainer.scrollTop;
     this.searchResultsContainerLeftCoord = searchResultsContainer.scrollLeft;
-    console.log(this.searchResultsContainerTopCoord);
     next();
   },
 
@@ -262,6 +259,7 @@ export default {
 
         searchResultsContainer.scrollTop = vm.searchResultsContainerTopCoord;
         searchResultsContainer.scrollLeft = vm.searchResultsContainerLeftCoord;
+        // console.log(vm.$root.$children[0].$children[0].$refs.searchResults);
       }, 1);
     });
   },

@@ -115,6 +115,8 @@ export default {
       leftCoord: 0,
       resultsContainerTopCoord: 0,
       resultsContainerLeftCoord: 0,
+      resultsContainerMobileTopCoord: 0,
+      resultsContainerMobileLeftCoord: 0,
       mobileView: false,
       userRecipesDropdownExpanded: true,
     };
@@ -228,12 +230,18 @@ export default {
     this.leftCoord = document.scrollingElement.scrollLeft;
 
     // NOTE stores the coordinates of the search results container before leaving the page
-    const resultsContainer = document.querySelector(
-      '.search-results-widescreen'
-    );
-    this.resultsContainerTopCoord = resultsContainer.scrollTop;
-    this.resultsContainerLeftCoord = resultsContainer.scrollLeft;
-    console.log(this.resultsContainerTopCoord);
+    if (this.mobileView) {
+      const resultsContainer = document.querySelector('#userRecipesDropdown');
+      this.resultsContainerMobileTopCoord = resultsContainer.scrollTop;
+      this.resultsContainerMobileLeftCoord = resultsContainer.scrollLeft;
+    } else {
+      const resultsContainer = document.querySelector(
+        '.search-results-widescreen'
+      );
+      this.resultsContainerTopCoord = resultsContainer.scrollTop;
+      this.resultsContainerLeftCoord = resultsContainer.scrollLeft;
+      console.log(this.resultsContainerTopCoord);
+    }
     next();
   },
   // NOTE applies the coordinates while re-entering the page. The callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'
@@ -247,12 +255,15 @@ export default {
         });
 
         // NOTE scrolls to previous position of search results container
-        const resultsContainer = document.querySelector(
-          '.search-results-widescreen'
-        );
-
-        resultsContainer.scrollTop = vm.resultsContainerTopCoord;
-        resultsContainer.scrollLeft = vm.resultsContainerLeftCoord;
+        const resultsContainer = vm.mobileView
+          ? document.querySelector('#userRecipesDropdown')
+          : document.querySelector('.search-results-widescreen');
+        resultsContainer.scrollTop = vm.mobileView
+          ? vm.resultsContainerMobileTopCoord
+          : vm.resultsContainerTopCoord;
+        resultsContainer.scrollLeft = vm.mobileView
+          ? vm.resultsContainerMobileLeftCoord
+          : vm.resultsContainerLeftCoord;
       }, 1);
     });
   },
@@ -309,7 +320,6 @@ html {
     display: flex;
     margin-top: 0rem;
     margin-bottom: 2rem;
-    margin-left: 1rem;
   }
 
   &__add-recipe-mobile {

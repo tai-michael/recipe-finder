@@ -21,102 +21,23 @@
         searchResults.length &&
         !loadingSearchResults &&
         !loadingMoreResults &&
+        nextResultsLink &&
         numPages < pageLimit
       "
     >
-      <VLoadMoreResultsTrigger @triggerIntersected="goToNextPage()" />
+      <VInfiniteScrollTrigger @triggerIntersected="goToNextPage()" />
     </div>
 
-    <!-- <div
-      v-if="!loadingSearchResults && $route.query.query && searchResults.length"
-      class="page-nav"
-    >
-      <!~~ NOTE If 1st page and there are multiple pages ~~>
-      <button
-        v-if="
-          searchResultsCurrentPage === 1 &&
-          totalSearchResultsLength > searchResultsPerPage
-        "
-        @click="goToNextPage()"
-        class="btn--inline float-end"
-        :disabled="loadingMoreResults"
-      >
-        <span
-          class="spinner-border"
-          role="status"
-          aria-hidden="true"
-          v-if="loadingMoreResults"
-        ></span>
-        <div v-else>
-          <span>Page {{ searchResultsCurrentPage + 1 }}</span>
-          <svg class="search__icon">
-            <use :href="`${icons}#icon-arrow-right`"></use>
-          </svg>
-        </div>
-      </button>
-
-      <!~~ <button
-        v-else-if="searchResultsCurrentPage === numPages-1 && numPages > 1"
-        @click="goToNextPage(true)"
-        class="btn--inline"
-      >
-        <svg class="search__icon">
-          <use :href="`${icons}#icon-arrow-left`"></use>
-        </svg>
-        <span>Page {{ searchResultsCurrentPage - 1 }}</span>
-      </button> ~~>
-
-      <!~~ NOTE If last page and there are multiple pages~~>
-      <button
-        v-else-if="
-          searchResultsCurrentPage === pageLimit ||
-          searchResultsDisplay.length < searchResultsPerPage
-        "
-        @click="goToPreviousPage()"
-        class="btn--inline"
-      >
-        <svg class="search__icon">
-          <use :href="`${icons}#icon-arrow-left`"></use>
-        </svg>
-        <span>Page {{ searchResultsCurrentPage - 1 }}</span>
-      </button>
-
-      <!~~ NOTE If between 1st & last page of multiple pages ~~>
-      <div class="d-flex justify-content-between" v-else>
-        <button @click="goToPreviousPage()" class="btn--inline">
-          <svg class="search__icon">
-            <use :href="`${icons}#icon-arrow-left`"></use>
-          </svg>
-          <span>Page {{ searchResultsCurrentPage - 1 }}</span>
-        </button>
-
-        <button
-          @click="goToNextPage()"
-          class="btn--inline"
-          :disabled="loadingMoreResults"
-        >
-          <span
-            class="spinner-border"
-            role="status"
-            aria-hidden="true"
-            v-if="loadingMoreResults"
-          ></span>
-          <div v-else>
-            <span>Page {{ searchResultsCurrentPage + 1 }}</span>
-            <svg class="search__icon">
-              <use :href="`${icons}#icon-arrow-right`"></use>
-            </svg>
-          </div>
-        </button>
-      </div>
-    </div> -->
+    <div v-if="loadingMoreResults" class="spinner-container">
+      <span class="spinner-border" role="status" aria-hidden="true"></span>
+    </div>
   </div>
 </template>
 
 <script>
 import VRecipePreview from '@/components/VRecipePreview.vue';
 import VLoadingSpinner from '@/components/VLoadingSpinner.vue';
-import VLoadMoreResultsTrigger from '@/components/VLoadMoreResultsTrigger.vue';
+import VInfiniteScrollTrigger from '@/components/VInfiniteScrollTrigger.vue';
 import { API_SEARCH_RESULTS_PAGE_LIMIT } from '@/common/config.js';
 import axios from 'axios';
 import { createNamespacedHelpers } from 'vuex';
@@ -127,7 +48,7 @@ export default {
   components: {
     VRecipePreview,
     VLoadingSpinner,
-    VLoadMoreResultsTrigger,
+    VInfiniteScrollTrigger,
   },
 
   data() {
@@ -137,13 +58,6 @@ export default {
       // searchResultsObserver: null,
     };
   },
-  //   watch: {
-  //   '$v.formData.$anyDirty': {
-  //     handler() {
-  //       console.log('change detected! ');
-  //     },
-  //   },
-  // },
   computed: {
     ...mapGetters([
       'searchResults',
@@ -172,39 +86,37 @@ export default {
     // ...mapMutations({ updatePagination: 'UPDATE_PAGINATION' }),
     async goToNextPage() {
       try {
-        // FIXME the conditional might actually be okay if reloading correctly calls all the results up to the specified pages
-        if (
-          this.numPages < API_SEARCH_RESULTS_PAGE_LIMIT &&
-          this.searchResultsCurrentPage === this.numPages
-        ) {
-          console.log('Trigger 1');
-          this.loadingMoreResults = true;
-          const res = await axios.get(this.nextResultsLink);
-          // console.log(res);
+        // FIXME Triggering this method in fast succession can result in duplicate keys error for recipe previews. Unsure how to fix.
+        console.log('Infinite scroll triggered');
+        this.loadingMoreResults = true;
+        const res = await axios.get(this.nextResultsLink);
+        // console.log(res);
 
-          if (Object.keys(res.data._links).length) {
-            this.$store.commit(
-              'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
-              res.data._links.next.href
-            );
-          }
-          const newResults = res.data.hits.map(hit => hit.recipe);
-          this.$store.commit('home/ADD_SEARCH_RESULTS', newResults);
-          // NOTE prevents rapid API calls for more results, and therefore key redundancy errors. There's probably be a better way to circumvent the errors.
-          setTimeout(() => {
-            this.loadingMoreResults = false;
-          }, 1000);
-
-          // console.log('triggered');
+        if (Object.keys(res.data._links).length) {
+          this.$store.commit(
+            'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
+            res.data._links.next.href
+          );
+        } else {
+          // NOTE prevents the scroll trigger from existing if there are no further results
+          this.$store.commit('home/CREATE_NEXT_SEARCH_RESULTS_LINK', null);
+          console.log('no next link');
+          console.log(this.nextResultsLink);
         }
-        console.log('Trigger 2');
+
+        const newResults = res.data.hits.map(hit => hit.recipe);
+        this.$store.commit('home/ADD_SEARCH_RESULTS', newResults);
+        // NOTE prevents rapid API calls for more results, and therefore key redundancy errors. There's probably be a better way to circumvent the errors.
+        setTimeout(() => {
+          this.loadingMoreResults = false;
+        }, 3000);
+
         this.$store.commit('home/UPDATE_PAGINATION', 1);
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        // window.scrollTo({ top: 0, behavior: 'instant' });
       } catch (err) {
         console.log(err);
-        // NOTE if api call fails (presumably b/c of hitting the daily limit), then the website will just navigate to the next page without doing an api call for additional results
         this.loadingMoreResults = false;
-        this.$store.commit('home/UPDATE_PAGINATION', 1);
+        // this.$store.commit('home/UPDATE_PAGINATION', 1);
       }
     },
     // goToPreviousPage() {
@@ -262,6 +174,27 @@ export default {
       // NOTE Necessary for ios safari
       word-wrap: break-word;
     }
+  }
+}
+
+.spinner {
+  margin: 0 auto;
+  svg {
+    height: 3rem;
+    width: 3rem;
+    fill: $color-primary;
+    animation: rotate 2s infinite linear;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  // NOTE need to make the container bigger than the scroll trigger component, otherwise, there will be a weird bouncing effect when the spinner overlaps with the trigger
+  margin: 1rem auto;
+
+  .spinner-border {
+    padding: 3rem auto;
   }
 }
 

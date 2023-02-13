@@ -124,7 +124,8 @@ export default {
     },
 
     ADD_SEARCH_RESULTS(state, results) {
-      state.search.results.push(...results);
+      // state.search.results.push(...results);
+      state.search.results = [...state.search.results, ...results];
     },
 
     CREATE_USER_RECIPE_SEARCH_RESULTS(state, { results, page = 1 }) {
@@ -312,6 +313,9 @@ export default {
           results: '',
           page: 1,
         });
+
+        // NOTE resets any 'next search results' link from existing searches
+        commit('CREATE_NEXT_SEARCH_RESULTS_LINK', null);
 
         // NOTE the mutations below are necessary for expanding the search results dropdown when doing a search in mobile view
         commit('TOGGLE_SEARCH_SUBMITTED', false);

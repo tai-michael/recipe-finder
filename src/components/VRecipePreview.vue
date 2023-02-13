@@ -62,7 +62,12 @@
                 </div>
               </div>
             </div>
-            <p class="preview__publisher">{{ recipe.source }}</p>
+            <!-- NOTE the container and its 100% 'width' is necessary for the publisher title to be truncated with ellipsis  -->
+            <div class="preview__container">
+              <h4 class="preview__publisher">
+                {{ recipe.source }}
+              </h4>
+            </div>
           </div>
         </div>
       </router-link>
@@ -249,6 +254,8 @@ export default {
     align-items: start;
     flex-flow: column;
     justify-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__container {
@@ -260,7 +267,7 @@ export default {
   }
 
   &__title {
-    grid-column: 1/-1;
+    // grid-column: 1/-1;
     font-size: 1.45rem;
     color: black;
     text-transform: uppercase;
@@ -268,7 +275,7 @@ export default {
 
     // NOTE This is how text is truncated!
     text-overflow: ellipsis;
-    max-width: 40rem;
+    // max-width: 160px;
     // white-space: nowrap;
     overflow: hidden;
     display: -webkit-box;
@@ -290,6 +297,7 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     max-height: 15px;
+    // max-width: 140px;
   }
 
   &__user-generated {

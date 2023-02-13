@@ -1,15 +1,12 @@
 <template>
-  <span ref="trigger"><VLoadingSpinner /></span>
+  <div class="spinner-container" ref="trigger">
+    <span class="spinner-border" role="status" aria-hidden="true"></span>
+  </div>
 </template>
 
 <script>
-import VLoadingSpinner from '@/components/VLoadingSpinner.vue';
-
 export default {
-  name: 'VLoadMoreResultsTrigger',
-  components: {
-    VLoadingSpinner,
-  },
+  name: 'VInfiniteScrollTrigger',
   data() {
     return {
       observer: null,
@@ -25,7 +22,7 @@ export default {
     },
   },
   mounted() {
-    console.log('Trigger mounted');
+    // console.log('Trigger mounted');
     this.observer = new IntersectionObserver(entries => {
       this.handleIntersect(entries[0]);
     }, this.obsOptions);
@@ -34,10 +31,19 @@ export default {
   },
 
   destroyed() {
-    console.log('Trigger destroyed');
+    // console.log('Trigger destroyed');
     this.observer.disconnect();
   },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  .spinner-border {
+    padding: 3rem auto;
+  }
+}
+</style>

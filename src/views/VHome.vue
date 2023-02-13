@@ -150,12 +150,25 @@ export default {
             this.$store.dispatch('home/fetchUserRecipes');
         }
 
-        if (this.$route.query.query)
+        if (this.$route.query.query) {
+          // NOTE delete router push below if we want to retain the page number instead of resetting to page 1
+          this.$router
+            .push({
+              query: {
+                query: this.$route.query.query,
+                page: 1,
+              },
+            })
+            .catch(() => {});
+
           this.$store.dispatch('home/searchRecipes', {
             query: this.$route.query.query,
-            page: this.$route.query.page,
+            page: 1,
+            // NOTE uncomment to retain page number instead of resetting to page 1
+            // page: this.$route.query.page,
             reloadingPage: true,
           });
+        }
 
         // NOTE commented out because this code is relocated to VRecipe component itself, to allow cloning of the recipe in VRecipe
         // REVIEW also consider relocating the query if-statement above to VSearchResults

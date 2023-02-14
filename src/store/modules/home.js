@@ -25,11 +25,11 @@ export default {
     bookmarkImages: true,
     previousURL: '',
     search: {
-      results: [],
+      results: JSON.parse(sessionStorage.getItem('searchResults')) || [],
       page: 1,
       resultsPerPage: RESULTS_PER_PAGE,
-      totalSearchResultsLength: null,
-      nextResultsLink: '',
+      nextResultsLink:
+        JSON.parse(sessionStorage.getItem('nextResultsLink')) || '',
     },
     userRecipeSearch: {
       results: [],
@@ -72,7 +72,6 @@ export default {
     },
     searchResults: state => state.search.results,
     nextResultsLink: state => state.search.nextResultsLink,
-    totalSearchResultsLength: state => state.search.totalSearchResultsLength,
     searchResultsCurrentPage: state => state.search.page,
     searchResultsPerPage: state => state.search.resultsPerPage,
     searchResultsDisplay: state => {
@@ -104,6 +103,10 @@ export default {
     CREATE_SEARCH_RESULTS(state, { results, page = 1 }) {
       state.search.results = results;
       state.search.page = page;
+      sessionStorage.setItem(
+        'searchResults',
+        JSON.stringify(state.search.results)
+      );
     },
 
     TOGGLE_SEARCH_SUBMITTED(state, boolean) {
@@ -117,15 +120,26 @@ export default {
     // NOTE need to access link to get next set of search results from API
     CREATE_NEXT_SEARCH_RESULTS_LINK(state, link) {
       state.search.nextResultsLink = link;
-    },
-
-    SET_TOTAL_SEARCH_RESULTS_NUMBER(state, number) {
-      state.search.totalSearchResultsLength = number;
+      sessionStorage.setItem(
+        'nextResultsLink',
+        JSON.stringify(state.search.nextResultsLink)
+      );
     },
 
     ADD_SEARCH_RESULTS(state, results) {
-      // state.search.results.push(...results);
-      state.search.results = [...state.search.results, ...results];
+      const mergedResults = [...state.search.results, ...results];
+
+      const uniqueResults = mergedResults.filter(
+        (obj, index) =>
+          mergedResults.findIndex(item => item.uri === obj.uri) === index
+      );
+
+      state.search.results = [...uniqueResults];
+      // console.log(state.search.results);
+      sessionStorage.setItem(
+        'searchResults',
+        JSON.stringify(state.search.results)
+      );
     },
 
     CREATE_USER_RECIPE_SEARCH_RESULTS(state, { results, page = 1 }) {

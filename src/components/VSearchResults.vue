@@ -15,7 +15,7 @@
 
     <VRecipePreview v-else :recipes="searchResults" :resultsActive="true" />
 
-    <div
+    <VInfiniteScrollTrigger
       v-if="
         $route.query.query &&
         searchResults.length &&
@@ -24,9 +24,8 @@
         nextResultsLink &&
         numPages < pageLimit
       "
-    >
-      <VInfiniteScrollTrigger @triggerIntersected="goToNextPage()" />
-    </div>
+      @triggerIntersected="goToNextPage()"
+    />
 
     <div v-if="loadingMoreResults" class="spinner-container">
       <span class="spinner-border" role="status" aria-hidden="true"></span>
@@ -63,7 +62,6 @@ export default {
       'searchResults',
       'searchResultsDisplay',
       'searchResultsCurrentPage',
-      'totalSearchResultsLength',
       'searchResultsPerPage',
       'loadingSearchResults',
       'searchRecipesError',
@@ -86,37 +84,31 @@ export default {
     // ...mapMutations({ updatePagination: 'UPDATE_PAGINATION' }),
     async goToNextPage() {
       try {
-        // FIXME Triggering this method in fast succession can result in duplicate keys error for recipe previews. Unsure how to fix.
-        console.log('Infinite scroll triggered');
+        // FIXME Triggering the goToNextPage method in fast succession can result in duplicate keys error for recipe previews. Fixed by filtering out duplicate recipes in ADD_SEARCH_RESULTS, but there probably is a better way to circumvent this (e.g. not allowing trigger to remount while recipes are still loading. I attempt to do this in the setTimeout below, but it's still buggy sometimes).
+        // console.log('Infinite scroll triggered');
         this.loadingMoreResults = true;
         const res = await axios.get(this.nextResultsLink);
-        // console.log(res);
+        console.log(res.data);
 
-        if (Object.keys(res.data._links).length) {
-          this.$store.commit(
-            'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
-            res.data._links.next.href
-          );
-        } else {
-          // NOTE prevents the scroll trigger from existing if there are no further results
-          this.$store.commit('home/CREATE_NEXT_SEARCH_RESULTS_LINK', null);
-          console.log('no next link');
-          console.log(this.nextResultsLink);
-        }
+        Object.keys(res.data._links).length
+          ? this.$store.commit(
+              'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
+              res.data._links.next.href
+            )
+          : this.$store.commit('home/CREATE_NEXT_SEARCH_RESULTS_LINK', null);
 
         const newResults = res.data.hits.map(hit => hit.recipe);
         this.$store.commit('home/ADD_SEARCH_RESULTS', newResults);
-        // NOTE prevents rapid API calls for more results, and therefore key redundancy errors. There's probably be a better way to circumvent the errors.
+
+        // NOTE mostly prevents rapid API calls for more results, and therefore key redundancy errors. There's probably be a better way to circumvent the errors.
         setTimeout(() => {
           this.loadingMoreResults = false;
-        }, 3000);
+        }, 2000);
 
         this.$store.commit('home/UPDATE_PAGINATION', 1);
-        // window.scrollTo({ top: 0, behavior: 'instant' });
       } catch (err) {
         console.log(err);
         this.loadingMoreResults = false;
-        // this.$store.commit('home/UPDATE_PAGINATION', 1);
       }
     },
     // goToPreviousPage() {

@@ -90,12 +90,10 @@ export default {
         const res = await axios.get(this.nextResultsLink);
         console.log(res.data);
 
-        Object.keys(res.data._links).length
-          ? this.$store.commit(
-              'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
-              res.data._links.next.href
-            )
-          : this.$store.commit('home/CREATE_NEXT_SEARCH_RESULTS_LINK', null);
+        this.$store.commit(
+          'home/CREATE_NEXT_SEARCH_RESULTS_LINK',
+          Object.keys(res.data._links).length ? res.data._links.next.href : null
+        );
 
         const newResults = res.data.hits.map(hit => hit.recipe);
         this.$store.commit('home/ADD_SEARCH_RESULTS', newResults);

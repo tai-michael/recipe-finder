@@ -240,7 +240,7 @@ export default {
       );
       this.resultsContainerTopCoord = resultsContainer.scrollTop;
       this.resultsContainerLeftCoord = resultsContainer.scrollLeft;
-      console.log(this.resultsContainerTopCoord);
+      // console.log(this.resultsContainerTopCoord);
     }
     next();
   },

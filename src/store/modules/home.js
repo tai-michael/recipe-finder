@@ -25,6 +25,7 @@ export default {
     bookmarkImages: true,
     previousURL: '',
     search: {
+      // NOTE allows for persistent search results upon reloading
       results: JSON.parse(sessionStorage.getItem('searchResults')) || [],
       page: 1,
       resultsPerPage: RESULTS_PER_PAGE,
@@ -161,6 +162,8 @@ export default {
           },
         })
         .catch(() => {});
+
+      sessionStorage.setItem('databaseQuery', state.search.page);
     },
 
     // return recipe?.uri.split('#recipe_')[1];
@@ -341,7 +344,7 @@ export default {
 
         // NOTE The guard clause prevents the router from replacing an existing query with the same query during page reloads, something which results in a redundancy error.
         // TODO used to not have "name: 'home'"
-        if (!reloadingPage)
+        if (!reloadingPage) {
           router
             .push({
               name: 'home',
@@ -352,6 +355,8 @@ export default {
             })
             .catch(() => {});
 
+          sessionStorage.setItem('databaseQuery', query);
+        }
         // console.log(state.userRecipes);
         // NOTE Remove 'split' below if I want to include partial-word results
         // const matchingUserRecipes = state.userRecipes.filter(recipe =>
@@ -359,7 +364,7 @@ export default {
         // );
 
         // const res = await axios.get(`${API_URL}?search=${query}&key=${KEY}`);
-        console.log('API call');
+        console.log('API call for recipe search results');
         const res = await axios.get(
           `${API_URL}?type=public&q=${query}&app_id=${ID}&app_key=${KEY}`
         );
@@ -380,9 +385,6 @@ export default {
 
         // NOTE creating this link here allows us to access the next set of results from the API in the future. Link will be accessed in VSearchResults component.
         commit('CREATE_NEXT_SEARCH_RESULTS_LINK', res.data._links.next.href);
-
-        // NOTE sets the total number of results, a figure which will be used for the conditional display of page nav buttons in VSearchResults
-        commit('SET_TOTAL_SEARCH_RESULTS_NUMBER', res.data.count);
 
         // const nextPageRes = res.data._links.next.href;
         // const res2 = await axios.get(nextPageRes);
@@ -550,7 +552,7 @@ export default {
             const res = await axios.get(
               `${API_URL}/${id}?type=public&app_id=${ID}&app_key=${KEY}`
             );
-            console.log('API call');
+            console.log('API call for individual recipe');
             // console.log(res);
             commit('CREATE_RECIPE_OBJECT', {
               data: res.data.recipe,

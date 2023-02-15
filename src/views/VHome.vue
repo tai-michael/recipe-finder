@@ -85,15 +85,15 @@ export default {
     VToast,
   },
 
-  // props: ['searchResultsExpanded'],
-
   data() {
     return {
       icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
       leftCoord: 0,
-      searchResultsContainerTopCoord: 0,
-      searchResultsContainerLeftCoord: 0,
+      searchResultsContainerTopCoord:
+        parseInt(sessionStorage.getItem('databaseSearchResultsTopCoord')) || 0,
+      searchResultsContainerLeftCoord:
+        parseInt(sessionStorage.getItem('databaseSearchResultsLeftCoord')) || 0,
       searchResultsExpanded: false,
       mobileView: false,
     };
@@ -150,6 +150,27 @@ export default {
             this.$store.dispatch('home/fetchUserRecipes');
         }
 
+        // NOTE executes a search if query is manually changed in the address bar
+        if (
+          this.$route.query.query &&
+          this.$route.query.query !== sessionStorage.getItem('databaseQuery')
+        ) {
+          this.$router
+            .push({
+              query: {
+                query: this.$route.query.query,
+                page: 1,
+              },
+            })
+            .catch(() => {});
+
+          this.$store.dispatch('home/searchRecipes', {
+            query: this.$route.query.query,
+            page: 1,
+            reloadingPage: true,
+          });
+        }
+
         // if (this.$route.query.query) {
         //   // NOTE delete router push below if we want to retain the page number instead of resetting to page 1
         //   this.$router
@@ -169,17 +190,52 @@ export default {
         //     reloadingPage: true,
         //   });
         // }
+        // REVIEW consider relocating the query if-statement above to VSearchResults
 
-        // NOTE commented out because this code is relocated to VRecipe component itself, to allow cloning of the recipe in VRecipe
-        // REVIEW also consider relocating the query if-statement above to VSearchResults
         if (this.$route.query.id)
           this.$store.dispatch('home/renderRecipe', {
             id: this.$route.query.id,
           });
+
+        // NOTE uncomment below to keep scroll position for recipe container upon reloading
+        // setTimeout(() => {
+        //   window.scrollTo({
+        //     top: this.topCoord,
+        //     left: this.leftCoord,
+        //     behavior: 'instant',
+        //   });
+        // }, 1);
+
         console.log('home init done');
       } catch (err) {
         console.log(err);
       }
+    },
+
+    // NOTE persists the coordinates for the recipe and search results containers for page reloads
+    saveDetailsToSessionStorage() {
+      // NOTE uncomment below to allow persistent scroll position for recipe container
+      // sessionStorage.setItem(
+      //   'databaseWindowTopCoord',
+      //   document.scrollingElement.scrollTop
+      // );
+      // sessionStorage.setItem(
+      //   'databaseWindowLeftCoord',
+      //   document.scrollingElement.scrollLeft
+      // );
+
+      const searchResultsContainer = document.querySelector('.search-results');
+      sessionStorage.setItem(
+        'databaseSearchResultsTopCoord',
+        searchResultsContainer.scrollTop
+      );
+      sessionStorage.setItem(
+        'databaseSearchResultsLeftCoord',
+        searchResultsContainer.scrollLeft
+      );
+
+      sessionStorage.setItem('databaseQuery', this.$route.query.query);
+      sessionStorage.setItem('databasePageNum', this.$route.query.page);
     },
 
     // NOTE allows us to set 'position: fixed' if in mobile view and search results dropdown is expanded
@@ -205,6 +261,7 @@ export default {
     // const storage = localStorage.getItem('bookmarks');
     // if (storage) this.setStoredBookmarks(JSON.parse(storage));
     // console.log('VHome created');
+    window.addEventListener('beforeunload', this.saveDetailsToSessionStorage);
     this.init();
   },
   mounted() {
@@ -216,6 +273,10 @@ export default {
   },
   destroyed() {
     window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener(
+      'beforeunload',
+      this.saveDetailsToSessionStorage
+    );
   },
 
   beforeRouteLeave(to, from, next) {
@@ -230,7 +291,7 @@ export default {
     next();
   },
 
-  // NOTE applies the coordinates while re-entering the page. The callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'. 'vm' refers to 'this'.
+  // NOTE The 'vm' callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'. 'vm' refers to 'this'.
   beforeRouteEnter(to, from, next) {
     next(vm => {
       setTimeout(() => {

@@ -526,8 +526,6 @@ export default {
           commit('CREATE_USER_RECIPE_OBJECT', {
             data: userRecipe,
           });
-        // REVIEW can I load faster? as in, if it's already been loaded before, I just render it quickly. One suggested way is to store already loaded recipes into an array. And if the id of it matches any in that array, skip the API call. That's a somewhat hacky method, but others do it and it works.
-        // BUG if I click between two recipes too fast, then it will render the wrong one
         // NOTE the if statement below is necessary, because after you delete a recipe the page will automatically reload and this action would do an API call b/c the recipe is no longer a userRecipe
         else if (router.app._route.name === 'home') {
           if (Object.keys(state.search.results).length) {
@@ -542,7 +540,7 @@ export default {
               const res = await axios.get(
                 `${API_URL}/${id}?type=public&app_id=${ID}&app_key=${KEY}`
               );
-              console.log('API call');
+              console.log('API call for individual recipe');
               commit('CREATE_RECIPE_OBJECT', {
                 data: res.data.recipe,
               });

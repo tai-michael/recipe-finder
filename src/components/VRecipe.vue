@@ -231,9 +231,8 @@ export default {
   },
   watch: {
     '$route.query.id'(newValue) {
-      // TODO test if I even need this if statement
-      console.log(newValue);
-      if (newValue) this.renderAndCloneRecipe(newValue);
+      // console.log(newValue);
+      this.renderAndCloneRecipe(newValue);
     },
     'recipe.image_url': function () {
       this.imageLoading = true;
@@ -258,14 +257,31 @@ export default {
       return this.mobileView ? 2 : 3;
     },
     columns: function () {
+      const labelsToSkip = [
+        'Saturated',
+        'Trans',
+        'Monounsaturated',
+        'Polyunsaturated',
+        'Carbohydrates (net)',
+      ];
+
+      const filteredNutrients = Object.values(
+        this.recipe.totalNutrients
+      ).filter(val => !labelsToSkip.includes(val.label));
+
+      for (let nutrient of filteredNutrients) {
+        if (nutrient.label === 'Energy') {
+          nutrient.label = 'Calories';
+          nutrient.unit = '';
+        }
+      }
+
       let columns = [];
-      let mid = Math.ceil(
-        Object.keys(this.recipe.totalNutrients).length / this.cols
-      );
+      let mid = Math.ceil(Object.keys(filteredNutrients).length / this.cols);
 
       for (let col = 0; col < this.cols; col++) {
         columns.push(
-          Object.entries(this.recipe.totalNutrients)
+          Object.entries(filteredNutrients)
             .slice(col * mid, col * mid + mid)
             .map(entry => entry[1])
         );
@@ -470,8 +486,8 @@ export default {
 }
 
 .btn--tiny {
-  height: 2rem;
-  width: 2rem;
+  height: 2.4rem;
+  width: 2.4rem;
   border: none;
   background: none;
   cursor: pointer;
@@ -479,8 +495,13 @@ export default {
   svg {
     height: 100%;
     width: 100%;
-    fill: $color-primary;
-    transition: all 0.3s;
+    // fill: $color-primary;
+    // transition: all 0.3s;
+
+    margin-right: 0.6rem;
+    fill: white;
+    stroke: $color-primary;
+    stroke-width: 1.7px;
   }
 
   &:focus {
@@ -488,8 +509,8 @@ export default {
   }
 
   &:hover svg {
-    // fill: $color-grad-2;
-    transform: translateY(-1px);
+    fill: hsl(150, 97%, 76%);
+    // transform: translateY(-1px);
   }
 
   &:active svg {
@@ -586,10 +607,13 @@ export default {
   }
 
   &__info-icon {
-    height: 2.35rem;
-    width: 2.35rem;
-    fill: $color-primary;
-    margin-right: 0.8rem;
+    height: 2.7rem;
+    width: 2.7rem;
+    // fill: $color-primary;
+    margin-right: 0.6rem;
+    fill: white;
+    stroke: $color-primary;
+    stroke-width: 2.5px;
   }
 
   &__info-data {
@@ -601,6 +625,7 @@ export default {
     display: flex;
     margin-left: 1rem;
     transform: translateY(-1px);
+    column-gap: 0.3rem;
   }
 
   &__user-generated {
@@ -666,15 +691,19 @@ export default {
 
   &__ingredient {
     display: flex;
+    align-items: center;
   }
 
   &__icon {
     height: 2rem;
     width: 2rem;
-    fill: $color-primary;
+    fill: none;
     margin-right: 1.1rem;
     flex: 0 0 auto;
     margin-top: 0.1rem;
+
+    stroke: $color-primary;
+    stroke-width: 1px;
   }
 
   // &__quantity {
@@ -720,6 +749,7 @@ export default {
 
   &__nutrient {
     display: flex;
+    align-items: center;
     margin: 6px 0;
   }
 

@@ -5,13 +5,13 @@
       <ul class="nav__list justify-content-between mb-2">
         <a class="navbar-brand d-flex align-items-center me-4" href="/home">
           <img
-            src="@/assets/images/logo.svg"
+            src="@/assets/images/logo.png"
             alt="Logo"
             width="40"
             height="40"
             class="d-inline-block me-2"
           />
-          <p class="logo-text-narrow me-3">Forklift</p>
+          <p class="logo-text-narrow me-3">Epicurist</p>
         </a>
 
         <div class="d-flex">
@@ -145,13 +145,13 @@
         href="/home"
       >
         <img
-          src="@/assets/images/logo.svg"
+          src="@/assets/images/logo.png"
           alt="Logo"
           width="40"
           height="40"
           class="d-inline-block me-3"
         />
-        <p class="logo-text me-4">Forklift</p>
+        <p class="logo-text me-4">Epicurist</p>
       </a>
       <!-- <img src="" alt="Logo" class="logo me-5" /> -->
       <VSearch />

@@ -67,16 +67,6 @@
           >
             <span class="navbar-toggler-icon"></span>
           </button>
-
-          <!-- <button
-            class="navbar-toggler rounded"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#navbarNavDropdown"
-            aria-controls="navbarNavDropdown"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button> -->
         </div>
       </ul>
     </nav>
@@ -87,15 +77,6 @@
       id="navbarNavDropdown"
     >
       <ul class="navbar-nav">
-        <!-- <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li> -->
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li> -->
         <li class="nav-item not-logged-in" v-if="!loggedIn">
           <a class="nav-link" @click="toggleLoginModal">Log In</a>
         </li>
@@ -206,7 +187,7 @@
             class="nav__btn"
             :disabled="$route.name === 'home'"
           >
-            <svg class="nav__icon">
+            <svg class="nav__icon mt-2">
               <use :href="`${icons}#icon-global`"></use>
             </svg>
             <span class="nav_label">Database</span>
@@ -357,35 +338,13 @@ export default {
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
     },
-    // TODO DELETE
-
-    // containsShow() {
-    //   return this.$refs.searchResults.$el.classList.contains('show');
-    // },
   },
-  // TODO DELETE
-  // watch: {
-  //   containsShow(newValue) {
-  //     console.log(newValue);
-  //   },
-  // },
   methods: {
     ...mapMutations({
       toggleLoginModal: 'TOGGLE_LOGIN_MODAL',
       toggleRegisterModal: 'TOGGLE_REGISTER_MODAL',
     }),
   },
-  // TODO DELETE
-  // mounted() {
-  //   this.$watch(
-  //     () => this.$refs.searchResults.$el.classList.contains('show'),
-  //     newValue => {
-  //       if (newValue) {
-  //         console.log('class active was added to my-element');
-  //       }
-  //     }
-  //   );
-  // },
 };
 </script>
 
@@ -463,8 +422,6 @@ export default {
   @media only screen and (max-width: 648px) {
     margin-bottom: 15px !important;
   }
-  // TODO can remove below once I use bootstrap's modal
-  // z-index: 10;
 }
 // .logo {
 //   margin-left: 3rem;
@@ -480,19 +437,6 @@ export default {
   letter-spacing: 0.2rem;
   text-transform: uppercase;
 }
-// .d-flex {
-// grid-area: head;
-// background-color: $color-grey-light-1;
-// display: flex;
-// align-items: center;
-// justify-content: space-between;
-
-// &__logo {
-//   margin-left: 4rem;
-//   height: 4.6rem;
-//   display: block;
-// }
-// }
 
 .nav {
   align-self: stretch;

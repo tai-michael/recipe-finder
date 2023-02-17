@@ -138,7 +138,7 @@
             v-for="(ing, index) in recipe.ingredients"
             :key="index"
           >
-            <svg class="recipe__icon">
+            <svg class="bullet">
               <use :href="`${icons}#icon-check`"></use>
             </svg>
             <!-- <div class="recipe__quantity">
@@ -171,7 +171,7 @@
               :key="index"
               class="recipe__nutrient"
             >
-              <svg class="recipe__icon">
+              <svg class="bullet">
                 <use :href="`${icons}#icon-check`"></use>
               </svg>
               <div>
@@ -486,8 +486,8 @@ export default {
 }
 
 .btn--tiny {
-  height: 2.4rem;
-  width: 2.4rem;
+  height: 2.3rem;
+  width: 2.3rem;
   border: none;
   background: none;
   cursor: pointer;
@@ -496,7 +496,7 @@ export default {
     height: 100%;
     width: 100%;
     // fill: $color-primary;
-    // transition: all 0.3s;
+    transition: all 0.3s;
 
     margin-right: 0.6rem;
     fill: white;
@@ -510,7 +510,7 @@ export default {
 
   &:hover svg {
     fill: hsl(150, 97%, 76%);
-    // transform: translateY(-1px);
+    transform: translateY(-1px);
   }
 
   &:active svg {
@@ -600,6 +600,7 @@ export default {
     font-size: 1.65rem;
     text-transform: uppercase;
     display: flex;
+    align-items: center;
 
     &:not(:last-child) {
       margin-right: 3rem;
@@ -625,7 +626,8 @@ export default {
     display: flex;
     margin-left: 1rem;
     transform: translateY(-1px);
-    column-gap: 0.3rem;
+    column-gap: 0.1rem;
+    margin-bottom: 0.3rem;
   }
 
   &__user-generated {
@@ -691,19 +693,19 @@ export default {
 
   &__ingredient {
     display: flex;
-    align-items: center;
-  }
+    align-items: start;
 
-  &__icon {
-    height: 2rem;
-    width: 2rem;
-    fill: none;
-    margin-right: 1.1rem;
-    flex: 0 0 auto;
-    margin-top: 0.1rem;
+    .bullet {
+      height: 1rem;
+      width: 1rem;
+      fill: $color-primary;
+      margin-right: 1.1rem;
+      flex: 0 0 auto;
+      margin-top: 0.7rem;
 
-    stroke: $color-primary;
-    stroke-width: 1px;
+      stroke: $color-primary;
+      stroke-width: 1px;
+    }
   }
 
   // &__quantity {
@@ -749,8 +751,20 @@ export default {
 
   &__nutrient {
     display: flex;
-    align-items: center;
+    align-items: start;
     margin: 6px 0;
+
+    .bullet {
+      height: 1rem;
+      width: 1rem;
+      fill: $color-primary;
+      margin-right: 1.1rem;
+      flex: 0 0 auto;
+      margin-top: 0.8rem;
+
+      stroke: $color-primary;
+      stroke-width: 1px;
+    }
   }
 
   ///////////

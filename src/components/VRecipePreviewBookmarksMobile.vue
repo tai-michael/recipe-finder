@@ -102,7 +102,7 @@ import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
 
 export default {
-  name: 'VRecipePreviewBookmarks',
+  name: 'VRecipePreviewBookmarksMobile',
 
   props: {
     recipes: {
@@ -144,7 +144,7 @@ export default {
     handleImageError() {
       this.image = false;
       // console.log('image error handled');
-      this.$store.commit('home/REMOVE_BOOKMARK_IMAGES');
+      // this.$store.commit('home/REMOVE_BOOKMARK_IMAGES');
     },
     collapseSearchResults() {
       // console.log(
@@ -189,17 +189,15 @@ export default {
 
     &:hover {
       background-color: #efeff2;
-      transform: translateY(-2px);
-      border-radius: 8px;
     }
 
     &--active {
       background-color: #efeff2;
-      border-radius: 8px;
     }
 
     &--image-error {
       padding: 1rem 1.5rem !important;
+      margin: 0.2rem 0;
     }
   }
 

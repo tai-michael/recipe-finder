@@ -3,7 +3,9 @@
     <li
       class="preview"
       :class="{
-        'preview__link--active': getId(recipe) === $route.query.id,
+        'preview__link--active': getId(recipe) === $route.query.id && image,
+        'preview__bookmark-link-active':
+          getId(recipe) === $route.query.id && !image && !resultsActive,
       }"
       v-for="recipe in recipes"
       :key="getId(recipe)"
@@ -47,7 +49,7 @@
               >
                 {{ recipe.label }}
               </h4>
-              <div v-if="isBookmarked(recipe.uri)" class="test">
+              <div v-if="isBookmarked(recipe.uri)">
                 <div
                   v-if="resultsActive"
                   class="preview__bookmarked btn--round"
@@ -125,12 +127,22 @@ export default {
     return {
       icons: require('@/assets/images/icons.svg'),
       image: true,
+      errorCount: 0,
+      maxErrorCount: 1,
     };
   },
 
   computed: {
     ...mapGetters(['searchResultsDisplay', 'recipeBookmarks']),
   },
+  // watch: {
+  //   image(newVal) {
+  //     if (newVal === false && !this.resultsActive) {
+  //       console.log('image set to false');
+  //       this.$store.commit('home/SET_IMAGE_EXPIRATION_STATUS', true);
+  //     }
+  //   },
+  // },
   methods: {
     isBookmarked(id) {
       // console.log(id);
@@ -145,8 +157,13 @@ export default {
     },
     handleImageError() {
       this.image = false;
-      // console.log('image error handled');
-      this.$store.commit('home/REMOVE_BOOKMARK_IMAGES');
+      this.errorCount++;
+      if (this.errorCount === this.maxErrorCount && this.resultsActive) {
+        console.log('refreshing Search');
+        this.$store.dispatch('home/refreshSearch');
+      }
+      // Reduce the error count to avoid calling the error handling method multiple times
+      this.errorCount = -1;
     },
     scrollToTop() {
       // NOTE timeout is necessary for mobile view b/c we need to wait for the 'collapsing' transition for the search results to finish before we can scroll to the top.
@@ -206,7 +223,17 @@ export default {
 
     &--image-error {
       padding: 1rem 1.5rem !important;
+      &:hover {
+        border-radius: 0;
+      }
+      // &:active {
+      //   border-radius: 0;
+      // }
     }
+  }
+
+  &__bookmark-link-active {
+    background-color: #efeff2 !important;
   }
 
   &__fig {

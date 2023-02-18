@@ -156,11 +156,11 @@
       </div>
 
       <div class="recipe__directions">
-        <h2 class="heading--2">How to cook it</h2>
+        <h2 class="heading--2">Directions</h2>
         <p class="recipe__directions-text">
-          This recipe was carefully designed and tested by
+          This recipe was thoughtfully developed by
           <span class="recipe__publisher">{{ recipe.publisher }}</span
-          >. Please check out directions at their website.
+          >. You can find the instructions for it on their website.
         </p>
         <a
           class="btn btn-outline-success"

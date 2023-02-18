@@ -11,20 +11,20 @@
       <p>Bookmark a recipe you like!</p>
     </div>
 
-    <VRecipePreviewBookmarks v-else :recipes="recipeBookmarks" />
+    <VRecipePreviewBookmarksMobile v-else :recipes="recipeBookmarks" />
   </ul>
 </template>
 
 <script>
 import VLoadingSpinner from './VLoadingSpinner.vue';
-import VRecipePreviewBookmarks from '@/components/VRecipePreviewBookmarks.vue';
+import VRecipePreviewBookmarksMobile from '@/components/VRecipePreviewBookmarksMobile.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
 
 export default {
   name: 'VBookmarks',
   components: {
-    VRecipePreviewBookmarks,
+    VRecipePreviewBookmarksMobile,
     VLoadingSpinner,
   },
   data() {

@@ -6,12 +6,7 @@
       </svg>
       <span class="nav_label">Saved</span>
     </button>
-    <div
-      class="bookmarks"
-      :class="{
-        'image-error': !bookmarkImages,
-      }"
-    >
+    <div class="bookmarks">
       <ul class="bookmarks__list">
         <VLoadingSpinner v-if="loadingBookmarks" />
         <!-- Change condition to if fetch results in nothing -->
@@ -48,7 +43,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['recipeBookmarks', 'loadingBookmarks', 'bookmarkImages']),
+    ...mapGetters(['recipeBookmarks', 'loadingBookmarks']),
   },
 };
 </script>
@@ -108,18 +103,27 @@ export default {
 }
 
 .bookmarks {
-  padding: 1rem 0;
+  padding: 1rem 0.5rem 0.35rem 0.5rem;
   position: absolute;
-  // right: 0;
   right: -2.5rem;
   z-index: 10;
-  width: 40rem;
+  width: 30rem;
+  max-height: 92vh;
+  overflow: auto;
   background-color: #fff;
   // box-shadow: 0 0.8rem 5rem 2rem rgba($color-grey-dark-1, 0.1);
 
   visibility: hidden;
   opacity: 0;
   transition: all 0.01s 0.01s;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
 
   &__list {
     list-style: none;
@@ -144,10 +148,6 @@ export default {
     visibility: visible;
     opacity: 1;
   }
-}
-
-.image-error {
-  width: 30rem !important;
 }
 
 .message,

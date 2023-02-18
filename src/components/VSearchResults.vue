@@ -95,8 +95,8 @@ export default {
           Object.keys(res.data._links).length ? res.data._links.next.href : null
         );
 
-        const newResults = res.data.hits.map(hit => hit.recipe);
-        this.$store.commit('home/ADD_SEARCH_RESULTS', newResults);
+        const nextResults = res.data.hits.map(hit => hit.recipe);
+        this.$store.commit('home/ADD_SEARCH_RESULTS', nextResults);
 
         // NOTE mostly prevents rapid API calls for more results, and therefore key redundancy errors. There's probably be a better way to circumvent the errors.
         setTimeout(() => {

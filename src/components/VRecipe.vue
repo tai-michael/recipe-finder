@@ -31,7 +31,7 @@
       <img
         :src="imageLoading ? placeholder : recipe.image"
         @load="imageLoading = false"
-        @error="recipe.image_url = image_error"
+        @error="handleImageError"
         :alt="recipe.label"
         class="recipe__img"
       />
@@ -184,11 +184,11 @@
       </div>
 
       <div class="recipe__directions">
-        <h2 class="heading--2">How to cook it</h2>
+        <h2 class="heading--2">Directions</h2>
         <p class="recipe__directions-text">
-          This recipe was carefully designed and tested by
+          This recipe was thoughtfully developed by
           <span class="recipe__publisher">{{ recipe.source }}</span
-          >. Please check out directions at their website.
+          >. You can find the instructions for the recipe on their website.
         </p>
         <a class="btn btn-outline-success" :href="recipe.url" target="_blank">
           <span>Directions </span>
@@ -234,9 +234,9 @@ export default {
       // console.log(newValue);
       this.renderAndCloneRecipe(newValue);
     },
-    'recipe.image_url': function () {
-      this.imageLoading = true;
-    },
+    // 'recipe.image_url': function () {
+    //   this.imageLoading = true;
+    // },
   },
   computed: {
     ...mapGetters([
@@ -409,6 +409,12 @@ export default {
         ? true
         : false;
     },
+
+    handleImageError() {
+      this.recipe.image = this.image_error;
+      console.log('refreshing Search');
+      this.$store.dispatch('home/refreshSearch');
+    },
   },
   created() {
     // this.init();
@@ -510,7 +516,7 @@ export default {
 
   &:hover svg {
     fill: hsl(150, 97%, 76%);
-    transform: translateY(-1px);
+    // transform: translateY(-1px);
   }
 
   &:active svg {
@@ -770,13 +776,17 @@ export default {
   ///////////
   // DIRECTIONS
   &__directions {
-    padding: 5rem 10rem;
+    padding: 5rem 18rem;
     padding-bottom: 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 12px;
     background-color: #efeff2;
+
+    @media all and (max-width: 767px) {
+      padding: 5rem 12rem;
+    }
 
     @media all and (max-width: 648px) {
       padding: 4rem 5rem;

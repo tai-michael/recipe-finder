@@ -99,20 +99,6 @@ export default {
     };
   },
 
-  watch: {
-    '$route.query.id'(newValue) {
-      // TODO test if I even need this if statement
-      // console.log(newValue);
-      if (newValue && !Object.keys(this.recipe).length)
-        this.$store.dispatch('home/renderRecipe', {
-          id: newValue,
-        });
-    },
-    // 'recipe.image_url': function () {
-    //   this.imageLoading = true;
-    // },
-  },
-
   computed: {
     ...mapGetters([
       'recipe',
@@ -122,10 +108,38 @@ export default {
       'registerModal',
       'toastMessage',
       'searchResults',
+      'setSearchContainerPosition',
     ]),
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
     },
+  },
+
+  watch: {
+    '$route.query.id'(newValue) {
+      // TODO test if I even need this if statement
+      // console.log(newValue);
+      if (newValue && !Object.keys(this.recipe).length)
+        this.$store.dispatch('home/renderRecipe', {
+          id: newValue,
+        });
+    },
+    setSearchContainerPosition(newVal) {
+      if (newVal) {
+        setTimeout(() => {
+          const searchResultsContainer =
+            document.querySelector('.search-results');
+
+          searchResultsContainer.scrollTop =
+            this.searchResultsContainerTopCoord;
+          searchResultsContainer.scrollLeft =
+            this.searchResultsContainerLeftCoord;
+        }, 1000);
+      }
+    },
+    // 'recipe.image_url': function () {
+    //   this.imageLoading = true;
+    // },
   },
 
   methods: {

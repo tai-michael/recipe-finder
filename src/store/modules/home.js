@@ -22,7 +22,6 @@ export default {
     userRecipe: {},
     userRecipes: [],
     bookmarks: [],
-    bookmarkImages: true,
     previousURL: '',
     search: {
       // NOTE allows for persistent search results upon reloading
@@ -58,7 +57,6 @@ export default {
     recipe: state => state.recipe,
     recipeBookmarks: state => state.bookmarks,
     recipeBookmarked: state => state.recipe.bookmarked,
-    bookmarkImages: state => state.bookmarkImages,
     setSearchContainerPosition: state =>
       state.search.setSearchContainerPosition,
     userRecipe: state => state.userRecipe,
@@ -254,11 +252,6 @@ export default {
       );
       state.bookmarks.splice(recipeIndex, 1);
       state.recipe.bookmarked = false;
-    },
-
-    REMOVE_BOOKMARK_IMAGES(state) {
-      state.bookmarkImages = false;
-      // console.log(state.bookmarkImages);
     },
 
     TOGGLE_LOGIN_MODAL(state) {

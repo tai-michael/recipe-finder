@@ -187,7 +187,7 @@
             class="nav__btn"
             :disabled="$route.name === 'home'"
           >
-            <svg class="nav__icon mt-2">
+            <svg class="nav__icon nav__globe mt-2">
               <use :href="`${icons}#icon-global`"></use>
             </svg>
             <span class="nav_label">Database</span>
@@ -472,8 +472,8 @@ export default {
     align-items: center;
 
     svg {
-      height: 2.4rem;
-      width: 2.4rem;
+      height: 2.8rem;
+      width: 2.8rem;
       // fill: $color-primary;
       fill: black;
       margin-right: 0.7rem;
@@ -495,6 +495,10 @@ export default {
   }
   &__icon {
     margin-top: 0.1rem;
+  }
+  &__globe {
+    margin-top: 2px !important;
+    margin-right: 0.9rem !important;
   }
 }
 

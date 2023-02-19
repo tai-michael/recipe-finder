@@ -226,9 +226,6 @@ export default {
       &:hover {
         border-radius: 0;
       }
-      // &:active {
-      //   border-radius: 0;
-      // }
     }
   }
 

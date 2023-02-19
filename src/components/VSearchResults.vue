@@ -28,7 +28,7 @@
     />
 
     <div v-if="loadingMoreResults" class="spinner-container">
-      <span class="spinner-border" role="status" aria-hidden="true"></span>
+      <VLoadingDots />
     </div>
   </div>
 </template>
@@ -36,6 +36,7 @@
 <script>
 import VRecipePreview from '@/components/VRecipePreview.vue';
 import VLoadingSpinner from '@/components/VLoadingSpinner.vue';
+import VLoadingDots from '@/components/VLoadingDots.vue';
 import VInfiniteScrollTrigger from '@/components/VInfiniteScrollTrigger.vue';
 import { API_SEARCH_RESULTS_PAGE_LIMIT } from '@/common/config.js';
 import axios from 'axios';
@@ -48,6 +49,7 @@ export default {
     VRecipePreview,
     VLoadingSpinner,
     VInfiniteScrollTrigger,
+    VLoadingDots,
   },
 
   data() {
@@ -70,11 +72,6 @@ export default {
     numPages() {
       return Math.ceil(this.searchResults.length / this.searchResultsPerPage);
     },
-    // isActive(resultId) {
-    //   const id = window.location.hash.slice(1);
-    //   if (resultId === id) return true;
-    //   else return false;
-    // },
     pageLimit() {
       return API_SEARCH_RESULTS_PAGE_LIMIT;
     },
@@ -109,16 +106,7 @@ export default {
         this.loadingMoreResults = false;
       }
     },
-    // goToPreviousPage() {
-    //   this.$store.commit('home/UPDATE_PAGINATION', -1);
-    //   window.scrollTo({ top: 0, behavior: 'instant' });
-    // },
   },
-  // methods: {
-  //   renderRecipe() {
-  //     this.$store.dispatch('renderRecipe');
-  //   },
-  // },
 };
 </script>
 
@@ -126,8 +114,6 @@ export default {
 @import '@/assets/sass/style.scss';
 
 .search-container {
-  // padding: 3rem 0;
-  // display: flex;
   flex-direction: column;
   min-width: 250px !important;
 
@@ -167,80 +153,10 @@ export default {
   }
 }
 
-.spinner {
-  margin: 0 auto;
-  svg {
-    height: 3rem;
-    width: 3rem;
-    fill: $color-primary;
-    animation: rotate 2s infinite linear;
-  }
-}
-
 .spinner-container {
   display: flex;
   justify-content: center;
-  // NOTE need to make the container bigger than the scroll trigger component, otherwise, there will be a weird bouncing effect when the spinner overlaps with the trigger
+  // NOTE margin is set to be bigger here than in the trigger component, because otherwise, there will be a weird bouncing effect when the spinner overlaps with the trigger
   margin: 1rem auto;
-
-  .spinner-border {
-    padding: 3rem auto;
-  }
-}
-
-.page-nav {
-  margin-top: 3rem;
-  padding-left: 2rem;
-  padding-right: 1.2rem;
-
-  @media only screen and (max-width: 648px) {
-    padding: 0 3.2rem;
-  }
-
-  &::after {
-    content: '';
-    display: table;
-    clear: both;
-  }
-}
-
-.btn--inline {
-  color: black;
-  font-size: 1.3rem;
-  font-weight: 600;
-  border: none;
-  background-color: $color-grey-light-2;
-  padding: 0.8rem 1.2rem;
-  border-radius: 10rem;
-  cursor: pointer;
-  min-width: 81px;
-
-  // display: flex;
-  align-items: center;
-  transition: all 0.2s;
-
-  svg {
-    height: 1.6rem;
-    width: 1.6rem;
-    fill: currentColor;
-    margin: 0 0.2rem;
-  }
-
-  span {
-    margin: 0 0.4rem;
-  }
-
-  .spinner-border {
-    max-height: 1.6rem;
-    max-width: 1.6rem;
-  }
-
-  &:hover {
-    background-color: $color-grey-light-3;
-  }
-
-  &:focus {
-    outline: none;
-  }
 }
 </style>

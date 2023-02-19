@@ -80,8 +80,8 @@ export default {
     align-items: center;
 
     svg {
-      height: 2.4rem;
-      width: 2.4rem;
+      height: 2.8rem;
+      width: 2.8rem;
       fill: black;
       margin-right: 0.7rem;
       transform: translateY(-1px);

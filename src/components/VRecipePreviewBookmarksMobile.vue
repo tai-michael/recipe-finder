@@ -8,7 +8,7 @@
       v-for="recipe in recipes"
       :key="getId(recipe)"
     >
-      <!-- v-if in router-link is needed to prevent TypeError: undefined -->
+      <!-- NOTE v-if in router-link is needed to prevent TypeError: undefined -->
       <router-link
         :to="{
           name: 'home',
@@ -131,20 +131,14 @@ export default {
   },
   methods: {
     isBookmarked(id) {
-      // console.log(id);
-      // console.log(this.recipeBookmarks);
-      // console.log(this.recipeBookmarks[0].uri);
-      // return this.recipeBookmarks.some(recipe => recipe.id === id);
       return this.recipeBookmarks.some(recipe => recipe.uri === id);
     },
     getId(recipe) {
-      // NOTE optional chaining needed to prevent TypeError: undefined. Note also that Vue 2 doesn't support optional chaining in html template (only Vue 3 does). Hence I need to use a method, like here.
+      // NOTE optional chaining needed to prevent TypeError: undefined. Note also that Vue 2 doesn't support optional chaining in html template (only Vue 3 does). That's why I need to use a method, like here.
       return recipe?.uri.split('#recipe_')[1];
     },
     handleImageError() {
       this.image = false;
-      // console.log('image error handled');
-      // this.$store.commit('home/REMOVE_BOOKMARK_IMAGES');
     },
     collapseSearchResults() {
       // console.log(
@@ -166,17 +160,12 @@ export default {
   margin-bottom: 1rem;
 }
 
-// NOTE unnecessary because of v-if
-// .hidden {
-//   visibility: hidden;
-//   opacity: 0;
-// }
-
 .preview {
   list-style: none;
 
   &__link {
     padding: 1.5rem 3.25rem;
+    margin-bottom: 0.25rem;
     &:link,
     &:visited {
       display: flex;
@@ -189,15 +178,17 @@ export default {
 
     &:hover {
       background-color: #efeff2;
+      // margin: 0.25rem;
     }
 
     &--active {
       background-color: #efeff2;
+      // margin: 0.25rem;
     }
 
     &--image-error {
       padding: 1rem 1.5rem !important;
-      margin: 0.2rem 0;
+      // margin: 0.2rem 0;
     }
   }
 
@@ -281,23 +272,9 @@ export default {
     .badge {
       letter-spacing: 0.5px;
     }
-    // margin-left: auto;
-    // margin-right: 1.75rem;
-
-    // &--active {
-    //   background-color: white;
-    // }
-
-    // svg {
-    //   height: 1.2rem;
-    //   width: 1.2rem;
-    //   fill: $color-primary;
-    // }
   }
 
   &__bookmarked {
-    // background-color: darken($color-grey-light-2, 2%);
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -314,34 +291,5 @@ export default {
       width: 1.5rem;
     }
   }
-
-  // .btn--round {
-  //   background-image: $gradient;
-  //   border-radius: 50%;
-  //   border: none;
-  //   cursor: pointer;
-  //   height: 4.5rem;
-  //   width: 4.5rem;
-  //   // margin-left: auto;
-  //   transition: all 0.2s;
-
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-
-  //   &:hover {
-  //     transform: scale(1.07);
-  //   }
-
-  //   &:focus {
-  //     outline: none;
-  //   }
-
-  //   svg {
-  //     height: 2.5rem;
-  //     width: 2.5rem;
-  //     fill: #fff;
-  //   }
-  // }
 }
 </style>

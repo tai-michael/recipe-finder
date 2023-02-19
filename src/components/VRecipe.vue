@@ -64,7 +64,7 @@
           </div>
 
           <div class="recipe__info">
-            <svg class="recipe__info-icon">
+            <svg class="recipe__info-icon-users">
               <use :href="`${icons}#icon-users`"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">{{
@@ -75,15 +75,17 @@
             </span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny" @click="updateServings(-1)">
-                <svg>
-                  <use :href="`${icons}#icon-minus-circle`"></use>
-                </svg>
+              <button
+                class="btn btn-outline-success"
+                @click="updateServings(-1)"
+              >
+                <span> – </span>
               </button>
-              <button class="btn--tiny" @click="updateServings(1)">
-                <svg>
-                  <use :href="`${icons}#icon-plus-circle`"></use>
-                </svg>
+              <button
+                class="btn btn-outline-success"
+                @click="updateServings(1)"
+              >
+                <span> + </span>
               </button>
             </div>
           </div>
@@ -326,7 +328,7 @@ export default {
 
         if (normalizedWord.includes('/')) {
           if (isNaN(word.split('/')[0]) || isNaN(word.split('/')[1])) {
-            console.log('triggered 2');
+            // console.log('triggered 2');
             splitWords.splice(splitWords[1], 1, ingredient.measure);
             return `${this.ingQuantity(ingredient)} ${splitWords.join(' ')}`;
           } else {
@@ -491,44 +493,6 @@ export default {
   }
 }
 
-.btn--tiny {
-  height: 2.3rem;
-  width: 2.3rem;
-  border: none;
-  background: none;
-  cursor: pointer;
-
-  svg {
-    height: 100%;
-    width: 100%;
-    // fill: $color-primary;
-    transition: all 0.3s;
-
-    margin-right: 0.6rem;
-    fill: white;
-    stroke: $color-primary;
-    stroke-width: 1.7px;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover svg {
-    fill: hsl(150, 97%, 76%);
-    // transform: translateY(-1px);
-  }
-
-  &:active svg {
-    // fill: $color-grad-2;
-    transform: translateY(0);
-  }
-
-  &:not(:last-child) {
-    margin-right: 0.3rem;
-  }
-}
-
 .heading--2 {
   font-size: 2rem;
   font-weight: 700;
@@ -623,6 +587,17 @@ export default {
     stroke-width: 2.5px;
   }
 
+  &__info-icon-users {
+    height: 2.8rem;
+    width: 2.8rem;
+    // fill: $color-primary;
+    margin-top: 0.1rem;
+    margin-right: 0.6rem;
+    fill: $color-primary;
+    stroke: $color-primary;
+    stroke-width: 0;
+  }
+
   &__info-data {
     margin-right: 0.5rem;
     font-weight: 700;
@@ -631,9 +606,21 @@ export default {
   &__info-buttons {
     display: flex;
     margin-left: 1rem;
-    transform: translateY(-1px);
-    column-gap: 0.1rem;
-    margin-bottom: 0.3rem;
+    column-gap: 0.5rem;
+
+    .btn-outline-success {
+      height: 2.3rem;
+      width: 2.3rem;
+      border-width: 0.2rem;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span {
+        font-size: 2.3rem;
+        margin-bottom: 0.6rem;
+      }
+    }
   }
 
   &__user-generated {

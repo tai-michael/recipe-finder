@@ -1,8 +1,6 @@
 <template>
   <div class="spinner">
-    <svg>
-      <use :href="`${icons}#icon-loader`"></use>
-    </svg>
+    <span class="loader"></span>
   </div>
 </template>
 
@@ -20,24 +18,38 @@ export default {
 @import '@/assets/sass/style.scss';
 
 .spinner {
-  margin: 5rem auto;
+  margin: 2rem;
   text-align: center;
 
-  svg {
-    height: 6rem;
-    width: 6rem;
-    fill: $color-primary;
-    animation: rotate 2s infinite linear;
+  .loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 4px solid #80a8ff;
+    border-right: 4px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
   }
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
+  .loader::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border-bottom: 4px solid #80a8ff;
+    border-left: 4px solid transparent;
   }
-
-  100% {
-    transform: rotate(360deg);
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
 }
 </style>

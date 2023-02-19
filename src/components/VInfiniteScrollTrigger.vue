@@ -1,12 +1,17 @@
 <template>
   <div class="spinner-container" ref="trigger">
-    <span class="spinner-border" role="status" aria-hidden="true"></span>
+    <VLoadingDots />
   </div>
 </template>
 
 <script>
+import VLoadingDots from '@/components/VLoadingDots.vue';
+
 export default {
   name: 'VInfiniteScrollTrigger',
+  components: {
+    VLoadingDots,
+  },
   data() {
     return {
       observer: null,
@@ -42,8 +47,5 @@ export default {
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  .spinner-border {
-    padding: 3rem auto;
-  }
 }
 </style>

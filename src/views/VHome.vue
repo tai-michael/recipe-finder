@@ -426,7 +426,7 @@ html {
   // NOTE fixes the search results container and gives it a scroll bar
   position: sticky !important;
   position: -webkit-sticky;
-  height: 88vh !important;
+  height: 90vh !important;
   top: 85px !important;
   overflow: auto;
 

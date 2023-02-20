@@ -43,7 +43,7 @@ export default {
 
 .bookmarks__list {
   margin: 0 0.25rem;
-  max-height: 82vh !important;
+  max-height: 75vh !important;
   overflow: auto;
 
   &::-webkit-scrollbar {

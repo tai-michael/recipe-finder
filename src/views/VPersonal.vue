@@ -16,7 +16,7 @@
           >
             <button
               v-if="Object.keys(userRecipes).length"
-              class="narrowscreen navbar-toggler dropdown-toggle p-3"
+              class="narrowscreen navbar-toggler dropdown-toggle p-2"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#userRecipesDropdown"
@@ -330,13 +330,14 @@ html {
   }
 }
 
-.navbar-toggler:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.navbar-toggler:hover {
-  background-color: $color-grey-light-2;
+.navbar-toggler {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  &:hover {
+    background-color: $color-grey-light-2;
+  }
 }
 
 // TODO add new classes and change names to them here
@@ -459,6 +460,10 @@ html {
   flex: 1 1 100px;
   min-width: 372px;
   max-width: 928px;
+  @media only screen and (max-width: 648px) {
+    // margin-right: 0px !important;
+    min-width: 0 !important;
+  }
 }
 
 // body {

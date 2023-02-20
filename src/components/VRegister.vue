@@ -193,11 +193,11 @@ export default {
 
   padding: 5rem 6rem;
   box-shadow: 0 2rem 3rem rgba(0, 0, 0, 0.411);
-  z-index: 1000;
+  z-index: 9999;
   transition: all 0.5s;
 
   @media all and (max-width: 644px) {
-    padding-left: 0rem;
+    top: 40%;
     width: 90%;
   }
 
@@ -270,6 +270,10 @@ export default {
   .modal-content {
     max-width: 280px;
     margin-left: 40px;
+    @media all and (max-width: 644px) {
+      // padding-left: 0rem;
+      margin-left: 0;
+    }
   }
 
   .modal-header {

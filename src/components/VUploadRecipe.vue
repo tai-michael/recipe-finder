@@ -601,9 +601,9 @@ export default {
   min-width: 300px;
 
   @media only screen and (max-width: 648px) {
-    // min-width: 260px;
     padding: 1rem;
     margin-top: 0;
+    min-width: 0 !important;
   }
 
   flex: 1 1 100px;

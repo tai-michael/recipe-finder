@@ -7,9 +7,9 @@
           <img
             src="@/assets/images/logo.png"
             alt="Logo"
-            width="40"
+            width="20"
             height="40"
-            class="d-inline-block me-2"
+            class="mobile-logo d-inline-block me-2"
           />
           <p class="logo-text-narrow me-3">Epicurist</p>
         </a>
@@ -128,7 +128,7 @@
         <img
           src="@/assets/images/logo.png"
           alt="Logo"
-          width="40"
+          width="33"
           height="40"
           class="d-inline-block me-3"
         />
@@ -142,7 +142,7 @@
       v-if="
         !loadingSearchResults && $route.query.query && $route.name === 'home'
       "
-      class="narrowscreen-navbar navbar-toggler dropdown-toggle p-3 mt-3"
+      class="narrowscreen-navbar navbar-toggler dropdown-toggle p-2"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#searchResultsDropdown"
@@ -421,6 +421,7 @@ export default {
 
   @media only screen and (max-width: 648px) {
     margin-bottom: 15px !important;
+    row-gap: 1rem !important;
   }
 }
 // .logo {
@@ -438,9 +439,12 @@ export default {
   text-transform: uppercase;
 }
 
+.mobile-logo {
+  width: 23px !important;
+}
+
 .nav {
   align-self: stretch;
-  margin-right: 2.5rem;
 
   &__list {
     list-style: none;
@@ -504,15 +508,17 @@ export default {
 
 // NOTE sets height of the search results container in mobile view
 .navbar-nav-scroll {
-  max-height: 77vh;
-}
-.navbar-toggler:focus {
-  outline: none;
-  box-shadow: none;
+  max-height: 70vh;
 }
 
-.navbar-toggler:hover {
-  background-color: $color-grey-light-2;
+.navbar-toggler {
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  &:hover {
+    background-color: $color-grey-light-2;
+  }
 }
 
 .router-link-active {

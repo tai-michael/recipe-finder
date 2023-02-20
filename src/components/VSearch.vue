@@ -4,7 +4,6 @@
     class="search"
     @submit.prevent="submitSearch"
   >
-    <!-- <i class="fa-solid fa-magnifying-glass fa-2xl"></i> -->
     <svg class="fa-magnifying-glass" @click.prevent="submitSearch">
       <use :href="`${icons}#icon-search`"></use>
     </svg>
@@ -33,8 +32,6 @@
 </template>
 
 <script>
-// import bootstrap from 'bootstrap';
-
 export default {
   name: 'VSearch',
 
@@ -55,21 +52,6 @@ export default {
   methods: {
     submitSearch() {
       this.$store.dispatch('home/searchRecipes', { query: this.query });
-      // var searchResultsDropdown = document.getElementById(
-      //   'searchResultsDropdown'
-      // );
-      // var bsCollapse = new bootstrap.Collapse(searchResultsDropdown, {
-      //   toggle: false,
-      // });
-
-      // bsCollapse.show();
-
-      // var collapseElementList = [].slice.call(
-      //   document.querySelectorAll('.collapse')
-      // );
-      // var collapseList = collapseElementList.map(function (collapseEl) {
-      //   return new bootstrap.Collapse(collapseEl);
-      // });
     },
     submitUserRecipeSearch() {
       this.$store.dispatch('home/searchUserRecipes', {
@@ -108,6 +90,13 @@ export default {
   left: 16px;
   width: 20px;
   height: 20px;
+
+  @media all and (max-width: 648px) {
+    top: 7px;
+    left: 20px;
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .search input {
@@ -116,77 +105,16 @@ export default {
   border-radius: 10rem;
   font-size: 1.8rem;
   padding: 1.3rem 1.3rem 1.3rem 3em;
+
+  @media all and (max-width: 648px) {
+    height: 30px;
+    font-size: 1.8rem;
+    padding: 1.3rem 1.3rem 1.3rem 3em;
+  }
 }
 
 .search input:focus {
   box-shadow: none;
   border: 2px solid black;
 }
-
-// .search button {
-//   position: absolute;
-//   top: 5px;
-//   right: 5px;
-//   height: 38px;
-//   width: 110px;
-// }
-
-// .btn-primary {
-//   font-size: 1.7rem;
-// }
-
-// .form-control {
-//   border-radius: 10rem;
-//   font-size: 1.7rem;
-//   width: 45rem;
-//   padding: 1.3rem 1.3rem 1.3rem 2.6rem;
-// }
-
-// .d-flex {
-//   padding: 1.7rem;
-// }
-
-// .search {
-//   background-color: #fff;
-//   border-radius: 10rem;
-//   display: flex;
-//   align-items: center;
-//   padding-left: 3rem;
-//   transition: all 0.3s;
-
-//   &:focus-within {
-//     transform: translateY(-2px);
-//     box-shadow: 0 0.7rem 3rem rgba($color-grey-dark-1, 0.08);
-//   }
-
-//   &__field {
-//     border: none;
-//     background: none;
-//     font-family: inherit;
-//     color: inherit;
-//     font-size: 1.7rem;
-//     width: 30rem;
-
-//     &:focus {
-//       outline: none;
-//     }
-
-//     &::placeholder {
-//       color: $color-grey-light-3;
-//     }
-
-//     @media only screen and (max-width: $bp-medium) {
-//       width: auto;
-
-//       &::placeholder {
-//         color: $color-grey-light-3;
-//       }
-//     }
-//   }
-
-// &__btn {
-//   font-weight: 600;
-//   font-family: inherit;
-// }
-// }
 </style>

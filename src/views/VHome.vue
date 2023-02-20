@@ -452,6 +452,7 @@ html {
   max-width: 928px;
   @media only screen and (max-width: 648px) {
     margin-right: 0px !important;
+    min-width: 0 !important;
   }
   // height: 90vh !important;
   // overflow: auto;

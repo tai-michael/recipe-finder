@@ -141,7 +141,7 @@
             :key="index"
           >
             <svg class="bullet">
-              <use :href="`${icons}#icon-check`"></use>
+              <use :href="`${icons}#icon-bullet`"></use>
             </svg>
             <!-- <div class="recipe__quantity">
               {{ ingQuantity(ing) }}
@@ -174,7 +174,7 @@
               class="recipe__nutrient"
             >
               <svg class="bullet">
-                <use :href="`${icons}#icon-check`"></use>
+                <use :href="`${icons}#icon-bullet`"></use>
               </svg>
               <div>
                 {{ column[item].label }} - {{ Math.round(column[item].quantity)
@@ -383,7 +383,9 @@ export default {
     copyRecipeLink() {
       // FIXME change the base URL below after deploying this app
       navigator.clipboard.writeText(
-        `http://localhost:8080/home?id=${this.recipe.uri.split('#recipe_')[1]}`
+        `https://epicurist.netlify.app/home?id=${
+          this.recipe.uri.split('#recipe_')[1]
+        }`
       );
       this.$store.commit(
         'home/SET_TOAST_MESSAGE',
@@ -527,7 +529,7 @@ export default {
   &__img {
     width: 100%;
     display: block;
-    height: 240px;
+    height: 200px;
     object-fit: cover;
     border-radius: 16px;
 
@@ -578,24 +580,25 @@ export default {
   }
 
   &__info-icon {
-    height: 2.7rem;
-    width: 2.7rem;
+    height: 2.8rem;
+    width: 2.8rem;
     // fill: $color-primary;
     margin-right: 0.6rem;
-    fill: white;
-    stroke: $color-primary;
-    stroke-width: 2.5px;
+    margin-bottom: 0.3rem;
+    // fill: $color-primary;
+    // stroke: $color-primary;
+    // stroke-width: 0;
   }
 
   &__info-icon-users {
     height: 2.8rem;
     width: 2.8rem;
     // fill: $color-primary;
-    margin-top: 0.1rem;
+    // margin-top: 0.1rem;
     margin-right: 0.6rem;
-    fill: $color-primary;
-    stroke: $color-primary;
-    stroke-width: 0;
+    // fill: $color-primary;
+    // stroke: $color-primary;
+    // stroke-width: 0;
   }
 
   &__info-data {
@@ -610,15 +613,26 @@ export default {
 
     .btn-outline-success {
       height: 2.3rem;
-      width: 2.3rem;
+      border-radius: 50%;
       border-width: 0.2rem;
+      font-size: 2rem;
       padding: 0;
       display: flex;
       align-items: center;
+      transition: all 0.25s;
       justify-content: center;
+      align-content: center;
+
       span {
-        font-size: 2.3rem;
-        margin-bottom: 0.6rem;
+        display: flex;
+        height: 2rem;
+        width: 2rem;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 2.5px;
+        @media only screen and (max-width: 648px) {
+          padding-bottom: 0;
+        }
       }
     }
   }

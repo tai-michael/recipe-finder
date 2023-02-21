@@ -80,7 +80,7 @@
 
             <div class="recipe__info-buttons">
               <button
-                class="btn btn-outline-success"
+                class="btn btn-outline-success pb-1"
                 @click="updateServings(-1)"
               >
                 <span> – </span>
@@ -491,7 +491,6 @@ export default {
 
     .btn-outline-success {
       height: 2.3rem;
-      border-radius: 50%;
       border-width: 0.2rem;
       font-size: 2rem;
       padding: 0;

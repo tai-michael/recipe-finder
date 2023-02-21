@@ -15,8 +15,8 @@ export default {
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #80a8ff;
-  color: #80a8ff;
+  background-color: #6eaffa;
+  color: #6eaffa;
   animation: dot-flashing 1s infinite linear alternate;
   animation-delay: 0.5s;
 }
@@ -32,8 +32,8 @@ export default {
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #80a8ff;
-  color: #80a8ff;
+  background-color: #6eaffa;
+  color: #6eaffa;
   animation: dot-flashing 1s infinite alternate;
   animation-delay: 0s;
 }
@@ -42,19 +42,19 @@ export default {
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: #80a8ff;
-  color: #80a8ff;
+  background-color: #6eaffa;
+  color: #6eaffa;
   animation: dot-flashing 1s infinite alternate;
   animation-delay: 1s;
 }
 
 @keyframes dot-flashing {
   0% {
-    background-color: #80a8ff;
+    background-color: #6eaffa;
   }
   50%,
   100% {
-    background-color: rgba(128, 179, 255, 0.2);
+    background-color: rgba(153, 193, 253, 0.2);
   }
 }
 </style>

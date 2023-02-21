@@ -92,7 +92,7 @@ export default {
           commit('SET_AUTH_MESSAGE', 'Email already in use');
         if (error.code === 'auth/weak-password')
           commit('SET_AUTH_MESSAGE', 'Password too weak');
-        else commit('SET_AUTH_MESSAGE', 'Something went wrong');
+        else commit('SET_AUTH_MESSAGE', 'Unable to register this email');
       }
     },
 

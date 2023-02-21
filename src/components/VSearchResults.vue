@@ -157,6 +157,6 @@ export default {
   display: flex;
   justify-content: center;
   // NOTE margin is set to be bigger here than in the trigger component, because otherwise, there will be a weird bouncing effect when the spinner overlaps with the trigger
-  margin: 1rem auto;
+  margin: 4rem auto;
 }
 </style>

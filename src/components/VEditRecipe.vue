@@ -69,7 +69,7 @@
                 id="floatingSource"
                 placeholder="https://www.example.com"
               />
-              <label for="floatingSource">URL</label>
+              <label for="floatingSource">URL (recipe source)</label>
               <p v-if="!$v.formData.source_url.$error" class="form-helper">
                 E.g. https://allrecipes.com/recipe/cheddar-bacon-hamburgers/
               </p>
@@ -171,7 +171,7 @@
               />
               <!-- NOTE Alternatively, could show  errors only after the form is submitted, rather than right after a field is modified:  -->
               <!-- <p v-if="formErrorsExist" class="upload__error"> -->
-              <label for="floatingCookingTime">Prep time</label>
+              <label for="floatingCookingTime">Prep time (minutes)</label>
               <p v-if="!$v.formData.cooking_time.$error" class="form-helper">
                 E.g. 25
               </p>
@@ -698,6 +698,9 @@ export default {
 
   .recipe-field {
     min-width: 218px;
+    @media only screen and (max-width: 648px) {
+      min-width: 200px;
+    }
   }
 
   .ingredients-heading {

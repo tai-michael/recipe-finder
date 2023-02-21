@@ -84,11 +84,7 @@
 </template>
 
 <script>
-// import VHeader from '@/components/VHeader.vue';
 import VUserSearchResults from '@/components/VUserSearchResults.vue';
-// import VUserRecipe from '@/components/VUserRecipe.vue';
-// import VUploadRecipe from '@/components/VUploadRecipe.vue';
-// import VEditRecipe from '@/components/VEditRecipe.vue';
 import VLogin from '@/components/VLogin.vue';
 import VRegister from '@/components/VRegister.vue';
 import VToast from '@/components/VToast.vue';
@@ -98,7 +94,6 @@ const { mapGetters } = createNamespacedHelpers('home');
 export default {
   name: 'VPersonal',
   components: {
-    // VHeader,
     VUserSearchResults,
     // VUserRecipe,
     // VUploadRecipe,
@@ -266,6 +261,7 @@ export default {
           : vm.resultsContainerLeftCoord;
       }, 1);
     });
+    document.title = 'Epicurist – My Recipes';
   },
 };
 </script>

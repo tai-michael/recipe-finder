@@ -350,6 +350,7 @@ export default {
         // console.log(vm.$root.$children[0].$children[0].$refs.searchResults);
       }, 1);
     });
+    document.title = 'Epicurist – Database';
   },
 };
 </script>

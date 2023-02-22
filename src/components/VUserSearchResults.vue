@@ -124,8 +124,8 @@ export default {
   },
 
   // methods: {
-  //   renderRecipe() {
-  //     this.$store.dispatch('renderRecipe');
+  //   renderUserRecipe() {
+  //     this.$store.dispatch('renderUserRecipe');
   //   },
   // },
 };

@@ -143,90 +143,71 @@ export default {
   },
 
   methods: {
-    // ...mapMutations({
-    //   setStoredBookmarks: 'SET_STORED_BOOKMARKS',
-    //   toggleUploadRecipeView: 'TOGGLE_UPLOAD_USER_RECIPE_VIEW',
-    // }),
+    // async init() {
+    //   try {
+    //     // NOTE executes a search if query is manually changed in the address bar
+    //     if (
+    //       this.$route.query.query &&
+    //       this.$route.query.query !== sessionStorage.getItem('databaseQuery')
+    //     ) {
+    //       this.$router
+    //         .push({
+    //           query: {
+    //             query: this.$route.query.query,
+    //             page: 1,
+    //           },
+    //         })
+    //         .catch(() => {});
 
-    // TODO complete this, and add v-if to above (e.g. v-if !loading spinner), then clone the recipe in created(), etc., like before. Alternatively, try v-if userFetched or something in VRecipes. Final, probably best method: revert to original way of rendering recipe in VHome, then use getters, create variables that get data from these getters, and manipulate (toggleServings or whatever) only on this data. This should work, as it'd mean the original data is not actually touched (aside from when bookmarking it)
-    // if (this.$route.query.id) TOGGLE RECIPE SPINNER
+    //       this.$store.dispatch('home/searchRecipes', {
+    //         query: this.$route.query.query,
+    //         page: 1,
+    //         reloadingPage: true,
+    //       });
+    //     }
 
-    async init() {
-      try {
-        this.$store.commit('home/TOGGLE_BOOKMARKS_SPINNER', true);
+    //     // if (this.$route.query.query) {
+    //     //   // NOTE delete router push below if we want to retain the page number instead of resetting to page 1
+    //     //   this.$router
+    //     //     .push({
+    //     //       query: {
+    //     //         query: this.$route.query.query,
+    //     //         page: 1,
+    //     //       },
+    //     //     })
+    //     //     .catch(() => {});
 
-        // NOTE await is necessary for these, otherwise the user recipes and bookmarks won't display
-        await this.$store.dispatch('auth/fetchUser', null, { root: true });
-        if (this.loggedIn) {
-          await this.$store.dispatch('home/fetchBookmarks');
-          // NOTE allows persistent selection of user recipe once user tabs over
-          if (this.$route.query.userRecipeId)
-            this.$store.dispatch('home/fetchUserRecipes');
-        }
+    //     //   this.$store.dispatch('home/searchRecipes', {
+    //     //     query: this.$route.query.query,
+    //     //     page: 1,
+    //     //     // NOTE uncomment to retain page number instead of resetting to page 1
+    //     //     // page: this.$route.query.page,
+    //     //     reloadingPage: true,
+    //     //   });
+    //     // }
+    //     // REVIEW consider relocating the query if-statement above to VSearchResults
 
-        // NOTE executes a search if query is manually changed in the address bar
-        if (
-          this.$route.query.query &&
-          this.$route.query.query !== sessionStorage.getItem('databaseQuery')
-        ) {
-          this.$router
-            .push({
-              query: {
-                query: this.$route.query.query,
-                page: 1,
-              },
-            })
-            .catch(() => {});
+    //     if (this.$route.query.id)
+    //       this.$store.dispatch('home/renderRecipe', {
+    //         id: this.$route.query.id,
+    //       });
 
-          this.$store.dispatch('home/searchRecipes', {
-            query: this.$route.query.query,
-            page: 1,
-            reloadingPage: true,
-          });
-        }
+    //     // NOTE uncomment below to keep scroll position for recipe container upon reloading
+    //     // setTimeout(() => {
+    //     //   window.scrollTo({
+    //     //     top: this.topCoord,
+    //     //     left: this.leftCoord,
+    //     //     behavior: 'instant',
+    //     //   });
+    //     // }, 1);
 
-        // if (this.$route.query.query) {
-        //   // NOTE delete router push below if we want to retain the page number instead of resetting to page 1
-        //   this.$router
-        //     .push({
-        //       query: {
-        //         query: this.$route.query.query,
-        //         page: 1,
-        //       },
-        //     })
-        //     .catch(() => {});
+    //     console.log('home init done');
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // },
 
-        //   this.$store.dispatch('home/searchRecipes', {
-        //     query: this.$route.query.query,
-        //     page: 1,
-        //     // NOTE uncomment to retain page number instead of resetting to page 1
-        //     // page: this.$route.query.page,
-        //     reloadingPage: true,
-        //   });
-        // }
-        // REVIEW consider relocating the query if-statement above to VSearchResults
-
-        if (this.$route.query.id)
-          this.$store.dispatch('home/renderRecipe', {
-            id: this.$route.query.id,
-          });
-
-        // NOTE uncomment below to keep scroll position for recipe container upon reloading
-        // setTimeout(() => {
-        //   window.scrollTo({
-        //     top: this.topCoord,
-        //     left: this.leftCoord,
-        //     behavior: 'instant',
-        //   });
-        // }, 1);
-
-        console.log('home init done');
-      } catch (err) {
-        console.log(err);
-      }
-    },
-
-    // NOTE persists the coordinates for the recipe and search results containers for page reloads
+    // NOTE persists the coordinates for the recipe and search results containers for page reloads while route is in home/database
     saveDetailsToSessionStorage() {
       // NOTE uncomment below to allow persistent scroll position for recipe container
       // sessionStorage.setItem(
@@ -276,7 +257,7 @@ export default {
     // if (storage) this.setStoredBookmarks(JSON.parse(storage));
     // console.log('VHome created');
     window.addEventListener('beforeunload', this.saveDetailsToSessionStorage);
-    this.init();
+    // this.init();
   },
   mounted() {
     // console.log('VHome mounted');
@@ -303,6 +284,15 @@ export default {
     this.searchResultsContainerTopCoord = searchResultsContainer.scrollTop;
     this.searchResultsContainerLeftCoord = searchResultsContainer.scrollLeft;
     next();
+
+    sessionStorage.setItem(
+      'databaseSearchResultsTopCoord',
+      searchResultsContainer.scrollTop
+    );
+    sessionStorage.setItem(
+      'databaseSearchResultsLeftCoord',
+      searchResultsContainer.scrollLeft
+    );
   },
 
   // NOTE The 'vm' callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'. 'vm' refers to 'this'.

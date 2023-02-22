@@ -133,35 +133,23 @@ export default {
     // },
   },
   methods: {
-    async init() {
-      try {
-        this.$store.commit('home/TOGGLE_USER_RECIPES_SPINNER', true);
-        this.$store.commit('home/TOGGLE_RECIPE_SPINNER', true);
-        this.$store.commit('home/TOGGLE_BOOKMARKS_SPINNER', true);
+    // async init() {
+    //   try {
+    //     if (this.$route.query.userRecipeQuery)
+    //       this.$store.dispatch('home/searchUserRecipes', {
+    //         query: this.$route.query.userRecipeQuery,
+    //         page: this.$route.query.userRecipeQueryPage,
+    //         reloadingPage: true,
+    //       });
 
-        // NOTE await is necessary for these, otherwise the user recipes and bookmarks won't display
-        await this.$store.dispatch('auth/fetchUser', null, { root: true });
-        if (this.loggedIn) {
-          this.$store.dispatch('home/fetchBookmarks');
-          await this.$store.dispatch('home/fetchUserRecipes');
-        }
-        this.$store.commit('home/TOGGLE_USER_RECIPES_SPINNER', false);
-
-        if (this.$route.query.userRecipeQuery)
-          this.$store.dispatch('home/searchUserRecipes', {
-            query: this.$route.query.userRecipeQuery,
-            page: this.$route.query.userRecipeQueryPage,
-            reloadingPage: true,
-          });
-
-        if (this.$route.query.userRecipeId)
-          this.$store.dispatch('home/renderRecipe', {
-            id: this.$route.query.userRecipeId,
-          });
-      } catch (err) {
-        console.log(err);
-      }
-    },
+    //     if (this.$route.query.userRecipeId)
+    //       this.$store.dispatch('home/renderUserRecipe', {
+    //         id: this.$route.query.userRecipeId,
+    //       });
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // },
 
     uploadUserRecipe() {
       this.$refs.userRecipesDropdown.$el.classList.remove('show');
@@ -192,7 +180,7 @@ export default {
     // const storage = localStorage.getItem('bookmarks');
     // if (storage) this.setStoredBookmarks(JSON.parse(storage));
     // console.log('VPersonal created');
-    this.init();
+    // this.init();
   },
   mounted() {
     // console.log('VPersonal mounted');

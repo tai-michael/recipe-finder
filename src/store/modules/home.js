@@ -11,6 +11,7 @@ import {
   arrayRemove,
 } from 'firebase/firestore';
 import { db } from '@/firebaseInit';
+import uniqid from 'uniqid';
 // import { TIMEOUT_SEC } from '@/common/config.js';
 // import { timeout } from '@/common/helpers.js';
 
@@ -109,6 +110,7 @@ export default {
         'searchResults',
         JSON.stringify(state.search.results)
       );
+      sessionStorage.setItem('databasePageNum', state.search.page);
     },
 
     TOGGLE_SEARCH_SUBMITTED(state, boolean) {
@@ -164,7 +166,7 @@ export default {
         })
         .catch(() => {});
 
-      sessionStorage.setItem('databaseQuery', state.search.page);
+      sessionStorage.setItem('databasePageNum', state.search.page);
     },
 
     SET_SEARCH_CONTAINER_SCROLL_POSITION(state) {
@@ -639,44 +641,35 @@ export default {
         // commit('SHOW_RENDER_RECIPE_ERROR_MESSAGE', null);
         commit('TOGGLE_RECIPE_SPINNER', true);
 
-        const [userRecipe] = state.userRecipes.filter(
-          recipe => recipe.id === id
-        );
-        if (userRecipe)
-          commit('CREATE_USER_RECIPE_OBJECT', {
-            data: userRecipe,
-          });
-        // NOTE the if statement below is necessary, because after you delete a recipe the page will automatically reload and this action would do an API call b/c the recipe is no longer a userRecipe
-        else if (router.app._route.name === 'home') {
-          if (Object.keys(state.search.results).length) {
-            const existingRecipe = state.search.results.filter(recipe =>
-              recipe.uri.includes(id)
-            )[0];
-            if (existingRecipe) {
-              commit('CREATE_RECIPE_OBJECT', {
-                data: existingRecipe,
-              });
-            } else {
-              const res = await axios.get(
-                `${API_URL}/${id}?type=public&app_id=${ID}&app_key=${KEY}`
-              );
-              console.log('API call for individual recipe');
-              commit('CREATE_RECIPE_OBJECT', {
-                data: res.data.recipe,
-              });
-            }
-            // console.log(existingRecipe);
+        if (Object.keys(state.search.results).length) {
+          const existingRecipe = state.search.results.filter(recipe =>
+            recipe.uri.includes(id)
+          )[0];
+          if (existingRecipe) {
+            commit('CREATE_RECIPE_OBJECT', {
+              data: existingRecipe,
+            });
           } else {
             const res = await axios.get(
               `${API_URL}/${id}?type=public&app_id=${ID}&app_key=${KEY}`
             );
             console.log('API call for individual recipe');
-            // console.log(res);
             commit('CREATE_RECIPE_OBJECT', {
               data: res.data.recipe,
             });
           }
+          // console.log(existingRecipe);
+        } else {
+          const res = await axios.get(
+            `${API_URL}/${id}?type=public&app_id=${ID}&app_key=${KEY}`
+          );
+          console.log('API call for individual recipe');
+          // console.log(res);
+          commit('CREATE_RECIPE_OBJECT', {
+            data: res.data.recipe,
+          });
         }
+
         // console.log(state.recipe);
         commit('TOGGLE_RECIPE_SPINNER', false);
       } catch (err) {
@@ -710,32 +703,78 @@ export default {
       }
     },
 
-    async fetchUserRecipes({ commit, rootState }) {
+    async renderUserRecipe({ commit, state }, { id }) {
       try {
-        // console.log(rootState);
-
+        console.log('rendering user recipe');
+        // commit('SHOW_RENDER_RECIPE_ERROR_MESSAGE', null);
         commit('TOGGLE_RECIPE_SPINNER', true);
-        const docRef = doc(db, 'users', rootState.auth.user.uid);
-        const docSnap = await getDoc(docRef);
 
-        // NOTE async test timer
-        // const setTimeoutPromise = timeout => {
-        //   return new Promise(resolve => setTimeout(resolve, timeout));
-        // };
-        // await setTimeoutPromise(2000);
-        // console.log('done');
+        const [userRecipe] = state.userRecipes.filter(
+          recipe => recipe.id === id
+        );
+        if (userRecipe)
+          commit('CREATE_USER_RECIPE_OBJECT', {
+            data: userRecipe,
+          });
 
-        commit('SET_USER_RECIPES', docSnap.data().uploadedRecipes);
+        // console.log(state.recipe);
         commit('TOGGLE_RECIPE_SPINNER', false);
-
-        // NOTE Fetching an entire collection (e.g. all users, instead of a single user)
-        // const querySnapshot = await getDocs(collection(db, 'users'));
-        // const userRecipes = querySnapshot.docs.map(doc => doc.data());
       } catch (err) {
-        console.error(`Failed to get user recipes from server: ${err}`);
+        console.log(err);
+        // console.error(`Error loading recipe: ${err}`);
+        // TODO improve and streamline the error handling process
+        if (err.response.status === 400 || err.response.status === 404)
+          commit(
+            'SHOW_RENDER_RECIPE_ERROR_MESSAGE',
+            "This recipe isn't available"
+          );
+        // else if (err.response.status === 429)
+        //   commit(
+        //     'SHOW_RENDER_RECIPE_ERROR_MESSAGE',
+        //     'You have sent too many requests for recipes. Please try again later.'
+        //   );
+        // REVIEW can add more messages for other types of errors
+        // TODO test below
+        else if (!err.status) {
+          commit(
+            'SHOW_RENDER_RECIPE_ERROR_MESSAGE',
+            'There was a network connection problem. Please reload the page or check your connection.'
+          );
+        } else {
+          commit(
+            'SHOW_RENDER_RECIPE_ERROR_MESSAGE',
+            'Oops! Something went wrong. Please try reloading the page.'
+          );
+        }
         commit('TOGGLE_RECIPE_SPINNER', false);
       }
     },
+    // async fetchUserRecipes({ commit, rootState }) {
+    //   try {
+    //     // console.log(rootState);
+
+    //     commit('TOGGLE_RECIPE_SPINNER', true);
+    //     const docRef = doc(db, 'users', rootState.auth.user.uid);
+    //     const docSnap = await getDoc(docRef);
+
+    //     // NOTE async test timer
+    //     // const setTimeoutPromise = timeout => {
+    //     //   return new Promise(resolve => setTimeout(resolve, timeout));
+    //     // };
+    //     // await setTimeoutPromise(2000);
+    //     // console.log('done');
+
+    //     commit('SET_USER_RECIPES', docSnap.data().uploadedRecipes);
+    //     commit('TOGGLE_RECIPE_SPINNER', false);
+
+    //     // NOTE Fetching an entire collection (e.g. all users, instead of a single user)
+    //     // const querySnapshot = await getDocs(collection(db, 'users'));
+    //     // const userRecipes = querySnapshot.docs.map(doc => doc.data());
+    //   } catch (err) {
+    //     console.error(`Failed to get user recipes from server: ${err}`);
+    //     commit('TOGGLE_RECIPE_SPINNER', false);
+    //   }
+    // },
 
     async uploadUserRecipe({ commit, rootState, state }, { recipe, id }) {
       commit('TOGGLE_UPLOAD_SPINNER', true);
@@ -814,7 +853,7 @@ export default {
 
         commit('EDIT_USER_RECIPE', recipe);
 
-        dispatch('renderRecipe', {
+        dispatch('renderUserRecipe', {
           id: router.app._route.query.userRecipeId,
         });
 
@@ -860,16 +899,90 @@ export default {
       }
     },
 
-    async fetchBookmarks({ commit, rootState }) {
+    async uploadExampleUserRecipe({ commit, rootState, state }) {
+      try {
+        const exampleUserRecipe = {
+          id: uniqid(),
+          user_generated: true,
+          date_created: Date.now(),
+          bookmarked: false,
+          title: 'Example Recipe',
+          publisher: 'Closet Cooking',
+          source_url:
+            'https://www.closetcooking.com/chicken-fajita-grilled-cheese/',
+          image_url:
+            'https://images.unsplash.com/photo-1528736235302-52922df5c122?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8R3JpbGxlZCUyMENoZWVzZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60',
+          servings: 1,
+          cooking_time: 40,
+          ingredients: [
+            {
+              quantity: 1,
+              unit: 'tablespoon',
+              description: 'butter',
+              id: uniqid(),
+            },
+            { quantity: 2, unit: 'slices', description: 'bread', id: uniqid() },
+            {
+              quantity: 1,
+              unit: 'slice',
+              description: 'cheddar cheese',
+              id: uniqid(),
+            },
+            {
+              quantity: 1,
+              unit: 'slice',
+              description: 'monterey jack cheese',
+              id: uniqid(),
+            },
+            {
+              quantity: 0.5,
+              unit: 'cup',
+              description: 'chicken fajitas',
+              id: uniqid(),
+            },
+          ],
+        };
+
+        const docRef = doc(db, 'users', rootState.auth.user.uid);
+
+        await updateDoc(docRef, {
+          uploadedRecipes: arrayUnion(exampleUserRecipe),
+        });
+
+        commit('ADD_USER_RECIPE', exampleUserRecipe);
+
+        commit('CREATE_USER_RECIPE_SEARCH_RESULTS', {
+          results: state.userRecipes,
+          page: 1,
+        });
+      } catch (err) {
+        console.log(err);
+
+        return commit(
+          'SET_UPLOAD_MESSAGE',
+          'There was a problem uploading the example recipe'
+        );
+
+        // TODO prob need to add something that saves the draft (client-side, maybe as a cookie?), so that they don't lose everything by accident
+        // throw err;
+      }
+    },
+
+    async fetchUserBookmarksAndRecipes({ commit, rootState }) {
       try {
         // REVIEW probably unnecessary to have below
         commit('TOGGLE_BOOKMARKS_SPINNER', true);
         const docRef = doc(db, 'users', rootState.auth.user.uid);
         const docSnap = await getDoc(docRef);
+        console.log(docSnap.data());
         commit('SET_STORED_BOOKMARKS', docSnap.data().bookmarks);
+        commit('SET_USER_RECIPES', docSnap.data().uploadedRecipes);
         commit('TOGGLE_BOOKMARKS_SPINNER', false);
+        console.log('Fetched user bookmarks & recipes');
       } catch (err) {
-        console.error(`Failed to get user recipes from server: ${err}`);
+        console.error(
+          `Failed to get user bookmarks and/or recipes from server: ${err}`
+        );
         commit('TOGGLE_BOOKMARKS_SPINNER', false);
       }
     },

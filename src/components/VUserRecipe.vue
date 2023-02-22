@@ -76,7 +76,7 @@
             <span class="recipe__info-data recipe__info-data--people">{{
               recipe.servings
             }}</span>
-            <span>servings</span>
+            <span>{{ recipe.servings > 1 ? 'servings' : 'serving' }}</span>
 
             <div class="recipe__info-buttons">
               <button
@@ -205,7 +205,7 @@ export default {
     '$route.query.userRecipeId'(newValue) {
       // TODO  This if-statement prevents rendering a recipe if user is simply uploading one. It's a band-aid fix for not being able to remove the userRecipeId query param.
       if (newValue && newValue !== 'draft')
-        this.$store.dispatch('home/renderRecipe', {
+        this.$store.dispatch('home/renderUserRecipe', {
           id: newValue,
         });
     },
@@ -261,13 +261,13 @@ export default {
 
     // TODO move this to either App.vue, VHome.vue, upon login, or upon user state change.
     // Concerns: if I put this in App, it would render the recipe even if I begin in another tab, thereby using resources and slowing things down. Or maybe that doesn't matter?
-    // I could try to avoid the above issue by putting the function in Home, but I would also need to fetch user and fetch user recipes if I begin in another tab. So perhaps App is where I fetchUser and fetchUserRecipes. Home is where I render the recipe, user recipes tab is where I do something else. This separation makes sense, but how do I ensure that renderRecipe is only dispatched after fetchUser and fetchUserRecipes? Does it go by order automatically, since App is the base level? Could try to experiment.
+    // I could try to avoid the above issue by putting the function in Home, but I would also need to fetch user and fetch user recipes if I begin in another tab. So perhaps App is where I fetchUser and fetchUserRecipes. Home is where I render the recipe, user recipes tab is where I do something else. This separation makes sense, but how do I ensure that renderUserRecipe is only dispatched after fetchUser and fetchUserRecipes? Does it go by order automatically, since App is the base level? Could try to experiment.
 
     // TODO probably put this in RecipePreview and make it execute upon clicking a preview. Though perhaps also leave it in mounted() below in case of reloading or pasting in a recipe URL.
     // async renderNewRecipe() {
     //   try {
     //     window.addEventListener('hashchange', async () => {
-    //       await this.$store.dispatch('home/renderRecipe', {
+    //       await this.$store.dispatch('home/renderUserRecipe', {
     //         id: this.$route.hash.slice(1),
     //       });
     //     });
@@ -287,7 +287,7 @@ export default {
     // });
     // NOTE if you reload from edit or upload view, the action below allows for the correct recipe to render after its preview is clicked (because recipe view is not created after you reload)
     if (this.$route.query.userRecipeId)
-      this.$store.dispatch('home/renderRecipe', {
+      this.$store.dispatch('home/renderUserRecipe', {
         id: this.$route.query.userRecipeId,
       });
   },

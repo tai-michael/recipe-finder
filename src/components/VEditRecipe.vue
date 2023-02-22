@@ -185,7 +185,7 @@
           <div class="col">
             <div class="form-floating recipe-field">
               <input
-                v-model.trim="formData.servings"
+                v-model.trim.number="formData.servings"
                 min="1"
                 oninput="this.value = Math.abs(this.value) > 0 ? Math.abs(this.value) : null"
                 @blur="$v.formData.servings.$touch"

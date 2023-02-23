@@ -944,7 +944,6 @@ export default {
         };
 
         const docRef = doc(db, 'users', rootState.auth.user.uid);
-
         await updateDoc(docRef, {
           uploadedRecipes: arrayUnion(exampleUserRecipe),
         });

@@ -488,9 +488,11 @@ export default {
       outline: none;
     }
 
-    &:hover {
-      background-color: rgb(247, 247, 247);
-      // border-bottom: 2px solid rgb(38, 81, 143);
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgb(247, 247, 247);
+        // border-bottom: 2px solid rgb(38, 81, 143);
+      }
     }
 
     @media all and (max-width: 648px) {
@@ -516,8 +518,11 @@ export default {
     outline: none;
     box-shadow: none;
   }
-  &:hover {
-    background-color: $color-grey-light-2;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: $color-grey-light-2;
+    }
   }
 }
 

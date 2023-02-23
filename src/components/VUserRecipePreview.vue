@@ -169,10 +169,12 @@ export default {
       text-decoration: none;
     }
 
-    &:hover {
-      background-color: #efeff2;
-      // transform: translateY(-2px);
-      border-radius: 16px;
+    @media (hover: hover) {
+      &:hover {
+        background-color: #efeff2;
+        // transform: translateY(-2px);
+        border-radius: 16px;
+      }
     }
 
     &--active {

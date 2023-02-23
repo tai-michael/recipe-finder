@@ -210,10 +210,12 @@ export default {
       text-decoration: none;
     }
 
-    &:hover {
-      background-color: #efeff2;
-      // transform: translateY(-2px);
-      border-radius: 16px;
+    @media (hover: hover) {
+      &:hover {
+        background-color: #efeff2;
+        // transform: translateY(-2px);
+        border-radius: 16px;
+      }
     }
 
     &--active {
@@ -223,8 +225,10 @@ export default {
 
     &--image-error {
       padding: 1rem 1.5rem !important;
-      &:hover {
-        border-radius: 0;
+      @media (hover: hover) {
+        &:hover {
+          border-radius: 0;
+        }
       }
     }
   }

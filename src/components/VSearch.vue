@@ -10,7 +10,7 @@
     <input
       type="search"
       class="form-control"
-      placeholder="Search our database of 2.3 million recipes"
+      placeholder="Search our database of 2.3m recipes"
       v-model="query"
     />
   </form>

@@ -754,10 +754,12 @@ export default {
     align-items: center;
     justify-content: center;
 
-    &:hover {
-      // transform: scale(1.07);
-      svg {
-        fill: rgb(172, 23, 28);
+    @media (hover: hover) {
+      &:hover {
+        // transform: scale(1.07);
+        svg {
+          fill: rgb(172, 23, 28);
+        }
       }
     }
 

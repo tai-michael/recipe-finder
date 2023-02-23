@@ -60,7 +60,7 @@ export default {
   },
 
   actions: {
-    async register({ commit }, details) {
+    async register({ commit, dispatch }, details) {
       commit('TOGGLE_AUTH_SPINNER', true);
       const { email, password } = details;
 
@@ -86,6 +86,7 @@ export default {
           location.reload();
         }, 1500);
         commit('SET_USER', auth.currentUser);
+        dispatch('home/uploadExampleUserRecipe', null, { root: true });
       } catch (error) {
         commit('TOGGLE_AUTH_SPINNER', false);
         if (error.code === 'auth/email-already-in-use')
@@ -179,11 +180,6 @@ export default {
           commit('CLEAR_USER');
         } else {
           commit('SET_USER', user);
-          // Checks whether user is logging in for the first time
-          if (user.metadata.creationTime === user.metadata.lastSignInTime) {
-            console.log('User is logging in for the first time');
-            // TODO emit an event or send something, perhaps a watcher or whatever to VPersonal and have it upload the example recipe. Reason being the user needs to be logged into firebase first before we can send the recipe to the backend. Or change a computed value and have App call the action in initUserRecipes with a firstTimeLogin conditional.
-          }
 
           // // NOTE: isReady() is Vue 3 version of Vue 2's onReady
           // if (

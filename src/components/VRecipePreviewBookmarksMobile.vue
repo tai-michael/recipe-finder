@@ -176,9 +176,11 @@ export default {
       text-decoration: none;
     }
 
-    &:hover {
-      background-color: #efeff2;
-      // margin: 0.25rem;
+    @media (hover: hover) {
+      &:hover {
+        background-color: #efeff2;
+        // margin: 0.25rem;
+      }
     }
 
     &--active {

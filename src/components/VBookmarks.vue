@@ -91,9 +91,11 @@ export default {
       outline: none;
     }
 
-    &:hover {
-      background-color: rgb(247, 247, 247);
-      // border-bottom: 2px solid rgb(38, 81, 143);
+    @media (hover: hover) {
+      &:hover {
+        background-color: rgb(247, 247, 247);
+        // border-bottom: 2px solid rgb(38, 81, 143);
+      }
     }
   }
 
@@ -138,15 +140,19 @@ export default {
     height: 100%;
     transition: all 0.01s;
 
-    &:hover {
-      background-color: $color-grey-light-2;
+    @media (hover: hover) {
+      &:hover {
+        background-color: $color-grey-light-2;
+      }
     }
   }
 
-  &:hover,
-  .nav__btn--bookmarks:hover + & {
-    visibility: visible;
-    opacity: 1;
+  @media (hover: hover) {
+    &:hover,
+    .nav__btn--bookmarks:hover + & {
+      visibility: visible;
+      opacity: 1;
+    }
   }
 }
 

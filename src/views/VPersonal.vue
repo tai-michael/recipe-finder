@@ -319,8 +319,10 @@ html {
     outline: none;
     box-shadow: none;
   }
-  &:hover {
-    background-color: $color-grey-light-2;
+  @media (hover: hover) {
+    &:hover {
+      background-color: $color-grey-light-2;
+    }
   }
 }
 

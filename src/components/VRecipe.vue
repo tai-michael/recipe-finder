@@ -479,8 +479,10 @@ export default {
     }
   }
 
-  &:hover {
-    background-color: rgb(230, 230, 230);
+  @media (hover: hover) {
+    &:hover {
+      background-color: rgb(230, 230, 230);
+    }
   }
 
   @media only screen and (max-width: 767px) {

@@ -9,8 +9,10 @@
   align-items: center;
   transition: all 0.2s;
 
-  &:hover {
-    transform: scale(1.05);
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   &:focus {
@@ -80,9 +82,11 @@
     margin: 0 0.4rem;
   }
 
-  &:hover {
-    color: $color-grad-2;
-    background-color: $color-grey-light-2;
+  @media (hover: hover) {
+    &:hover {
+      color: $color-grad-2;
+      background-color: $color-grey-light-2;
+    }
   }
 
   &:focus {
@@ -104,8 +108,10 @@
   align-items: center;
   justify-content: center;
 
-  &:hover {
-    transform: scale(1.07);
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.07);
+    }
   }
 
   &:focus {
@@ -137,9 +143,11 @@
     outline: none;
   }
 
-  &:hover svg {
-    fill: $color-grad-2;
-    transform: translateY(-1px);
+  @media (hover: hover) {
+    &:hover svg {
+      fill: $color-grad-2;
+      transform: translateY(-1px);
+    }
   }
 
   &:active svg {

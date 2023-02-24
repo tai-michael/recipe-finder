@@ -68,6 +68,8 @@ export default {
 .form-control {
   text-overflow: ellipsis;
   font-weight: 500;
+  // NOTE disables touch scrolling and zooming; needed for browsing on iPhone, which automatically zooms
+  touch-action: manipulation;
 }
 
 .search {

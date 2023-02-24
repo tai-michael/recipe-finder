@@ -39,7 +39,7 @@
               <!-- <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg> -->
-              <span>My Recipes</span>
+              <span>My Cookbook</span>
             </button>
             <router-link
               v-else
@@ -52,7 +52,7 @@
               <!-- <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg> -->
-              <span>My Recipes</span>
+              <span>My Cookbook</span>
             </router-link>
           </li>
 
@@ -203,7 +203,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg>
-            <span class="nav_label">My Recipes</span>
+            <span class="nav_label">My Cookbook</span>
           </button>
           <router-link
             v-else
@@ -220,7 +220,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg>
-            <span class="nav_label">My Recipes</span>
+            <span class="nav_label">My Cookbook</span>
           </router-link>
         </li>
         <!-- <li class="nav__item">
@@ -273,7 +273,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg>
-            <span class="nav_label">My Recipes</span>
+            <span class="nav_label">My Cookbook</span>
           </button>
         </li> -->
 

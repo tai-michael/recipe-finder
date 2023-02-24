@@ -46,7 +46,16 @@
                     <use :href="`${icons}#icon-smile`"></use>
                   </svg>
                 </div>
-                <p>Start by searching for a recipe or an ingredient.</p>
+                <div>
+                  <p class="mb-5">
+                    Start by searching for a recipe or an ingredient.
+                  </p>
+                  <p>
+                    Or, create your own recipes by
+                    {{ `${mobileView ? 'pressing' : 'clicking'}` }} 'My
+                    Cookbook'.
+                  </p>
+                </div>
               </div>
               <div v-else-if="renderRecipeError" class="message">
                 <p>{{ renderRecipeError }}</p>
@@ -318,7 +327,7 @@ export default {
           }
         );
 
-        // NOTE search results are expanded by default, so need this to ensure they're collapsed if user previously collapsed them before switching to 'My Recipes' tab
+        // NOTE search results are expanded by default, so need this to ensure they're collapsed if user previously collapsed them before switching to 'My Cookbook' tab
         if (!vm.searchResultsExpanded)
           vm.$root.$children[0].$children[0].$refs.searchResults.$el.classList.remove(
             'show'

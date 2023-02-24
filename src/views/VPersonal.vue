@@ -249,7 +249,7 @@ export default {
           : vm.resultsContainerLeftCoord;
       }, 1);
     });
-    document.title = 'Epicurist – My Recipes';
+    document.title = 'Epicurist – My Cookbook';
   },
 };
 </script>

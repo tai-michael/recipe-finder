@@ -96,7 +96,7 @@
           <p>{{ authMessage }}</p>
         </div>
         <p class="bottom-text">
-          New to Recipe Finder?
+          New to Epicurist?
           <a href="" @click.prevent="switchToRegisterModal" class="bottom-link">
             SIGN UP
           </a>

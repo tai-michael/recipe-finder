@@ -147,21 +147,18 @@ export default {
   name: 'VUserRecipe',
   data() {
     return {
-      // icons: '@/assets/images/icons.svg',
       icons: require('@/assets/images/icons.svg'),
       placeholder: require('@/assets/images/placeholder.jpg'),
       image_error: require('@/assets/images/image_error.jpg'),
       imageLoading: true,
       fracty,
       recipe: {},
-      // REVIEW Instead of below, could get the value from init. Or, I could also use something like v-if="this.$router.currentRoute.value.path === '/login'". However, this would require that my url changes when I do a search (currently it doesn't).
-      // existingRecipe: this.$route.params.id,
     };
   },
   watch: {
-    '$route.query.userRecipeId'(newValue) {
-      // TODO  This if-statement prevents rendering a recipe if user is simply uploading one. It's a band-aid fix for not being able to remove the userRecipeId query param.
-      if (newValue && newValue !== 'draft') this.renderAndCloneRecipe(newValue);
+    stateRecipe() {
+      console.log('child component watcher triggered');
+      this.recipe = _.cloneDeep(this.stateRecipe);
     },
     'recipe.image_url': function () {
       this.imageLoading = true;
@@ -179,10 +176,6 @@ export default {
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
     },
-    // validRecipe() {
-    //   if (Object.keys(this.recipe).length) return true;
-    //   return false;
-    // },
   },
   methods: {
     // TODO delete the unused
@@ -220,38 +213,9 @@ export default {
     deleteUserRecipe() {
       this.$store.dispatch('home/deleteUserRecipe');
     },
-
-    // TODO move this to either App.vue, VHome.vue, upon login, or upon user state change.
-    // Concerns: if I put this in App, it would render the recipe even if I begin in another tab, thereby using resources and slowing things down. Or maybe that doesn't matter?
-    // I could try to avoid the above issue by putting the function in Home, but I would also need to fetch user and fetch user recipes if I begin in another tab. So perhaps App is where I fetchUser and fetchUserRecipes. Home is where I render the recipe, user recipes tab is where I do something else. This separation makes sense, but how do I ensure that renderUserRecipe is only dispatched after fetchUser and fetchUserRecipes? Does it go by order automatically, since App is the base level? Could try to experiment.
-
-    // TODO probably put this in RecipePreview and make it execute upon clicking a preview. Though perhaps also leave it in mounted() below in case of reloading or pasting in a recipe URL.
-    // async renderNewRecipe() {
-    //   try {
-    //     window.addEventListener('hashchange', async () => {
-    //       await this.$store.dispatch('home/renderUserRecipe', {
-    //         id: this.$route.hash.slice(1),
-    //       });
-    //     });
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // },
   },
   mounted() {
-    // this.init();
-    // this.renderNewRecipe();
-    // this.$store.dispatch('home/reloadSearchResults');
-    // document.addEventListener('visibilitychange', () => {
-    //   if (document.visibilityState === 'hidden') {
-    //     this.$store.dispatch('home/uploadBookmarks');
-    //   }
-    // });
-    // NOTE if you reload from edit or upload view, the action below allows for the correct recipe to render after its preview is clicked (because recipe view is not created after you reload)
-    // if (this.$route.query.userRecipeId) {
     this.recipe = _.cloneDeep(this.stateRecipe);
-    //   console.log(this.recipe);
-    // }
   },
 };
 </script>
@@ -336,34 +300,6 @@ export default {
   }
 }
 
-// NOTE no need because of v-if
-// .hidden {
-//   visibility: hidden;
-//   opacity: 0;
-// }
-
-.message {
-  justify-content: center;
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 5rem 4rem;
-  display: flex;
-
-  svg {
-    height: 3rem;
-    width: 3rem;
-    // fill: $color-primary;
-    transform: translateY(-0.3rem);
-  }
-
-  p {
-    margin-left: 1.5rem;
-    font-size: 1.8rem;
-    line-height: 1.5;
-    font-weight: 600;
-  }
-}
-
 .recipe {
   background-color: white;
   // max-width: 984px;
@@ -402,8 +338,7 @@ export default {
     }
   }
 
-  ///////////
-  // DETAILS
+  // NOTE DETAILS
   &__details {
     display: flex;
     // align-items: center;
@@ -509,8 +444,7 @@ export default {
     }
   }
 
-  ///////////
-  // INGREDIENTS
+  // NOTE INGREDIENTS
   &__ingredients {
     padding: 5rem 4rem;
     margin-bottom: 2rem;
@@ -564,8 +498,7 @@ export default {
     flex: 0 0 auto;
   }
 
-  ///////////
-  // DIRECTIONS
+  // NOTE DIRECTIONS
   &__directions {
     padding: 5rem 18rem;
     padding-bottom: 5rem;

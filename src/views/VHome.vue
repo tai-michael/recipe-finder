@@ -17,7 +17,7 @@
               <!-- <VLoadingSpinner v-if="loadingRecipe" /> -->
               <div
                 v-if="
-                  (!$route.query.id && $route.query.query) ||
+                  (!$route.query.id && $route.query.query && searchResults) ||
                   ($route.query.id &&
                     $route.query.query &&
                     !Object.keys(recipe).length)
@@ -391,10 +391,16 @@ html {
 
 .message {
   max-width: 40rem;
-  margin: 0 auto;
-  padding: 5rem 4rem 0 4rem;
+  // margin: 0 auto;
+  margin-top: 1rem;
+  margin-left: 20rem;
+  padding: 5rem 4rem 2rem 4rem;
 
   display: flex;
+
+  @media all and (max-width: 900px) {
+    margin: 1rem auto 0;
+  }
 
   svg {
     height: 3rem;
@@ -419,8 +425,6 @@ html {
 
 // TODO add new classes and change names to them here
 .search-results {
-  min-width: 260px;
-  // max-width: 365px;
   padding-right: 1.5rem;
   // margin-bottom: 2rem;
   margin-right: 1rem;

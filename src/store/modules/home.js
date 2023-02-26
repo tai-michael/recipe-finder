@@ -719,7 +719,6 @@ export default {
 
         // console.log(state.recipe);
         commit('TOGGLE_RECIPE_SPINNER', false);
-        console.log('done');
       } catch (err) {
         console.log(err);
         // console.error(`Error loading recipe: ${err}`);

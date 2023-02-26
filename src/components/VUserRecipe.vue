@@ -1,48 +1,6 @@
 <template>
   <div class="recipe">
-    <VLoadingSpinner v-if="loadingRecipe" />
-
-    <div v-else-if="!Object.keys(userRecipes).length" class="message">
-      <div>
-        <svg>
-          <use :href="`${icons}#icon-smile`"></use>
-        </svg>
-      </div>
-      <p>Start by adding a recipe.</p>
-    </div>
-
-    <div
-      v-else-if="
-        (!$route.query.userRecipeId &&
-          !$route.query.userRecipeQuery &&
-          Object.keys(userRecipes).length) ||
-        ($route.query.userRecipeQuery &&
-          !$route.query.userRecipeId &&
-          Object.keys(searchResultsDisplay).length)
-      "
-      class="message"
-    >
-      <div>
-        <svg>
-          <use :href="`${icons}#icon-smile`"></use>
-        </svg>
-      </div>
-      <p>Click on or add a recipe.</p>
-    </div>
-
-    <div
-      v-else-if="
-        $route.query.userRecipeQuery &&
-        !$route.query.userRecipeId &&
-        !Object.keys(searchResultsDisplay).length
-      "
-    ></div>
-
-    <div v-else-if="renderRecipeError" class="message">
-      <p>{{ renderRecipeError }}</p>
-    </div>
-
-    <div v-else>
+    <div>
       <img
         :src="imageLoading ? placeholder : recipe.image_url"
         @load="imageLoading = false"
@@ -180,15 +138,13 @@
 </template>
 
 <script>
-import VLoadingSpinner from './VLoadingSpinner.vue';
-// import VEditRecipe from '@/components/VEditRecipe.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters, mapMutations } = createNamespacedHelpers('home');
 import fracty from 'fracty';
+import _ from 'lodash';
 
 export default {
   name: 'VUserRecipe',
-  components: { VLoadingSpinner },
   data() {
     return {
       // icons: '@/assets/images/icons.svg',
@@ -197,6 +153,7 @@ export default {
       image_error: require('@/assets/images/image_error.jpg'),
       imageLoading: true,
       fracty,
+      recipe: {},
       // REVIEW Instead of below, could get the value from init. Or, I could also use something like v-if="this.$router.currentRoute.value.path === '/login'". However, this would require that my url changes when I do a search (currently it doesn't).
       // existingRecipe: this.$route.params.id,
     };
@@ -204,10 +161,7 @@ export default {
   watch: {
     '$route.query.userRecipeId'(newValue) {
       // TODO  This if-statement prevents rendering a recipe if user is simply uploading one. It's a band-aid fix for not being able to remove the userRecipeId query param.
-      if (newValue && newValue !== 'draft')
-        this.$store.dispatch('home/renderUserRecipe', {
-          id: newValue,
-        });
+      if (newValue && newValue !== 'draft') this.renderAndCloneRecipe(newValue);
     },
     'recipe.image_url': function () {
       this.imageLoading = true;
@@ -215,12 +169,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      recipe: 'userRecipe',
-      // recipeBookmarked: 'recipeBookmarked',
-      loadingRecipe: 'loadingRecipe',
-      renderRecipeError: 'renderRecipeError',
+      stateRecipe: 'userRecipe',
       userRecipes: 'userRecipes',
       searchResultsDisplay: 'userRecipeSearchResultsDisplay',
+      loadingRecipe: 'loadingRecipe',
+      renderRecipeError: 'renderRecipeError',
+      // recipeBookmarked: 'recipeBookmarked',
     }),
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
@@ -235,6 +189,14 @@ export default {
     ...mapMutations({
       toggleRegisterModal: 'TOGGLE_REGISTER_MODAL',
     }),
+    async renderAndCloneRecipe(value) {
+      await this.$store.dispatch('home/renderUserRecipe', {
+        id: value,
+      });
+
+      this.recipe = _.cloneDeep(this.stateRecipe);
+      console.log(this.recipe);
+    },
     ingQuantity(ingredient) {
       return ingredient.quantity ? fracty(ingredient.quantity).toString() : '';
     },
@@ -256,7 +218,7 @@ export default {
       this.$router.push({ name: 'edit' }).catch(() => {});
     },
     deleteUserRecipe() {
-      this.$store.dispatch('home/deleteUserRecipe', this.recipe);
+      this.$store.dispatch('home/deleteUserRecipe');
     },
 
     // TODO move this to either App.vue, VHome.vue, upon login, or upon user state change.
@@ -286,10 +248,10 @@ export default {
     //   }
     // });
     // NOTE if you reload from edit or upload view, the action below allows for the correct recipe to render after its preview is clicked (because recipe view is not created after you reload)
-    if (this.$route.query.userRecipeId)
-      this.$store.dispatch('home/renderUserRecipe', {
-        id: this.$route.query.userRecipeId,
-      });
+    // if (this.$route.query.userRecipeId) {
+    this.recipe = _.cloneDeep(this.stateRecipe);
+    //   console.log(this.recipe);
+    // }
   },
 };
 </script>

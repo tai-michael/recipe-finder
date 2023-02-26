@@ -719,6 +719,7 @@ export default {
 
         // console.log(state.recipe);
         commit('TOGGLE_RECIPE_SPINNER', false);
+        console.log('done');
       } catch (err) {
         console.log(err);
         // console.error(`Error loading recipe: ${err}`);
@@ -874,13 +875,13 @@ export default {
       }
     },
 
-    async deleteUserRecipe({ commit, rootState, state }, recipe) {
+    async deleteUserRecipe({ commit, rootState, state }) {
       try {
         const docRef = doc(db, 'users', rootState.auth.user.uid);
         await updateDoc(docRef, {
-          uploadedRecipes: arrayRemove(recipe),
+          uploadedRecipes: arrayRemove(state.userRecipe),
         });
-        commit('DELETE_USER_RECIPE', recipe);
+        commit('DELETE_USER_RECIPE', state.userRecipe);
 
         router
           .push({

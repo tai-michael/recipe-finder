@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import VHome from '@/views/VHome.vue';
 import VPersonal from '@/views/VPersonal.vue';
-import VUserRecipe from '@/components/VUserRecipe.vue';
+import VUserRecipeContainer from '@/components/VUserRecipeContainer.vue';
 import VUploadRecipe from '@/components/VUploadRecipe.vue';
 import VEditRecipe from '@/components/VEditRecipe.vue';
 import VueRouter from 'vue-router';
@@ -54,7 +54,7 @@ const routes = [
       {
         path: '/personal/user-recipes',
         name: 'user-recipes',
-        component: VUserRecipe,
+        component: VUserRecipeContainer,
         // path: ':userRecipeId?/:id?',
         // name: 'userRecipe',
         // REVIEW What exactly should I put here?

@@ -236,9 +236,6 @@
               @blur="ingredient.quantity.$touch"
               @input="ingredient.quantity.$reset()"
               name="ingredient_quantity"
-              type="number"
-              step="any"
-              min="0.01"
               class="form-control"
               :class="{
                 'form-group--input-error': ingredient.quantity.$error,
@@ -249,7 +246,10 @@
             <label for="floatingIngQuantity">Quantity</label>
             <p v-if="!ingredient.quantity.$error" class="form-helper">E.g. 2</p>
             <p v-if="ingredient.quantity.$error" class="upload__error">
-              <span v-if="!ingredient.quantity.required">Required</span>
+              <!-- <span v-if="!ingredient.quantity.required">Required</span> -->
+              <span v-if="!ingredient.quantity.positiveNumOrFraction"
+                >Number required</span
+              >
             </p>
           </div>
         </div>
@@ -370,8 +370,24 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
-import { required, url, minLength } from 'vuelidate/lib/validators';
+import { required, url, minLength, helpers } from 'vuelidate/lib/validators';
+const { withParams } = helpers;
 import uniqid from 'uniqid';
+const positiveNumOrFraction = withParams(
+  { type: 'positiveNumOrFraction' },
+  value => {
+    let parsedValue;
+
+    if (typeof value === 'string' && value.includes('/')) {
+      const [numerator, denominator] = value.split('/');
+      parsedValue = parseFloat(numerator) / parseFloat(denominator);
+    } else {
+      parsedValue = parseFloat(value);
+    }
+
+    return !isNaN(parsedValue) && parsedValue > 0;
+  }
+);
 
 export default {
   name: 'VUploadRecipe',
@@ -397,7 +413,6 @@ export default {
         servings: null,
         cooking_time: null,
         ingredients: [
-          // { quantity: null, unit: null, description: null, id: uniqid() },
           { quantity: null, unit: null, description: null, id: uniqid() },
         ],
       },
@@ -444,7 +459,10 @@ export default {
         required,
         minLength: minLength(1),
         $each: {
-          quantity: { required }, // minValue
+          quantity: {
+            required,
+            positiveNumOrFraction,
+          },
           unit: { required },
           description: { required },
         },
@@ -480,6 +498,18 @@ export default {
         ele => ele.id === ing.id
       );
       this.formData.ingredients.splice(ingredientIndex, 1);
+    },
+
+    convertFractionsToDecimals() {
+      this.formData.ingredients.forEach(ingredient => {
+        if (
+          typeof ingredient.quantity === 'string' &&
+          ingredient.quantity.includes('/')
+        ) {
+          const [numerator, denominator] = ingredient.quantity.split('/');
+          ingredient.quantity = parseFloat(numerator) / parseFloat(denominator);
+        }
+      });
     },
 
     cancelForm() {
@@ -524,6 +554,7 @@ export default {
           .split(' ')
           .map(this.capitalize)
           .join(' ');
+        this.convertFractionsToDecimals();
 
         await this.$store.dispatch('home/uploadUserRecipe', {
           recipe: this.formData,

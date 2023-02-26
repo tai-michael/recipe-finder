@@ -119,6 +119,7 @@ export default {
 
   computed: {
     ...mapGetters([
+      'userRecipe',
       'userRecipes',
       'loginModal',
       'registerModal',

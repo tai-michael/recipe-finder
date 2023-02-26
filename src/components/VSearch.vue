@@ -68,8 +68,9 @@ export default {
 .form-control {
   text-overflow: ellipsis;
   font-weight: 500;
-  // NOTE disables touch scrolling and zooming; needed for browsing on iPhone, which automatically zooms
-  touch-action: manipulation;
+  @media all and (max-width: 648px) {
+    font-size: 16px;
+  }
 }
 
 .search {
@@ -81,9 +82,9 @@ export default {
   box-shadow: 0 1px 8px rgb(67 41 163 / 10%);
   // box-sizing: border-box;
   // max-width: 450px;
-  @media all and (max-width: 648px) {
-    max-width: 80rem;
-  }
+  // @media all and (max-width: 648px) {
+  //   max-width: 80rem;
+  // }
 }
 
 .search .fa-magnifying-glass {
@@ -110,7 +111,7 @@ export default {
 
   @media all and (max-width: 648px) {
     height: 30px;
-    font-size: 1.8rem;
+    font-size: 16px;
     padding: 1.3rem 1.3rem 1.3rem 3em;
   }
 }

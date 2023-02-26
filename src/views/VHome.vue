@@ -39,22 +39,25 @@
                     $route.query.query &&
                     !Object.keys(searchResultsDisplay).length)
                 "
-                class="message"
               >
-                <div>
-                  <svg>
-                    <use :href="`${icons}#icon-smile`"></use>
-                  </svg>
-                </div>
-                <div>
-                  <p class="mb-5">
-                    Start by searching for a recipe or an ingredient.
-                  </p>
+                <div class="message">
+                  <div>
+                    <svg>
+                      <use :href="`${icons}#icon-global`"></use>
+                    </svg>
+                  </div>
                   <p>
-                    Or, create your own recipes by
-                    {{ `${mobileView ? 'pressing' : 'clicking'}` }} 'My
-                    Cookbook'.
+                    Start by searching for a recipe or an ingredient in our
+                    Database.
                   </p>
+                </div>
+                <div class="message">
+                  <div>
+                    <svg>
+                      <use :href="`${icons}#icon-user`"></use>
+                    </svg>
+                  </div>
+                  <p>Or, create your own recipes in 'My Cookbook'.</p>
                 </div>
               </div>
               <div v-else-if="renderRecipeError" class="message">
@@ -355,7 +358,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import '@/assets/sass/style.scss';
+@import '@/assets/sass/style.scss';
 // @import '@/assets/sass/components.scss';
 // @import '@/assets/sass/custom.scss';
 
@@ -389,14 +392,14 @@ html {
 .message {
   max-width: 40rem;
   margin: 0 auto;
-  padding: 5rem 4rem;
+  padding: 5rem 4rem 0 4rem;
 
   display: flex;
 
   svg {
     height: 3rem;
     width: 3rem;
-    // fill: $color-primary;
+    fill: $color-primary;
     transform: translateY(-0.3rem);
   }
 

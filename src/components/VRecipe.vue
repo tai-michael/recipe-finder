@@ -292,11 +292,7 @@ export default {
     },
   },
   methods: {
-    // TODO delete the unused
     ...mapMutations({
-      toggleRecipeSpinner: 'TOGGLE_RECIPE_SPINNER',
-      toggleBookmarksSpinner: 'TOGGLE_BOOKMARKS_SPINNER',
-      toggleUserRecipesSpinner: 'TOGGLE_USER_RECIPES_SPINNER',
       toggleRegisterModal: 'TOGGLE_REGISTER_MODAL',
     }),
     parseFraction(fraction) {

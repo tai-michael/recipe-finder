@@ -60,8 +60,8 @@
               <span v-if="!$v.formData.source_url.url"
                 >Please enter a valid URL</span
               >
-              <!-- TODO implement duplicate validation -->
-              <!-- <span v-if="....backend source_url duplicate found"
+              <!-- TODO implement validation for recipes using the same source_url. For example: -->
+              <!-- <span v-if="(backend source_url duplicate found)"
               >This url is already being used for an existing recipe: (link to it)</span
             > -->
             </p>
@@ -547,7 +547,6 @@ export default {
           throw Error('Failed client-side validation');
         }
         console.log('Passed client-side validation!');
-        // TODO start loading bar or spinner
         this.formData.date_created = Date.now();
         this.formData.title = this.formData.title
           .toLowerCase()
@@ -560,8 +559,6 @@ export default {
           recipe: this.formData,
           id: this.formData.id,
         });
-        // TODO end loading bar or spinner
-        // TODO successful upload toast
       } catch (err) {
         this.formSubmitted = false;
         console.log(err);

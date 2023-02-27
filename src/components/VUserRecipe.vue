@@ -139,7 +139,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-const { mapGetters, mapMutations } = createNamespacedHelpers('home');
+const { mapGetters } = createNamespacedHelpers('home');
 import fracty from 'fracty';
 import _ from 'lodash';
 
@@ -178,10 +178,6 @@ export default {
     },
   },
   methods: {
-    // TODO delete the unused
-    ...mapMutations({
-      toggleRegisterModal: 'TOGGLE_REGISTER_MODAL',
-    }),
     async renderAndCloneRecipe(value) {
       await this.$store.dispatch('home/renderUserRecipe', {
         id: value,
@@ -193,11 +189,6 @@ export default {
     ingQuantity(ingredient) {
       return ingredient.quantity ? fracty(ingredient.quantity).toString() : '';
     },
-    // bookmarkRecipe() {
-    //   // if (!this.loggedIn) this.$router.push({ name: 'register' });
-    //   if (!this.loggedIn) this.toggleRegisterModal();
-    //   else this.$store.dispatch('home/toggleBookmark', this.recipe);
-    // },
     updateServings(amount) {
       if (this.recipe.servings + amount <= 0) return;
 

@@ -11,7 +11,7 @@
             height="40"
             class="mobile-logo d-inline-block me-2"
           />
-          <p class="logo-text-narrow me-3">Epicurist</p>
+          <p class="logo-text-narrow me-3">{{ WEBSITE_NAME }}</p>
         </a>
 
         <div class="d-flex">
@@ -26,7 +26,7 @@
               <!-- <svg class="nav__icon">
               <use :href="`${icons}#icon-global`"></use>
             </svg> -->
-              <span>Database</span>
+              <span>{{ DATABASE_TAB_NAME }}</span>
             </router-link>
           </li>
 
@@ -39,7 +39,7 @@
               <!-- <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg> -->
-              <span>My Cookbook</span>
+              <span>{{ USER_RECIPES_TAB_NAME }}</span>
             </button>
             <router-link
               v-else
@@ -52,7 +52,7 @@
               <!-- <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg> -->
-              <span>My Cookbook</span>
+              <span>{{ USER_RECIPES_TAB_NAME }}</span>
             </router-link>
           </li>
 
@@ -132,7 +132,7 @@
           height="40"
           class="d-inline-block me-3"
         />
-        <p class="logo-text me-4">Epicurist</p>
+        <p class="logo-text me-4">{{ WEBSITE_NAME }}</p>
       </a>
       <!-- <img src="" alt="Logo" class="logo me-5" /> -->
       <VSearch />
@@ -172,7 +172,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-upload-cloud`"></use>
             </svg>
-            <span class="nav_label">Database</span>
+            <span class="nav_label">{{ DATABASE_TAB_NAME }}</span>
           </button>
         </li> -->
         <li class="nav__item">
@@ -190,7 +190,7 @@
             <svg class="nav__icon nav__globe mt-2">
               <use :href="`${icons}#icon-global`"></use>
             </svg>
-            <span class="nav_label">Database</span>
+            <span class="nav_label">{{ DATABASE_TAB_NAME }}</span>
           </router-link>
         </li>
 
@@ -203,7 +203,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg>
-            <span class="nav_label">My Cookbook</span>
+            <span class="nav_label">{{ USER_RECIPES_TAB_NAME }}</span>
           </button>
           <router-link
             v-else
@@ -220,7 +220,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg>
-            <span class="nav_label">My Cookbook</span>
+            <span class="nav_label">{{ USER_RECIPES_TAB_NAME }}</span>
           </router-link>
         </li>
         <!-- <li class="nav__item">
@@ -246,7 +246,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-upload-cloud`"></use>
             </svg>
-            <span class="nav_label">Database</span>
+            <span class="nav_label">{{ DATABASE_TAB_NAME }}</span>
           </button>
         </li>
 
@@ -273,7 +273,7 @@
             <svg class="nav__icon">
               <use :href="`${icons}#icon-user`"></use>
             </svg>
-            <span class="nav_label">My Cookbook</span>
+            <span class="nav_label">{{ USER_RECIPES_TAB_NAME }}</span>
           </button>
         </li> -->
 
@@ -318,6 +318,11 @@ import VSearchResults from '@/components/VSearchResults.vue';
 // import VUserRecipes from '@/components/VUserRecipes.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters, mapMutations } = createNamespacedHelpers('home');
+import {
+  WEBSITE_NAME,
+  DATABASE_TAB_NAME,
+  USER_RECIPES_TAB_NAME,
+} from '@/common/config.js';
 
 export default {
   name: 'VHeader',
@@ -330,6 +335,9 @@ export default {
   },
   data() {
     return {
+      WEBSITE_NAME,
+      DATABASE_TAB_NAME,
+      USER_RECIPES_TAB_NAME,
       icons: require('@/assets/images/icons.svg'),
     };
   },

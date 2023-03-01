@@ -96,7 +96,7 @@
           <p>{{ authMessage }}</p>
         </div>
         <p class="bottom-text">
-          New to Epicurist?
+          New to {{ WEBSITE_NAME }}?
           <a href="" @click.prevent="switchToRegisterModal" class="bottom-link">
             SIGN UP
           </a>
@@ -110,12 +110,14 @@
 import { createNamespacedHelpers } from 'vuex';
 const { mapMutations } = createNamespacedHelpers('home');
 import { required, email } from 'vuelidate/lib/validators';
+import { WEBSITE_NAME } from '@/common/config.js';
 const touchMap = new WeakMap();
 
 export default {
   data() {
     return {
       icons: require('@/assets/images/icons.svg'),
+      WEBSITE_NAME,
       email: '',
       password: '',
       isLoading: null,

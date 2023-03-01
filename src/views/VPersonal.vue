@@ -90,6 +90,7 @@ import VRegister from '@/components/VRegister.vue';
 import VToast from '@/components/VToast.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
+import { WEBSITE_NAME, USER_RECIPES_TAB_NAME } from '@/common/config.js';
 
 export default {
   name: 'VPersonal',
@@ -114,6 +115,7 @@ export default {
       resultsContainerMobileLeftCoord: 0,
       mobileView: false,
       userRecipesDropdownExpanded: true,
+      userRecipeName: '',
     };
   },
 
@@ -225,6 +227,9 @@ export default {
       this.resultsContainerTopCoord = resultsContainer.scrollTop;
       this.resultsContainerLeftCoord = resultsContainer.scrollLeft;
       // console.log(this.resultsContainerTopCoord);
+
+      // NOTE stores document title so that it can be set again when navigating back to database from another tab
+      this.userRecipeName = this.userRecipe.title;
     }
     next();
   },
@@ -248,9 +253,12 @@ export default {
         resultsContainer.scrollLeft = vm.mobileView
           ? vm.resultsContainerMobileLeftCoord
           : vm.resultsContainerLeftCoord;
+
+        if (vm.userRecipeName)
+          document.title = `${WEBSITE_NAME} | ${vm.userRecipeName}`;
+        else document.title = `${WEBSITE_NAME} | ${USER_RECIPES_TAB_NAME}`;
       }, 1);
     });
-    document.title = 'Epicurist – My Cookbook';
   },
 };
 </script>

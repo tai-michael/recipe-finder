@@ -100,6 +100,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
+import { getRecipeId } from '@/common/helpers.js';
 
 export default {
   name: 'VRecipePreviewBookmarksMobile',
@@ -134,8 +135,7 @@ export default {
       return this.recipeBookmarks.some(recipe => recipe.uri === id);
     },
     getId(recipe) {
-      // NOTE optional chaining needed to prevent TypeError: undefined. Note also that Vue 2 doesn't support optional chaining in html template (only Vue 3 does). That's why I need to use a method, like here.
-      return recipe?.uri.split('#recipe_')[1];
+      return getRecipeId(recipe);
     },
     handleImageError() {
       this.image = false;

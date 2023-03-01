@@ -37,7 +37,7 @@
                   (!$route.query.id && !$route.query.query) ||
                   (!$route.query.id &&
                     $route.query.query &&
-                    !Object.keys(searchResultsDisplay).length)
+                    !Object.keys(searchResults).length)
                 "
               >
                 <div class="message">
@@ -57,7 +57,11 @@
                       <use :href="`${icons}#icon-user`"></use>
                     </svg>
                   </div>
-                  <p>Or, create your own recipes in 'My Cookbook'.</p>
+                  <p>
+                    Or, create your own recipes in '{{
+                      USER_RECIPES_TAB_NAME
+                    }}'.
+                  </p>
                 </div>
               </div>
               <div v-else-if="renderRecipeError" class="message">
@@ -85,6 +89,11 @@ import VRegister from '@/components/VRegister.vue';
 import VToast from '@/components/VToast.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
+import {
+  WEBSITE_NAME,
+  DATABASE_TAB_NAME,
+  USER_RECIPES_TAB_NAME,
+} from '@/common/config.js';
 
 export default {
   name: 'VHome',
@@ -99,6 +108,8 @@ export default {
 
   data() {
     return {
+      DATABASE_TAB_NAME,
+      USER_RECIPES_TAB_NAME,
       icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
       leftCoord: 0,
@@ -108,6 +119,7 @@ export default {
         parseInt(sessionStorage.getItem('databaseSearchResultsLeftCoord')) || 0,
       searchResultsExpanded: false,
       mobileView: false,
+      recipeName: '',
     };
   },
 
@@ -305,6 +317,9 @@ export default {
       'databaseSearchResultsLeftCoord',
       searchResultsContainer.scrollLeft
     );
+
+    // NOTE stores document title so that it can be set again when navigating back to database from another tab
+    this.recipeName = this.recipe.label;
   },
 
   // NOTE The 'vm' callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'. 'vm' refers to 'this'.
@@ -350,9 +365,12 @@ export default {
         searchResultsContainer.scrollTop = vm.searchResultsContainerTopCoord;
         searchResultsContainer.scrollLeft = vm.searchResultsContainerLeftCoord;
         // console.log(vm.$root.$children[0].$children[0].$refs.searchResults);
+
+        if (vm.recipeName)
+          document.title = `${WEBSITE_NAME} | ${vm.recipeName}`;
+        else document.title = `${WEBSITE_NAME} | ${DATABASE_TAB_NAME}`;
       }, 1);
     });
-    document.title = 'Epicurist – Database';
   },
 };
 </script>

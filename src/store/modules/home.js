@@ -1,6 +1,5 @@
 import axios from 'axios';
 import router from '@/router';
-import { API_URL, RESULTS_PER_PAGE, ID, KEY } from '@/common/config.js';
 import {
   // collection,
   // getDocs,
@@ -11,6 +10,8 @@ import {
   arrayRemove,
 } from 'firebase/firestore';
 import { db } from '@/firebaseInit';
+import { API_URL, RESULTS_PER_PAGE, ID, KEY } from '@/common/config.js';
+import { getRecipeId } from '@/common/helpers.js';
 import uniqid from 'uniqid';
 // import { TIMEOUT_SEC } from '@/common/config.js';
 // import { timeout } from '@/common/helpers.js';
@@ -184,9 +185,7 @@ export default {
       // console.log(state.bookmarks);
       if (
         state.bookmarks.some(
-          bookmark =>
-            bookmark.uri.split('#recipe_')[1] ===
-            state.recipe.uri.split('#recipe_')[1]
+          bookmark => getRecipeId(bookmark) === getRecipeId(state.recipe)
         )
       )
         state.recipe.bookmarked = true;
@@ -248,9 +247,7 @@ export default {
 
     DELETE_BOOKMARK(state) {
       const recipeIndex = state.bookmarks.findIndex(
-        bookmark =>
-          bookmark.uri.split('#recipe_')[1] ===
-          state.recipe.uri.split('#recipe_')[1]
+        bookmark => getRecipeId(bookmark) === getRecipeId(state.recipe)
       );
       state.bookmarks.splice(recipeIndex, 1);
       state.recipe.bookmarked = false;
@@ -404,8 +401,7 @@ export default {
         const bookmarkedSearchResults = allSearchResults.filter(apiRecipe =>
           state.bookmarks.some(
             bookmarkedRecipe =>
-              bookmarkedRecipe.uri.split('#recipe_')[1] ===
-              apiRecipe.uri.split('#recipe_')[1]
+              getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
           )
         );
 
@@ -414,8 +410,7 @@ export default {
           apiRecipe =>
             !state.bookmarks.some(
               bookmarkedRecipe =>
-                bookmarkedRecipe.uri.split('#recipe_')[1] ===
-                apiRecipe.uri.split('#recipe_')[1]
+                getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
             )
         );
 
@@ -502,8 +497,7 @@ export default {
         const bookmarkedSearchResults = allSearchResults.filter(apiRecipe =>
           state.bookmarks.some(
             bookmarkedRecipe =>
-              bookmarkedRecipe.uri.split('#recipe_')[1] ===
-              apiRecipe.uri.split('#recipe_')[1]
+              getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
           )
         );
 
@@ -511,8 +505,7 @@ export default {
           apiRecipe =>
             !state.bookmarks.some(
               bookmarkedRecipe =>
-                bookmarkedRecipe.uri.split('#recipe_')[1] ===
-                apiRecipe.uri.split('#recipe_')[1]
+                getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
             )
         );
 
@@ -996,9 +989,7 @@ export default {
 
         if (
           !state.bookmarks.some(
-            bookmark =>
-              bookmark.uri.split('#recipe_')[1] ===
-              state.recipe.uri.split('#recipe_')[1]
+            bookmark => getRecipeId(bookmark) === getRecipeId(state.recipe)
           )
         ) {
           const bookmark = Object.fromEntries(
@@ -1016,9 +1007,7 @@ export default {
         } else {
           // NOTE the mutation below actually changes the recipe (setting its 'bookmarked' property to 'false'), meaning it becomes different from the object in the backend. Having this discrepancy means the backend cannot remove the object, as they need to exactly match. Therefore, need to dispatch action to backend FIRST before committing the mutation.
           const bookmark = state.bookmarks.filter(
-            bookmark =>
-              bookmark.uri.split('#recipe_')[1] ===
-              state.recipe.uri.split('#recipe_')[1]
+            bookmark => getRecipeId(bookmark) === getRecipeId(state.recipe)
           )[0];
           console.log(bookmark);
           updateDoc(docRef, {

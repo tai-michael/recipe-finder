@@ -207,6 +207,8 @@
 import VLoadingSpinner from './VLoadingSpinner.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters, mapMutations } = createNamespacedHelpers('home');
+import { WEBSITE_NAME } from '@/common/config.js';
+import { getRecipeId } from '@/common/helpers.js';
 import fracty from 'fracty';
 import _ from 'lodash';
 
@@ -235,6 +237,7 @@ export default {
     '$route.query.id'(newValue) {
       // console.log(newValue);
       this.renderAndCloneRecipe(newValue);
+      document.title = `${WEBSITE_NAME} | ${this.stateRecipe.label}`;
     },
     // 'recipe.image_url': function () {
     //   this.imageLoading = true;
@@ -379,9 +382,7 @@ export default {
     copyRecipeLink() {
       // FIXME change the base URL below after deploying this app
       navigator.clipboard.writeText(
-        `https://epicurist.netlify.app/home?id=${
-          this.recipe.uri.split('#recipe_')[1]
-        }`
+        `https://epicurist.netlify.app/home?id=${getRecipeId(this.recipe)}`
       );
       this.$store.commit(
         'home/SET_TOAST_MESSAGE',
@@ -420,6 +421,7 @@ export default {
     // this.init();
     this.recipe = _.cloneDeep(this.stateRecipe);
     console.log(this.recipe);
+    document.title = `${WEBSITE_NAME} | ${this.stateRecipe.label}`;
   },
   mounted() {
     this.handleResize();

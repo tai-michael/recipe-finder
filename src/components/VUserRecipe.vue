@@ -142,6 +142,7 @@ import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
 import fracty from 'fracty';
 import _ from 'lodash';
+import { WEBSITE_NAME, USER_RECIPES_TAB_NAME } from '@/common/config.js';
 
 export default {
   name: 'VUserRecipe',
@@ -159,6 +160,7 @@ export default {
     stateRecipe() {
       console.log('child component watcher triggered');
       this.recipe = _.cloneDeep(this.stateRecipe);
+      document.title = `${WEBSITE_NAME} | ${this.stateRecipe.title}`;
     },
     'recipe.image_url': function () {
       this.imageLoading = true;
@@ -203,10 +205,12 @@ export default {
     },
     deleteUserRecipe() {
       this.$store.dispatch('home/deleteUserRecipe');
+      document.title = `${WEBSITE_NAME} | ${USER_RECIPES_TAB_NAME}`;
     },
   },
   mounted() {
     this.recipe = _.cloneDeep(this.stateRecipe);
+    document.title = `${WEBSITE_NAME} | ${this.stateRecipe.title}`;
   },
 };
 </script>

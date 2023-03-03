@@ -371,6 +371,14 @@ export default {
       });
     },
 
+    // updateServings(amount) {
+    //   if (this.recipe.yield + amount <= 0) return;
+    //   this.prevServings = this.recipe.yield;
+    //   this.currentServings = this.recipe.yield + amount;
+    /// then in the template:
+    //     {{ ing.quantity * this.recipe.yield / prevServings }};
+    // },
+
     bookmarkRecipe() {
       // if (!this.loggedIn) this.$router.push({ name: 'register' });
       if (!this.loggedIn) this.toggleRegisterModal();

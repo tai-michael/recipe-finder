@@ -26,6 +26,7 @@
             !image && !resultsActive ? 'preview__link--image-error' : '',
           ]"
           @click="collapseSearchResults"
+          data-bs-dismiss="offcanvas"
         >
           <figure class="preview__fig" v-if="image">
             <img

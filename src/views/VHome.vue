@@ -40,7 +40,7 @@
                     !Object.keys(searchResults).length)
                 "
               >
-                <div class="message">
+                <div class="message mt-5">
                   <div>
                     <svg>
                       <use :href="`${icons}#icon-global`"></use>

@@ -59,7 +59,7 @@
           <button
             class="navbar-toggler rounded"
             type="button"
-            data-bs-toggle="collapse"
+            data-bs-toggle="offcanvas"
             data-bs-target="#navbarNavDropdown"
             aria-controls="navbarNavDropdown"
             aria-expanded="false"
@@ -73,12 +73,26 @@
 
     <!-- NOTE Hamburger menu contents in mobile view -->
     <div
-      class="narrowscreen-navbar collapse navbar-collapse mb-3"
+      class="narrowscreen-navbar offcanvas offcanvas-end mb-3"
+      tabindex="-1"
       id="navbarNavDropdown"
     >
-      <ul class="navbar-nav">
+      <div class="offcanvas-header justify-content-end pb-0">
+        <button
+          type="button"
+          class="btn-close fs-4 p-3"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <ul class="navbar-nav offcanvas-body p-4 pt-0">
         <li class="nav-item not-logged-in" v-if="!loggedIn">
-          <a class="nav-link" @click="toggleLoginModal">Log In</a>
+          <a
+            class="nav-link"
+            data-bs-dismiss="offcanvas"
+            @click="toggleLoginModal"
+            >Log In</a
+          >
         </li>
         <li class="nav-item not-logged-in" v-if="!loggedIn">
           <!-- <router-link :to="{ name: 'Home' }">
@@ -87,7 +101,12 @@
               <span>Home</span>
             </v-btn>
           </router-link> -->
-          <a class="nav-link" @click="toggleRegisterModal">Sign Up</a>
+          <a
+            class="nav-link"
+            data-bs-dismiss="offcanvas"
+            @click="toggleRegisterModal"
+            >Sign Up</a
+          >
         </li>
         <li class="nav-item" v-else>
           <!-- <button class="nav__btn" @click="toggleUploadRecipeView">
@@ -96,7 +115,11 @@
             </svg>
             <span>Add recipe</span>
           </button> -->
-          <a class="nav-link" @click="$store.dispatch('auth/logout')">
+          <a
+            class="nav-link"
+            data-bs-dismiss="offcanvas"
+            @click="$store.dispatch('auth/logout')"
+          >
             Log out
           </a>
         </li>
@@ -385,10 +408,6 @@ export default {
   margin: 0.7rem 0;
 }
 
-.dropdown-item {
-  font-size: 15px;
-}
-
 .not-logged-in {
   @media all and (max-width: 655px) {
     padding: 0 1rem !important;
@@ -449,6 +468,10 @@ export default {
 
 .mobile-logo {
   width: 23px !important;
+}
+
+.offcanvas {
+  max-width: 75%;
 }
 
 .nav {

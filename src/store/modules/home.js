@@ -176,9 +176,6 @@ export default {
         !state.search.setSearchContainerPosition;
     },
 
-    // return recipe?.uri.split('#recipe_')[1];
-
-    // REVIEW should I split this into two actions instead?
     CREATE_RECIPE_OBJECT(state, { data }) {
       state.recipe = { ...data, bookmarked: false };
       // console.log(state.recipe);
@@ -288,12 +285,6 @@ export default {
     },
 
     EDIT_USER_RECIPE(state, recipe) {
-      // REVIEW test out below option. Supposedly might fail to update Vue reactively
-      // state.userRecipes.map(userRecipe => {
-      //   if (userRecipe.id === recipe.id) {
-      //     userRecipe = recipe;
-      //   }
-      // });
       const recipeIndex = state.userRecipes.findIndex(
         userRecipe => userRecipe.id === recipe.id
       );
@@ -344,7 +335,6 @@ export default {
         commit('TOGGLE_SEARCH_SPINNER', true);
 
         // NOTE The guard clause prevents the router from replacing an existing query with the same query during page reloads, something which results in a redundancy error.
-        // TODO used to not have "name: 'home'"
         if (!reloadingPage) {
           router
             .push({
@@ -397,7 +387,6 @@ export default {
         const allSearchResults = res.data.hits.map(hit => hit.recipe);
         // console.log(allSearchResults);
 
-        // TODO Rename variable to something better?
         const bookmarkedSearchResults = allSearchResults.filter(apiRecipe =>
           state.bookmarks.some(
             bookmarkedRecipe =>
@@ -405,7 +394,6 @@ export default {
           )
         );
 
-        // TODO Rename variable to something better?
         const nonBookmarkedSearchResults = allSearchResults.filter(
           apiRecipe =>
             !state.bookmarks.some(
@@ -575,7 +563,6 @@ export default {
         commit('TOGGLE_SEARCH_SPINNER', true);
 
         // NOTE The guard clause prevents the router from replacing an existing query with the same query during page reloads, something which results in a redundancy error.
-        // TODO used to not have "name: 'home'"
         if (!reloadingPage)
           router
             .push({
@@ -596,14 +583,12 @@ export default {
           recipe.title.toLowerCase().split(' ').includes(query.toLowerCase())
         );
 
-        // TODO Rename variable to something better?
         const bookmarkedSearchResults = allSearchResults.filter(recipe =>
           state.bookmarks.some(
             bookmarkedRecipe => bookmarkedRecipe.id === recipe.id
           )
         );
 
-        // TODO Rename variable to something better?
         const nonBookmarkedSearchResults = allSearchResults.filter(
           recipe =>
             !state.bookmarks.some(

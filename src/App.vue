@@ -17,21 +17,30 @@
     <!-- </div> -->
     <VHeader />
     <keep-alive><router-view /></keep-alive>
+    <VLogin v-if="loginModal" />
+    <VRegister v-if="registerModal" />
   </div>
 </template>
 
 <script>
 import VHeader from '@/components/VHeader.vue';
+import VLogin from '@/components/VLogin.vue';
+import VRegister from '@/components/VRegister.vue';
+import { createNamespacedHelpers } from 'vuex';
+const { mapGetters } = createNamespacedHelpers('home');
 
 export default {
   name: 'app',
   components: {
     VHeader,
+    VLogin,
+    VRegister,
   },
   computed: {
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
     },
+    ...mapGetters(['loginModal', 'registerModal']),
   },
 
   methods: {

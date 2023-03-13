@@ -73,7 +73,7 @@
 
     <!-- NOTE Hamburger menu contents in mobile view -->
     <div
-      class="narrowscreen-navbar offcanvas offcanvas-end mb-3"
+      class="narrowscreen-navbar offcanvas-md offcanvas-end mb-3"
       tabindex="-1"
       id="navbarNavDropdown"
     >
@@ -82,10 +82,11 @@
           type="button"
           class="btn-close fs-4 p-3"
           data-bs-dismiss="offcanvas"
+          data-bs-target="#navbarNavDropdown"
           aria-label="Close"
         ></button>
       </div>
-      <ul class="navbar-nav offcanvas-body p-4 pt-0">
+      <ul class="navbar-nav offcanvas-body p-4 pt-0 pb-4">
         <li class="nav-item not-logged-in" v-if="!loggedIn">
           <a
             class="nav-link"
@@ -397,9 +398,29 @@ export default {
   display: none;
 }
 
+// .offcanvas-backdrop {
+//   display: none !important;
+//   @media all and (max-width: 655px) {
+//     display: block;
+//   }
+// }
+
+// .sticky-top {
+//   z-index: 0;
+//   // @media all and (max-width: 655px) {
+//   //   z-index: 1020;
+//   // }
+// }
+
+.btn-close {
+  font-size: 1.5rem !important;
+  margin-top: 0.4rem !important;
+  margin-right: 1rem !important;
+}
+
 .nav-link {
   display: inline;
-  font-size: 15px;
+  font-size: 2rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -470,8 +491,8 @@ export default {
   width: 23px !important;
 }
 
-.offcanvas {
-  max-width: 75%;
+.offcanvas-md {
+  max-width: 75% !important;
 }
 
 .nav {

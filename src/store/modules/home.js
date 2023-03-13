@@ -171,7 +171,7 @@ export default {
     },
 
     SET_SEARCH_CONTAINER_SCROLL_POSITION(state) {
-      console.log('toggled');
+      // console.log('toggled');
       state.search.setSearchContainerPosition =
         !state.search.setSearchContainerPosition;
     },
@@ -524,7 +524,7 @@ export default {
           commit('ADD_SEARCH_RESULTS', nextResults);
           // TODO transform below into a mutation
           state.search.page++;
-          console.log(state.search.page);
+          // console.log(state.search.page);
         }
         commit('TOGGLE_SEARCH_SPINNER', false);
         commit('SET_SEARCH_CONTAINER_SCROLL_POSITION');

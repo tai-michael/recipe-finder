@@ -70,8 +70,6 @@
 
               <VRecipe v-if="Object.keys(recipe).length" />
             </div>
-            <VLogin v-if="loginModal" />
-            <VRegister v-if="registerModal" />
             <VToast v-if="toastMessage" />
           </div>
         </div>
@@ -84,8 +82,6 @@
 import VSearchResults from '@/components/VSearchResults.vue';
 // import VLoadingSpinner from '@/components/VLoadingSpinner.vue';
 import VRecipe from '@/components/VRecipe.vue';
-import VLogin from '@/components/VLogin.vue';
-import VRegister from '@/components/VRegister.vue';
 import VToast from '@/components/VToast.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
@@ -101,8 +97,6 @@ export default {
     VSearchResults,
     // VLoadingSpinner,
     VRecipe,
-    VLogin,
-    VRegister,
     VToast,
   },
 
@@ -128,8 +122,6 @@ export default {
       'recipe',
       'loadingRecipe',
       'renderRecipeError',
-      'loginModal',
-      'registerModal',
       'toastMessage',
       'searchResults',
       'setSearchContainerPosition',

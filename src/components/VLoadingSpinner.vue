@@ -1,6 +1,6 @@
 <template>
   <div class="spinner">
-    <span class="loader"></span>
+    <span class="spinner material"></span>
   </div>
 </template>
 
@@ -20,34 +20,31 @@ export default {
 .spinner {
   margin: 2rem;
   text-align: center;
+  display: block;
+  height: 40px;
+  position: relative;
+  letter-spacing: 0.5px;
 
-  .loader {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: inline-block;
-    border-top: 4px solid #80a8ff;
-    border-right: 4px solid transparent;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-  }
-  .loader::after {
+  .spinner::after {
     content: '';
     box-sizing: border-box;
+    width: 40px;
+    height: 40px;
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 48px;
-    height: 48px;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
     border-radius: 50%;
-    border-bottom: 4px solid #80a8ff;
-    border-left: 4px solid transparent;
   }
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
+  .spinner.material::after {
+    border-top: 3px solid #298eec;
+    border-left: 3px solid #298eec;
+    border-bottom: 3px solid #298eec;
+    border-right: 3px solid rgba(255, 255, 255, 0);
+    animation: spinner 0.6s linear infinite;
+  }
+
+  @keyframes spinner {
+    to {
       transform: rotate(360deg);
     }
   }

@@ -27,6 +27,7 @@
           ]"
           @click="collapseSearchResults"
           data-bs-dismiss="offcanvas"
+          data-bs-target="#navbarNavDropdown"
         >
           <figure class="preview__fig" v-if="image">
             <img

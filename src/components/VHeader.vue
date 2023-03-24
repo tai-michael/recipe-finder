@@ -91,6 +91,7 @@
           <a
             class="nav-link"
             data-bs-dismiss="offcanvas"
+            data-bs-target="#navbarNavDropdown"
             @click="toggleLoginModal"
             >Log In</a
           >
@@ -105,6 +106,7 @@
           <a
             class="nav-link"
             data-bs-dismiss="offcanvas"
+            data-bs-target="#navbarNavDropdown"
             @click="toggleRegisterModal"
             >Sign Up</a
           >
@@ -119,6 +121,7 @@
           <a
             class="nav-link"
             data-bs-dismiss="offcanvas"
+            data-bs-target="#navbarNavDropdown"
             @click="$store.dispatch('auth/logout')"
           >
             Log out

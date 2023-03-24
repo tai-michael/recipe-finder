@@ -25,6 +25,7 @@
           >
             <input
               type="email"
+              ref="emailInput"
               class="form-control"
               id="floatingEmail"
               placeholder="name@example.com"
@@ -159,6 +160,12 @@ export default {
     //   this.$router.push({ name: 'home' });
     //   this.$store.commit('auth/CLEAR_REGISTRATION_ERROR');
     // },
+  },
+  mounted() {
+    // NOTE a delayed focus is needed b/c clicking the login button closes the hamburger menu, which causes the email input field to lose focus if there's no delay
+    setTimeout(() => {
+      this.$refs.emailInput.focus();
+    }, 300);
   },
   // REVIEW is this a good way to reset the authentication error message?
   beforeDestroy() {

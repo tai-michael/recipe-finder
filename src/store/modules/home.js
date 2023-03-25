@@ -434,6 +434,7 @@ export default {
       }
     },
 
+    // TODO compartmentalize the code into mutations and actions; it's currently too long
     async refreshSearch({ commit, state }) {
       try {
         console.log('Refreshing search results!');

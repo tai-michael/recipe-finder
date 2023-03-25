@@ -15,13 +15,15 @@
             <VSearchResults class="col-sm-3 search-results" />
             <div class="col-sm-9 recipe overflow-auto h-100">
               <!-- <VLoadingSpinner v-if="loadingRecipe" /> -->
+              <VRecipe v-if="status === 'recipeSelected'" />
+              <div v-else-if="renderRecipeError" class="message">
+                <p>{{ renderRecipeError }}</p>
+              </div>
+              <div v-else-if="loadingSearchResults" class="message">
+                <p>Searching for recipes...</p>
+              </div>
               <div
-                v-if="
-                  (!$route.query.id && $route.query.query && searchResults) ||
-                  ($route.query.id &&
-                    $route.query.query &&
-                    !Object.keys(recipe).length)
-                "
+                v-else-if="status === 'noRecipeSelected'"
                 class="message message__click-recipe"
               >
                 <div>
@@ -32,14 +34,7 @@
                 <p>Click on a recipe!</p>
               </div>
 
-              <div
-                v-else-if="
-                  (!$route.query.id && !$route.query.query) ||
-                  (!$route.query.id &&
-                    $route.query.query &&
-                    !Object.keys(searchResults).length)
-                "
-              >
+              <div v-else-if="status === 'noRecipeAndNoSearchResults'">
                 <div class="message mt-5">
                   <div>
                     <svg>
@@ -64,11 +59,6 @@
                   </p>
                 </div>
               </div>
-              <div v-else-if="renderRecipeError" class="message">
-                <p>{{ renderRecipeError }}</p>
-              </div>
-
-              <VRecipe v-if="Object.keys(recipe).length" />
             </div>
             <VToast v-if="toastMessage" />
           </div>
@@ -121,6 +111,7 @@ export default {
     ...mapGetters([
       'recipe',
       'loadingRecipe',
+      'loadingSearchResults',
       'renderRecipeError',
       'toastMessage',
       'searchResults',
@@ -128,6 +119,26 @@ export default {
     ]),
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
+    },
+    status() {
+      if (Object.keys(this.recipe).length) return 'recipeSelected';
+      else if (
+        (!this.$route.query.id &&
+          this.$route.query.query &&
+          this.searchResults) ||
+        (this.$route.query.id &&
+          this.$route.query.query &&
+          !Object.keys(this.recipe).length)
+      )
+        return 'noRecipeSelected';
+      else if (
+        (!this.$route.query.id && !this.$route.query.query) ||
+        (!this.$route.query.id &&
+          this.$route.query.query &&
+          !Object.keys(this.searchResults).length)
+      )
+        return 'noRecipeAndNoSearchResults';
+      else return null;
     },
   },
 

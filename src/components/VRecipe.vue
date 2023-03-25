@@ -207,7 +207,6 @@
 import VLoadingSpinner from './VLoadingSpinner.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters, mapMutations } = createNamespacedHelpers('home');
-import { WEBSITE_NAME } from '@/common/config.js';
 import { getRecipeId } from '@/common/helpers.js';
 import fracty from 'fracty';
 import _ from 'lodash';
@@ -237,7 +236,6 @@ export default {
     '$route.query.id'(newValue) {
       // console.log(newValue);
       this.renderAndCloneRecipe(newValue);
-      document.title = `${WEBSITE_NAME} | ${this.stateRecipe.label}`;
     },
     // 'recipe.image_url': function () {
     //   this.imageLoading = true;
@@ -429,7 +427,6 @@ export default {
     // this.init();
     this.recipe = _.cloneDeep(this.stateRecipe);
     console.log(this.recipe);
-    document.title = `${WEBSITE_NAME} | ${this.stateRecipe.label}`;
   },
   mounted() {
     this.handleResize();

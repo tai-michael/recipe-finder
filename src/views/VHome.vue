@@ -75,11 +75,7 @@ import VRecipe from '@/components/VRecipe.vue';
 import VToast from '@/components/VToast.vue';
 import { createNamespacedHelpers } from 'vuex';
 const { mapGetters } = createNamespacedHelpers('home');
-import {
-  WEBSITE_NAME,
-  DATABASE_TAB_NAME,
-  USER_RECIPES_TAB_NAME,
-} from '@/common/config.js';
+import { USER_RECIPES_TAB_NAME } from '@/common/config.js';
 
 export default {
   name: 'VHome',
@@ -92,7 +88,6 @@ export default {
 
   data() {
     return {
-      DATABASE_TAB_NAME,
       USER_RECIPES_TAB_NAME,
       icons: require('@/assets/images/icons.svg'),
       topCoord: 0,
@@ -103,7 +98,6 @@ export default {
         parseInt(sessionStorage.getItem('databaseSearchResultsLeftCoord')) || 0,
       searchResultsExpanded: false,
       mobileView: false,
-      recipeName: '',
     };
   },
 
@@ -321,8 +315,8 @@ export default {
       searchResultsContainer.scrollLeft
     );
 
-    // NOTE stores document title so that it can be set again when navigating back to database from another tab
-    this.recipeName = this.recipe.label;
+    // // NOTE stores document title so that it can be set again when navigating back to database from another tab
+    // this.recipeName = this.recipe.label;
   },
 
   // NOTE The 'vm' callback for 'next' is necessary for beforeRouteEnter, as otherwise you cannot access 'this'. 'vm' refers to 'this'.
@@ -368,10 +362,6 @@ export default {
         searchResultsContainer.scrollTop = vm.searchResultsContainerTopCoord;
         searchResultsContainer.scrollLeft = vm.searchResultsContainerLeftCoord;
         // console.log(vm.$root.$children[0].$children[0].$refs.searchResults);
-
-        if (vm.recipeName)
-          document.title = `${WEBSITE_NAME} | ${vm.recipeName}`;
-        else document.title = `${WEBSITE_NAME} | ${DATABASE_TAB_NAME}`;
       }, 1);
     });
   },

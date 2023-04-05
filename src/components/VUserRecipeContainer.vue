@@ -2,7 +2,7 @@
   <div class="recipe">
     <VLoadingSpinner v-if="loadingRecipe" />
 
-    <div v-else-if="!Object.keys(userRecipes).length" class="message">
+    <div v-else-if="noUserRecipes" class="message">
       <div>
         <svg>
           <use :href="`${icons}#icon-smile`"></use>
@@ -11,17 +11,7 @@
       <p>Start by adding a recipe.</p>
     </div>
 
-    <div
-      v-else-if="
-        (!$route.query.userRecipeId &&
-          !$route.query.userRecipeQuery &&
-          Object.keys(userRecipes).length) ||
-        ($route.query.userRecipeQuery &&
-          !$route.query.userRecipeId &&
-          Object.keys(searchResultsDisplay).length)
-      "
-      class="message"
-    >
+    <div v-else-if="shouldShowMessage" class="message">
       <div>
         <svg>
           <use :href="`${icons}#icon-smile`"></use>
@@ -30,21 +20,13 @@
       <p>Click on or add a recipe.</p>
     </div>
 
-    <div
-      v-else-if="
-        $route.query.userRecipeQuery &&
-        !$route.query.userRecipeId &&
-        !Object.keys(searchResultsDisplay).length
-      "
-    ></div>
+    <div v-else-if="shouldShowNothing"></div>
 
     <div v-else-if="renderRecipeError" class="message">
       <p>{{ renderRecipeError }}</p>
     </div>
 
-    <VUserRecipe
-      v-if="Object.keys(userRecipe).length && $route.query.userRecipeId"
-    />
+    <VUserRecipe v-if="userRecipeSelected" />
   </div>
 </template>
 
@@ -96,6 +78,31 @@ export default {
     }),
     loggedIn() {
       return this.$store.getters['auth/loggedIn'];
+    },
+    noUserRecipes() {
+      return !Object.keys(this.userRecipes).length;
+    },
+    shouldShowMessage() {
+      return (
+        (!this.$route.query.userRecipeId &&
+          !this.$route.query.userRecipeQuery &&
+          Object.keys(this.userRecipes).length) ||
+        (this.$route.query.userRecipeQuery &&
+          !this.$route.query.userRecipeId &&
+          Object.keys(this.searchResultsDisplay).length)
+      );
+    },
+    shouldShowNothing() {
+      return (
+        this.$route.query.userRecipeQuery &&
+        !this.$route.query.userRecipeId &&
+        !Object.keys(this.searchResultsDisplay).length
+      );
+    },
+    userRecipeSelected() {
+      return (
+        Object.keys(this.userRecipe).length && this.$route.query.userRecipeId
+      );
     },
   },
   methods: {

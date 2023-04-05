@@ -51,19 +51,6 @@ export default {
       return `${WEBSITE_NAME} | ${this.currentTabTitle}`;
     },
     currentTabTitle() {
-      // if (this.$route.name === 'home')
-      //   if (Object.keys(this.recipe).length) return this.recipe.label;
-      //   else return DATABASE_TAB_NAME;
-      // else if (this.$route.name === 'user-recipes')
-      //   if (Object.keys(this.userRecipe).length) return this.userRecipe.title;
-      //   else return USER_RECIPES_TAB_NAME;
-      // else if (this.$route.name === 'upload') return 'Upload Recipe';
-      // else if (this.$route.name === 'edit') return 'Edit Recipe';
-      // else
-      //   return (
-      //     this.$route.name.charAt(0).toUpperCase() + this.$route.name.slice(1)
-      //   );
-
       switch (this.$route.name) {
         case 'home':
           return Object.keys(this.recipe).length

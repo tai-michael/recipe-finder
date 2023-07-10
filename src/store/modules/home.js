@@ -434,122 +434,122 @@ export default {
       }
     },
 
-    // TODO compartmentalize the code into mutations and actions; it's currently too long
-    async refreshSearch({ commit, state }) {
-      try {
-        console.log('Refreshing search results!');
-        // NOTE resets error messages so they doesn't show
-        commit('SHOW_SEARCH_RECIPES_ERROR_MESSAGE', '');
-        commit('SHOW_RENDER_RECIPE_ERROR_MESSAGE', false);
+    // NOTE Below method was meant to refresh the website whenever a recipe's image becomes unavailable (which happens because the edamame api image tokens expire after some time). However, this method can lead to infinite refreshes, as certain images are simply broken on the api's end.
+    // async refreshSearch({ commit, state }) {
+    //   try {
+    //     console.log('Refreshing search results!');
+    //     // NOTE resets error messages so they doesn't show
+    //     commit('SHOW_SEARCH_RECIPES_ERROR_MESSAGE', '');
+    //     commit('SHOW_RENDER_RECIPE_ERROR_MESSAGE', false);
 
-        // NOTE reset search results so that page buttons don't show when there are no results or a search error
-        commit('CREATE_SEARCH_RESULTS', {
-          results: '',
-          page: 1,
-        });
+    //     // NOTE reset search results so that page buttons don't show when there are no results or a search error
+    //     commit('CREATE_SEARCH_RESULTS', {
+    //       results: '',
+    //       page: 1,
+    //     });
 
-        // NOTE resets any 'next search results' link from existing searches
-        commit('CREATE_NEXT_SEARCH_RESULTS_LINK', null);
+    //     // NOTE resets any 'next search results' link from existing searches
+    //     commit('CREATE_NEXT_SEARCH_RESULTS_LINK', null);
 
-        // NOTE the mutations below are necessary for expanding the search results dropdown when doing a search in mobile view
-        commit('TOGGLE_SEARCH_SUBMITTED', false);
-        setTimeout(() => {
-          commit('TOGGLE_SEARCH_SUBMITTED', true);
-        }, 0);
+    //     // NOTE the mutations below are necessary for expanding the search results dropdown when doing a search in mobile view
+    //     commit('TOGGLE_SEARCH_SUBMITTED', false);
+    //     setTimeout(() => {
+    //       commit('TOGGLE_SEARCH_SUBMITTED', true);
+    //     }, 0);
 
-        commit('TOGGLE_SEARCH_SPINNER', true);
+    //     commit('TOGGLE_SEARCH_SPINNER', true);
 
-        const res = await axios.get(
-          `${API_URL}?type=public&q=${router.app._route.query.query}&app_id=${ID}&app_key=${KEY}`
-        );
-        console.log('API call for recipe search results');
-        console.log(res);
+    //     const res = await axios.get(
+    //       `${API_URL}?type=public&q=${router.app._route.query.query}&app_id=${ID}&app_key=${KEY}`
+    //     );
+    //     console.log('API call for recipe search results');
+    //     console.log(res);
 
-        if (res.data.hits.length === 0) {
-          commit('CREATE_SEARCH_RESULTS', {
-            results: '',
-            page: 1,
-          });
+    //     if (res.data.hits.length === 0) {
+    //       commit('CREATE_SEARCH_RESULTS', {
+    //         results: '',
+    //         page: 1,
+    //       });
 
-          return commit(
-            'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
-            'No recipes for your search terms were found.\n\nTry different keywords or more general keywords.'
-          );
-        }
-        commit(
-          'CREATE_NEXT_SEARCH_RESULTS_LINK',
-          Object.keys(res.data._links).length ? res.data._links.next.href : null
-        );
+    //       return commit(
+    //         'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
+    //         'No recipes for your search terms were found.\n\nTry different keywords or more general keywords.'
+    //       );
+    //     }
+    //     commit(
+    //       'CREATE_NEXT_SEARCH_RESULTS_LINK',
+    //       Object.keys(res.data._links).length ? res.data._links.next.href : null
+    //     );
 
-        const allSearchResults = res.data.hits.map(hit => hit.recipe);
+    //     const allSearchResults = res.data.hits.map(hit => hit.recipe);
 
-        const bookmarkedSearchResults = allSearchResults.filter(apiRecipe =>
-          state.bookmarks.some(
-            bookmarkedRecipe =>
-              getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
-          )
-        );
+    //     const bookmarkedSearchResults = allSearchResults.filter(apiRecipe =>
+    //       state.bookmarks.some(
+    //         bookmarkedRecipe =>
+    //           getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
+    //       )
+    //     );
 
-        const nonBookmarkedSearchResults = allSearchResults.filter(
-          apiRecipe =>
-            !state.bookmarks.some(
-              bookmarkedRecipe =>
-                getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
-            )
-        );
+    //     const nonBookmarkedSearchResults = allSearchResults.filter(
+    //       apiRecipe =>
+    //         !state.bookmarks.some(
+    //           bookmarkedRecipe =>
+    //             getRecipeId(bookmarkedRecipe) === getRecipeId(apiRecipe)
+    //         )
+    //     );
 
-        const filteredResults = [
-          // ...matchingUserRecipes,
-          ...bookmarkedSearchResults,
-          ...nonBookmarkedSearchResults,
-        ];
-        commit('CREATE_SEARCH_RESULTS', {
-          results: filteredResults,
-          page: 1,
-        });
+    //     const filteredResults = [
+    //       // ...matchingUserRecipes,
+    //       ...bookmarkedSearchResults,
+    //       ...nonBookmarkedSearchResults,
+    //     ];
+    //     commit('CREATE_SEARCH_RESULTS', {
+    //       results: filteredResults,
+    //       page: 1,
+    //     });
 
-        // NOTE recreates results for multiple pages
-        for (let i = 1; i < router.app._route.query.page; i++) {
-          console.log(`execution ${i}`);
-          if (!state.search.nextResultsLink) return;
-          const res = await axios.get(state.search.nextResultsLink);
+    //     // NOTE recreates results for multiple pages
+    //     for (let i = 1; i < router.app._route.query.page; i++) {
+    //       console.log(`execution ${i}`);
+    //       if (!state.search.nextResultsLink) return;
+    //       const res = await axios.get(state.search.nextResultsLink);
 
-          commit(
-            'CREATE_NEXT_SEARCH_RESULTS_LINK',
-            Object.keys(res.data._links).length
-              ? res.data._links.next.href
-              : null
-          );
+    //       commit(
+    //         'CREATE_NEXT_SEARCH_RESULTS_LINK',
+    //         Object.keys(res.data._links).length
+    //           ? res.data._links.next.href
+    //           : null
+    //       );
 
-          const nextResults = res.data.hits.map(hit => hit.recipe);
-          commit('ADD_SEARCH_RESULTS', nextResults);
-          // TODO transform below into a mutation
-          state.search.page++;
-          // console.log(state.search.page);
-        }
-        commit('TOGGLE_SEARCH_SPINNER', false);
-        commit('SET_SEARCH_CONTAINER_SCROLL_POSITION');
-        // commit('TOGGLE_SEARCH_SUBMITTED', true);
-      } catch (err) {
-        console.log(err);
-        console.log(err.code, err.message);
-        if (err.message.includes('Cannot read properties of undefined'))
-          commit(
-            'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
-            'No recipes for your search terms were found.\n\nTry different keywords or more general keywords.'
-          );
-        else if (err.code === 'ERR_NETWORK')
-          commit(
-            'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
-            'You have sent too many requests for recipes, or something is wrong with your network.\n\nPlease try again later.'
-          );
-        else
-          commit(
-            'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
-            'Oops! Something went wrong. Please try again.'
-          );
-      }
-    },
+    //       const nextResults = res.data.hits.map(hit => hit.recipe);
+    //       commit('ADD_SEARCH_RESULTS', nextResults);
+    //       // TODO transform below into a mutation
+    //       state.search.page++;
+    //       // console.log(state.search.page);
+    //     }
+    //     commit('TOGGLE_SEARCH_SPINNER', false);
+    //     commit('SET_SEARCH_CONTAINER_SCROLL_POSITION');
+    //     // commit('TOGGLE_SEARCH_SUBMITTED', true);
+    //   } catch (err) {
+    //     console.log(err);
+    //     console.log(err.code, err.message);
+    //     if (err.message.includes('Cannot read properties of undefined'))
+    //       commit(
+    //         'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
+    //         'No recipes for your search terms were found.\n\nTry different keywords or more general keywords.'
+    //       );
+    //     else if (err.code === 'ERR_NETWORK')
+    //       commit(
+    //         'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
+    //         'You have sent too many requests for recipes, or something is wrong with your network.\n\nPlease try again later.'
+    //       );
+    //     else
+    //       commit(
+    //         'SHOW_SEARCH_RECIPES_ERROR_MESSAGE',
+    //         'Oops! Something went wrong. Please try again.'
+    //       );
+    //   }
+    // },
 
     async searchUserRecipes(
       { commit, state },

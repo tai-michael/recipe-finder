@@ -119,7 +119,7 @@ export default {
           error.code === 'auth/user-not-found' ||
           error.code === 'auth/wrong-password'
         )
-          commit('SET_AUTH_MESSAGE', 'Incorrect username or password');
+          commit('SET_AUTH_MESSAGE', 'No user found for this email/password');
         else if (error.code === 'auth/too-many-requests')
           commit(
             'SET_AUTH_MESSAGE',

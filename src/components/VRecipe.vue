@@ -419,8 +419,10 @@ export default {
 
     handleImageError() {
       this.recipe.image = this.image_error;
-      console.log('refreshing Search');
-      this.$store.dispatch('home/refreshSearch');
+
+      // NOTE Below method was meant to refresh the website whenever a recipe's image becomes unavailable (which happens because the edamame api image tokens expire after some time). However, this method can lead to infinite refreshes, as certain images are simply broken on the api's end.
+      // console.log('refreshing Search');
+      // this.$store.dispatch('home/refreshSearch');
     },
   },
   created() {

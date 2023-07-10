@@ -156,14 +156,17 @@ export default {
       return getRecipeId(recipe);
     },
     handleImageError() {
+      if (this.resultsActive) return;
       this.image = false;
-      this.errorCount++;
-      if (this.errorCount === this.maxErrorCount && this.resultsActive) {
-        console.log('refreshing Search');
-        this.$store.dispatch('home/refreshSearch');
-      }
-      // Reduce the error count to avoid calling the error handling method multiple times
-      this.errorCount = -1;
+
+      // NOTE Below method was meant to refresh the website whenever a recipe's image becomes unavailable (which happens because the edamame api image tokens expire after some time). However, this method can lead to infinite refreshes, as certain images are simply broken on the api's end.
+      // this.errorCount++;
+      // if (this.errorCount === this.maxErrorCount && this.resultsActive) {
+      //   console.log('refreshing Search');
+      //   this.$store.dispatch('home/refreshSearch');
+      // }
+      // // Reduce the error count to avoid calling the error handling method multiple times
+      // this.errorCount = -1;
     },
     scrollToTop() {
       // NOTE timeout is necessary for mobile view b/c we need to wait for the 'collapsing' transition for the search results to finish before we can scroll to the top.

@@ -4,16 +4,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      icons: require('@/assets/images/icons.svg'),
-    };
-  },
-};
-</script>
-
 <style lang="scss" scoped>
 @import '@/assets/sass/style.scss';
 

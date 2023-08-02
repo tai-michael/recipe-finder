@@ -1,9 +1,9 @@
 <template>
-  <header class="navbar sticky-top p-3 d-flex gap-4">
+  <header class="navbar sticky-top p-4 d-flex gap-4">
     <!-- NOTE Top of the navbar in mobile view. Note that 'narrowscreen-navbar' classes only show up in mobile view -->
-    <nav class="narrowscreen-navbar nav ms-3">
+    <nav class="narrowscreen-navbar nav ms-1">
       <ul class="nav__list justify-content-between mb-2">
-        <a class="navbar-brand d-flex align-items-center me-4" href="/home">
+        <a class="navbar-brand d-flex align-items-center" href="/home">
           <img
             src="@/assets/images/logo.png"
             alt="Logo"
@@ -14,7 +14,7 @@
           <p class="logo-text-narrow me-3">{{ WEBSITE_NAME }}</p>
         </a>
 
-        <div class="d-flex">
+        <div class="d-flex align-items-center">
           <li class="nav__item">
             <router-link
               :to="{
@@ -450,8 +450,8 @@ export default {
   .narrowscreen-navbar {
     display: block;
     width: 100%;
-    margin-right: 0 !important;
-    margin-left: 0.5rem !important;
+    // margin-right: 0 !important;
+    // margin-left: 0.5rem !important;
   }
 
   .d-inline-block {
@@ -460,7 +460,7 @@ export default {
   }
 
   .logo-text-narrow {
-    font-size: 16px !important;
+    font-size: 14px !important;
     letter-spacing: 0 !important;
   }
 }
@@ -471,10 +471,18 @@ export default {
   margin-bottom: 20px;
 
   @media only screen and (max-width: 648px) {
-    margin-bottom: 15px !important;
-    row-gap: 1rem !important;
+    margin-bottom: 8px !important;
+    row-gap: 1.25rem !important;
   }
 }
+
+.navbar-brand {
+  @media only screen and (max-width: 648px) {
+    padding-top: 0;
+    margin-right: 0;
+  }
+}
+
 // .logo {
 //   margin-left: 3rem;
 //   height: 4.6rem;
@@ -565,10 +573,12 @@ export default {
 
 // NOTE sets height of the search results container in mobile view
 .navbar-nav-scroll {
-  max-height: 70vh;
+  max-height: 75vh;
 }
 
 .navbar-toggler {
+  height: 32px;
+
   &:focus {
     outline: none;
     box-shadow: none;

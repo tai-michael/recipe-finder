@@ -410,7 +410,8 @@ html {
   display: flex;
 
   @media all and (max-width: 900px) {
-    margin: 1rem auto 0;
+    margin: 1rem 0;
+    justify-content: center;
   }
 
   svg {
@@ -469,6 +470,7 @@ html {
   // min-width: 372px;
   max-width: 928px;
   @media only screen and (max-width: 648px) {
+    padding: 0.75rem;
     margin-right: 0px !important;
     min-width: 0 !important;
   }

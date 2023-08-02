@@ -10,7 +10,7 @@
     <input
       type="search"
       class="form-control"
-      placeholder="Search our database of 2.3m recipes"
+      placeholder="Search over 2.3 million recipes"
       v-model="query"
     />
   </form>
@@ -92,8 +92,8 @@ export default {
   height: 20px;
 
   @media all and (max-width: 648px) {
-    top: 7px;
-    left: 20px;
+    top: 9px;
+    left: 16px;
     width: 16px;
     height: 16px;
   }
@@ -107,9 +107,9 @@ export default {
   padding: 1.3rem 1.3rem 1.3rem 3em;
 
   @media all and (max-width: 648px) {
-    height: 30px;
+    height: 34px;
     font-size: 16px;
-    padding: 1.3rem 1.3rem 1.3rem 3em;
+    padding: 1rem 1.3rem 1.3rem 3em;
   }
 }
 

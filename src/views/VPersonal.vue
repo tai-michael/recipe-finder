@@ -16,7 +16,7 @@
           >
             <button
               v-if="Object.keys(userRecipes).length"
-              class="narrowscreen navbar-toggler dropdown-toggle p-2"
+              class="narrowscreen navbar-toggler dropdown-toggle"
               type="button"
               data-bs-toggle="collapse"
               data-bs-target="#userRecipesDropdown"
@@ -315,6 +315,8 @@ html {
 }
 
 .navbar-toggler {
+  height: 32px;
+
   &:focus {
     outline: none;
     box-shadow: none;
@@ -348,14 +350,16 @@ html {
 
 .container-fluid {
   @media only screen and (max-width: 648px) {
-    padding-right: 0px !important;
+    // padding-right: 0px !important;
   }
 }
 
 .navbar {
   padding-top: 0 !important;
   @media only screen and (max-width: 648px) {
-    margin-right: 0px !important;
+    // margin-right: 0px !important;
+    // width: 100%;
+    padding: 1.5rem;
   }
   align-items: start;
 }
@@ -364,7 +368,8 @@ html {
   width: 95%;
   margin-bottom: 2rem !important;
   @media only screen and (max-width: 648px) {
-    margin-left: 1.5rem !important;
+    // margin-left: 1.5rem !important;
+    width: 100%;
   }
 }
 

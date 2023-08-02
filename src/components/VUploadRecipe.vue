@@ -629,7 +629,7 @@ export default {
   min-width: 300px;
 
   @media only screen and (max-width: 648px) {
-    padding: 1rem;
+    padding: 1.5rem;
     margin-top: 0;
     min-width: 0 !important;
   }

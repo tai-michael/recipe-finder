@@ -8,7 +8,7 @@
           <use :href="`${icons}#icon-smile`"></use>
         </svg>
       </div>
-      <p>Start by adding a recipe.</p>
+      <p>Start by adding a recipe</p>
     </div>
 
     <div v-else-if="shouldShowMessage" class="message">

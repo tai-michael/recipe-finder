@@ -738,7 +738,7 @@ export default {
     flex-direction: column;
 
     @media all and (max-width: 648px) {
-      padding: 4rem 1.5rem;
+      padding: 4rem 1rem;
     }
   }
 
@@ -753,6 +753,7 @@ export default {
 
     @media all and (max-width: 648px) {
       max-height: 900px !important;
+      justify-content: center;
     }
   }
 
@@ -760,6 +761,10 @@ export default {
     display: flex;
     flex-direction: column;
     row-gap: 1rem;
+
+    @media all and (max-width: 648px) {
+      max-width: 135px;
+    }
   }
 
   &__nutrient {
@@ -797,6 +802,7 @@ export default {
 
     @media all and (max-width: 648px) {
       padding: 4rem 5rem;
+      margin-bottom: 1rem;
     }
   }
 

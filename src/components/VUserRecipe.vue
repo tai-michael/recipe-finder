@@ -292,6 +292,8 @@ export default {
 }
 
 .recipe {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
   background-color: white;
   // max-width: 984px;
 

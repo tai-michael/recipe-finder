@@ -442,16 +442,6 @@ html {
   }
 }
 
-.recipe {
-  flex: 1 1 100px;
-  min-width: 372px;
-  max-width: 928px;
-  @media only screen and (max-width: 648px) {
-    // margin-right: 0px !important;
-    min-width: 0 !important;
-  }
-}
-
 // body {
 //   font-family: 'Nunito Sans', sans-serif;
 //   font-weight: 400;

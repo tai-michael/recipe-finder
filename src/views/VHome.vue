@@ -466,7 +466,7 @@ html {
 
 .recipe {
   flex: 1 1 100px;
-  min-width: 372px;
+  // min-width: 372px;
   max-width: 928px;
   @media only screen and (max-width: 648px) {
     margin-right: 0px !important;

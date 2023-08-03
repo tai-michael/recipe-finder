@@ -573,7 +573,7 @@ export default {
 
 // NOTE sets height of the search results container in mobile view
 .navbar-nav-scroll {
-  max-height: 70vh;
+  max-height: 67vh;
 }
 
 .navbar-toggler {

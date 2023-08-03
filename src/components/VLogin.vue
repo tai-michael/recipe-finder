@@ -17,56 +17,52 @@
           <p>Log In</p>
         </div>
         <form @submit.prevent="login">
-          <div
-            class="form-floating"
-            :class="{
-              'form-group--input-error': inputError($v.email.$error),
-            }"
-          >
-            <input
-              type="email"
-              ref="emailInput"
-              class="form-control"
-              id="floatingEmail"
-              placeholder="name@example.com"
-              v-model.trim="email"
-              @input="delayTouch($v.email)"
-              @blur="$store.commit('auth/CLEAR_AUTH_MESSAGE')"
-            />
-            <label for="floatingEmail">Email</label>
-          </div>
-          <div v-if="$v.email.$error" class="error">
-            <div v-if="!$v.email.required">
-              Please enter an email address to continue.
+          <div class="input-field">
+            <div class="form-floating">
+              <input
+                type="email"
+                ref="emailInput"
+                class="form-control"
+                :class="{
+                  'form-group--input-error': inputError($v.email.$error),
+                }"
+                id="floatingEmail"
+                placeholder="name@example.com"
+                v-model.trim="email"
+                @input="delayTouch($v.email)"
+                @blur="$store.commit('auth/CLEAR_AUTH_MESSAGE')"
+              />
+              <label for="floatingEmail">Email</label>
             </div>
-            <div v-if="!$v.email.email">Not a valid email address</div>
+            <div v-if="$v.email.$error" class="error">
+              <div v-if="!$v.email.required">Email required</div>
+              <div v-if="!$v.email.email">Not a valid email address</div>
+            </div>
+            <!-- TODO refactor below using a less hacky method -->
+            <div
+              v-if="authMessage.includes('Incorrect') && !successfulAuth"
+              class="error mb-4"
+            >
+              {{ authMessage }}
+            </div>
           </div>
-          <!-- TODO refactor below using a less hacky method -->
-          <div
-            v-if="authMessage.includes('Incorrect') && !successfulAuth"
-            class="error mb-4"
-          >
-            {{ authMessage }}
-          </div>
-          <div
-            class="form-floating mt-4"
-            :class="{
-              'form-group--input-error': inputError($v.password.$error),
-            }"
-          >
-            <input
-              type="password"
-              class="form-control"
-              id="floatingPassword"
-              placeholder="password"
-              v-model="password"
-              @input="delayTouch($v.password)"
-            />
-            <label for="floatingPassword">Password</label>
-          </div>
-          <div v-if="$v.password.$error" class="error">
-            <div v-if="!$v.password.required">
-              Please enter a password to continue
+          <div class="input-field mb-4">
+            <div class="form-floating password">
+              <input
+                type="password"
+                class="form-control"
+                :class="{
+                  'form-group--input-error': inputError($v.password.$error),
+                }"
+                id="floatingPassword"
+                placeholder="password"
+                v-model="password"
+                @input="delayTouch($v.password)"
+              />
+              <label for="floatingPassword">Password</label>
+            </div>
+            <div v-if="$v.password.$error" class="error">
+              <div v-if="!$v.password.required">Password required</div>
             </div>
           </div>
           <button
@@ -89,6 +85,7 @@
         <!-- TODO refactor below using a less hacky method -->
         <div
           v-if="successfulAuth || authMessage.includes('attempts')"
+          class="mt-3"
           :class="{
             'auth-message': successfulAuth,
             'auth-error-message': !successfulAuth,
@@ -240,6 +237,30 @@ export default {
     background: none;
   }
 
+  .modal-content {
+    max-width: 280px;
+    margin-left: 40px;
+    @media all and (max-width: 644px) {
+      // padding-left: 0rem;
+      margin-left: 0;
+    }
+  }
+
+  .modal-header {
+    // max-width: 40rem;
+    // display: flex;
+    margin-bottom: 30px;
+    p {
+      font-size: 2.2rem;
+      line-height: 1.5;
+      font-weight: 600;
+    }
+  }
+
+  .input-field {
+    position: relative;
+  }
+
   .form-floating {
     color: #78818a;
     font-size: 14px;
@@ -248,6 +269,10 @@ export default {
     input {
       font-family: Noto Sans, sans-serif;
     }
+  }
+
+  .password {
+    margin-top: 3.5rem;
   }
 
   .form-control {
@@ -269,6 +294,29 @@ export default {
     font-size: 14px;
     border-radius: 6px;
     border: 1px solid red;
+
+    &:focus {
+      border: 1px solid red;
+    }
+  }
+
+  .error {
+    position: absolute;
+    margin: 2px 0 0 8px;
+    font-size: 1.5rem;
+    color: #d30000;
+  }
+
+  .auth-message {
+    margin: 5px 0;
+    font-size: 1.5rem;
+    color: #287eff;
+  }
+
+  .auth-error-message {
+    margin: 5px 0;
+    font-size: 1.5rem;
+    color: #d30000;
   }
 
   .btn--submit {
@@ -292,44 +340,6 @@ export default {
       font-weight: 600;
       letter-spacing: 0.5px;
     }
-  }
-
-  .modal-content {
-    max-width: 280px;
-    margin-left: 40px;
-    @media all and (max-width: 644px) {
-      // padding-left: 0rem;
-      margin-left: 0;
-    }
-  }
-
-  .modal-header {
-    // max-width: 40rem;
-    // display: flex;
-    margin-bottom: 30px;
-    p {
-      font-size: 2.2rem;
-      line-height: 1.5;
-      font-weight: 600;
-    }
-  }
-
-  .error {
-    margin: 2px 0 0 8px;
-    font-size: 1.5rem;
-    color: #d30000;
-  }
-
-  .auth-message {
-    margin: 5px 0;
-    font-size: 1.5rem;
-    color: #287eff;
-  }
-
-  .auth-error-message {
-    margin: 5px 0;
-    font-size: 1.5rem;
-    color: #d30000;
   }
 
   .bottom-text {

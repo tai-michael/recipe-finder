@@ -989,7 +989,7 @@ export default {
           updateDoc(docRef, {
             bookmarks: arrayUnion(bookmark),
           });
-          commit('SET_TOAST_MESSAGE', "You've saved this recipe!");
+          // commit('SET_TOAST_MESSAGE', "You've saved this recipe!");
         } else {
           // NOTE the mutation below actually changes the recipe (setting its 'bookmarked' property to 'false'), meaning it becomes different from the object in the backend. Having this discrepancy means the backend cannot remove the object, as they need to exactly match. Therefore, need to dispatch action to backend FIRST before committing the mutation.
           const bookmark = state.bookmarks.filter(
@@ -1002,7 +1002,7 @@ export default {
 
           commit('DELETE_BOOKMARK');
 
-          commit('SET_TOAST_MESSAGE', "You've unsaved this recipe");
+          // commit('SET_TOAST_MESSAGE', "You've unsaved this recipe");
         }
       } catch (err) {
         console.error(`Failed to add/delete bookmark: ${err}`);

@@ -3,21 +3,21 @@
     <VLoadingSpinner v-if="loadingRecipe" />
 
     <div v-else-if="noUserRecipes" class="message">
-      <div>
+      <!-- <div>
         <svg>
           <use :href="`${icons}#icon-smile`"></use>
         </svg>
-      </div>
-      <p>Start by adding a recipe</p>
+      </div> -->
+      <p>Start by adding a recipe!</p>
     </div>
 
     <div v-else-if="shouldShowMessage" class="message">
-      <div>
+      <!-- <div>
         <svg>
           <use :href="`${icons}#icon-smile`"></use>
         </svg>
-      </div>
-      <p>Click on or add a recipe.</p>
+      </div> -->
+      <p>Click on or add a recipe!</p>
     </div>
 
     <div v-else-if="shouldShowNothing"></div>
@@ -43,8 +43,7 @@ export default {
   components: { VLoadingSpinner, VUserRecipe },
   data() {
     return {
-      // icons: '@/assets/images/icons.svg',
-      icons: require('@/assets/images/icons.svg'),
+      // icons: require('@/assets/images/icons.svg'),
       placeholder: require('@/assets/images/placeholder.jpg'),
       image_error: require('@/assets/images/image_error.jpg'),
       imageLoading: true,

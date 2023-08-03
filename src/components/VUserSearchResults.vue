@@ -138,7 +138,8 @@ export default {
   // padding: 3rem 0;
   // display: flex;
   flex-direction: column;
-  min-width: 245px !important;
+  min-width: 250px !important;
+  margin-left: 0.75rem;
 
   // NOTE gives the container a scroll bar when it exceeds the max-height
   // max-height: 700px;
@@ -154,6 +155,7 @@ export default {
 
   @media only screen and (max-width: 648px) {
     border-bottom: 1px solid rgb(231, 231, 231);
+    margin-left: 0;
     padding-bottom: 5px;
     // TODO test on actual mobile phone to see if there's enough space at the bottom for 'Add a recipe' button. If not, then decrease the max-height 'vh' to '60' or something.
     max-height: 70vh;

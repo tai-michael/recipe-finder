@@ -1,31 +1,6 @@
 <template>
   <div class="recipe">
     <VLoadingSpinner v-if="loadingRecipe" />
-    <!-- <div v-else-if="!$route.query.id && $route.query.query" class="message">
-      <div>
-        <svg>
-          <use :href="`${icons}#icon-smile`"></use>
-        </svg>
-      </div>
-      <p>Click on a recipe!</p>
-    </div>
-
-    <div
-      v-else-if="
-        (!$route.query.id && !$route.query.query) ||
-        (!$route.query.id &&
-          $route.query.query &&
-          !Object.keys(searchResultsDisplay).length)
-      "
-      class="message"
-    >
-      <div>
-        <svg>
-          <use :href="`${icons}#icon-smile`"></use>
-        </svg>
-      </div>
-      <p>Start by searching for a recipe or an ingredient.</p>
-    </div> -->
 
     <div v-else-if="Object.keys(recipe).length">
       <img
@@ -76,7 +51,7 @@
 
             <div class="recipe__info-buttons">
               <button
-                class="btn btn-outline-success pb-1"
+                class="btn btn-outline-success"
                 @click="updateServings(-1)"
               >
                 <span> – </span>
@@ -127,7 +102,7 @@
                 }`"
               ></use>
             </svg>
-            <span>Save</span>
+            <span>{{ recipeBookmarked ? 'Saved' : 'Save' }}</span>
           </button>
         </div>
       </div>
@@ -392,7 +367,7 @@ export default {
       );
       this.$store.commit(
         'home/SET_TOAST_MESSAGE',
-        'Recipe link copied to clipboard!'
+        'Recipe link copied to clipboard'
       );
     },
     async renderAndCloneRecipe(value) {
@@ -479,8 +454,8 @@ export default {
     fill: black;
     margin-right: 0.7rem;
     @media only screen and (max-width: 767px) {
-      height: 2rem;
-      width: 2rem;
+      height: 1.8rem;
+      width: 1.8rem;
     }
   }
 
@@ -507,13 +482,13 @@ export default {
   font-weight: 700;
   color: black;
   text-transform: uppercase;
-  margin-bottom: 4rem;
+  margin-bottom: 3.5rem;
   text-align: center;
   // transform: skewY(-3deg);
 }
 
 .row-gap {
-  row-gap: 2.4rem !important;
+  row-gap: 3.4rem !important;
 }
 
 // NOTE no need because of v-if

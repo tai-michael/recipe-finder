@@ -446,7 +446,7 @@ html {
   position: sticky !important;
   position: -webkit-sticky;
   height: 90vh !important;
-  top: 85px !important;
+  top: 91px !important;
   overflow: auto;
 
   &::-webkit-scrollbar {

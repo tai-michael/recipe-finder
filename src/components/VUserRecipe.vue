@@ -38,7 +38,7 @@
 
             <div class="recipe__info-buttons">
               <button
-                class="btn btn-outline-success pb-1"
+                class="btn btn-outline-success"
                 @click="updateServings(-1)"
               >
                 <span> – </span>
@@ -250,8 +250,8 @@ export default {
     fill: black;
     margin-right: 0.7rem;
     @media only screen and (max-width: 767px) {
-      height: 2rem;
-      width: 2rem;
+      height: 1.8rem;
+      width: 1.8rem;
     }
   }
 
@@ -272,13 +272,13 @@ export default {
   font-weight: 700;
   color: black;
   text-transform: uppercase;
-  margin-bottom: 4rem;
+  margin-bottom: 3.5rem;
   text-align: center;
   // transform: skewY(-3deg);
 }
 
 .row-gap {
-  row-gap: 2.4rem !important;
+  row-gap: 3.4rem !important;
 }
 
 @keyframes rotate {
@@ -292,8 +292,6 @@ export default {
 }
 
 .recipe {
-  padding-right: 0 !important;
-  padding-left: 0 !important;
   background-color: white;
   // max-width: 984px;
 
@@ -306,6 +304,8 @@ export default {
 
     @media only screen and (max-width: 767px) {
       // height: 60%;
+      padding-right: 0 !important;
+      padding-left: 0 !important;
       height: 200px;
     }
   }

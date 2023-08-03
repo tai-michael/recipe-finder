@@ -115,7 +115,8 @@ export default {
 
 .search-container {
   flex-direction: column;
-  min-width: 250px !important;
+  min-width: 255px !important;
+  margin-left: 1rem;
 
   &::-webkit-scrollbar {
     width: 5px;
@@ -127,6 +128,7 @@ export default {
 
   @media only screen and (max-width: 648px) {
     // border-top: 1px solid rgb(231, 231, 231);
+    margin-left: 0;
     padding-top: 5px;
   }
 

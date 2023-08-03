@@ -378,15 +378,46 @@ html {
   // max-width: 365px;
   // padding-right: 0rem;
   margin-bottom: 2rem;
-  // margin-right: 0rem;
+  margin-right: 1.5rem;
   // border-right: 1px solid rgb(231, 231, 231);
 
   // NOTE position STICKY attempt
   position: sticky !important;
   position: -webkit-sticky;
   height: 85vh !important;
-  top: 85px !important;
+  top: 91px !important;
   // overflow: auto;
+
+  // // NOTE gives the container a scroll bar when it exceeds the max-height
+  // max-height: 800px;
+  // overflow: auto;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: lightgray;
+  }
+  @media only screen and (max-width: 648px) {
+    display: none !important;
+  }
+}
+
+.search-results-widescreen {
+  min-width: 260px;
+  // max-width: 365px;
+  margin-bottom: 2rem;
+  padding-right: 1.8rem;
+  // margin-right: 0.8rem;
+  border-right: 1px solid rgb(231, 231, 231);
+
+  // NOTE position STICKY attempt
+  position: sticky !important;
+  position: -webkit-sticky;
+  height: 83vh !important;
+  top: 91px !important;
+  overflow: auto;
 
   // // NOTE gives the container a scroll bar when it exceeds the max-height
   // max-height: 800px;
@@ -410,40 +441,14 @@ html {
   }
 }
 
-.search-results-widescreen {
-  min-width: 260px;
-  // max-width: 365px;
-  padding-right: 1.2rem;
-  margin-bottom: 2rem;
-  margin-right: 0.8rem;
-  border-right: 1px solid rgb(231, 231, 231);
-
-  // NOTE position STICKY attempt
-  position: sticky !important;
-  position: -webkit-sticky;
-  height: 83vh !important;
-  top: 85px !important;
-  overflow: auto;
-
-  // // NOTE gives the container a scroll bar when it exceeds the max-height
-  // max-height: 800px;
-  // overflow: auto;
-
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: lightgray;
-  }
+.recipe {
+  flex: 1 1 100px;
+  // min-width: 372px;
+  max-width: 928px;
   @media only screen and (max-width: 648px) {
-    // min-width: 260px;
-
-    // width: 100%;
-    // border-right: none;
-    // min-height: 10vh;
-
-    display: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    min-width: 0 !important;
   }
 }
 

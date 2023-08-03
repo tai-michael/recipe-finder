@@ -201,7 +201,7 @@ export default {
   transition: all 0.5s;
 
   @media all and (max-width: 644px) {
-    top: 40%;
+    top: 36%;
     width: 90%;
   }
 
@@ -234,6 +234,10 @@ export default {
       font-size: 2.2rem;
       line-height: 1.5;
       font-weight: 600;
+    }
+
+    @media all and (max-width: 644px) {
+      margin-bottom: 26px;
     }
   }
 

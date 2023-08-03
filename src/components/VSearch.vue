@@ -109,12 +109,16 @@ export default {
   @media all and (max-width: 648px) {
     height: 34px;
     font-size: 16px;
-    padding: 1rem 1.3rem 1.3rem 3em;
+    padding: 1rem 1.5rem 1rem 3em;
   }
 }
 
 .search input:focus {
   box-shadow: none;
   border: 2px solid black;
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  margin-left: 10px;
 }
 </style>

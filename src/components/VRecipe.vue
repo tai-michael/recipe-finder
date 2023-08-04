@@ -91,9 +91,7 @@
           <button
             @click="bookmarkRecipe"
             class="btn--round"
-            :title="`${
-              recipeBookmarked ? 'Unsave this recipe' : 'Save this recipe'
-            }`"
+            :title="`${recipeBookmarked ? 'Unsave' : 'Save'}`"
           >
             <svg class="btn--bookmark">
               <use
@@ -102,7 +100,7 @@
                 }`"
               ></use>
             </svg>
-            <span>{{ recipeBookmarked ? 'Saved' : 'Save' }}</span>
+            <span>Save</span>
           </button>
         </div>
       </div>

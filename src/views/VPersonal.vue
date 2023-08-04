@@ -378,7 +378,7 @@ html {
   // max-width: 365px;
   // padding-right: 0rem;
   margin-bottom: 2rem;
-  margin-right: 1.5rem;
+  margin-right: 1rem;
   // border-right: 1px solid rgb(231, 231, 231);
 
   // NOTE position STICKY attempt

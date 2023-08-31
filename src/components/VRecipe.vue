@@ -46,7 +46,8 @@
               recipe.yield
             }}</span>
             <span>
-              {{ recipe.yield > 1 ? 'servings' : 'serving' }}
+              <!-- {{ recipe.yield > 1 ? 'servings' : 'serving' }} -->
+              serving(s)
             </span>
 
             <div class="recipe__info-buttons">

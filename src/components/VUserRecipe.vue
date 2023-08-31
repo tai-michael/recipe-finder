@@ -34,7 +34,8 @@
             <span class="recipe__info-data recipe__info-data--people">{{
               recipe.servings
             }}</span>
-            <span>{{ recipe.servings > 1 ? 'servings' : 'serving' }}</span>
+            <!-- <span>{{ recipe.servings > 1 ? 'servings' : 'serving' }}</span> -->
+            <span>serving(s)</span>
 
             <div class="recipe__info-buttons">
               <button

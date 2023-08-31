@@ -8,6 +8,7 @@
       <use :href="`${icons}#icon-search`"></use>
     </svg>
     <input
+      ref="searchInput"
       type="search"
       class="form-control"
       placeholder="Search over 2.3 million recipes"
@@ -23,6 +24,7 @@
       <use :href="`${icons}#icon-search`"></use>
     </svg>
     <input
+      ref="userRecipeSearchInput"
       type="search"
       class="form-control"
       placeholder="Search among your own recipes"
@@ -52,11 +54,13 @@ export default {
   methods: {
     submitSearch() {
       this.$store.dispatch('home/searchRecipes', { query: this.query });
+      this.$refs.searchInput.blur();
     },
     submitUserRecipeSearch() {
       this.$store.dispatch('home/searchUserRecipes', {
         query: this.userRecipeQuery,
       });
+      this.$refs.userRecipeSearchInput.blur();
     },
   },
 };

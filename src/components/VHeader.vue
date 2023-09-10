@@ -250,59 +250,6 @@
             <span class="nav_label">{{ USER_RECIPES_TAB_NAME }}</span>
           </router-link>
         </li>
-        <!-- <li class="nav__item">
-          <button
-            @click="
-              $router.push({
-                name: 'recipe',
-                params: {
-                  id: $route.params.id,
-                  userRecipeId: $route.params.userRecipeId,
-                },
-                query: {
-                  query: $route.query.query,
-                  userRecipeQuery: $route.query.userRecipeQuery,
-                  page: $route.query.page,
-                  userRecipeQueryPage: $route.query.userRecipeQueryPage,
-                },
-              })
-            "
-            class="nav__btn"
-            :disabled="$route.name === 'recipe' || $route.name === 'recipe'"
-          >
-            <svg class="nav__icon">
-              <use :href="`${icons}#icon-upload-cloud`"></use>
-            </svg>
-            <span class="nav_label">{{ DATABASE_TAB_NAME }}</span>
-          </button>
-        </li>
-
-        <li class="nav__item">
-          <button
-            @click="
-              $router.push({
-                name: 'userRecipe',
-                params: {
-                  id: $route.params.id,
-                  userRecipeId: $route.params.userRecipeId,
-                },
-                query: {
-                  query: $route.query.query,
-                  userRecipeQuery: $route.query.userRecipeQuery,
-                  page: $route.query.page,
-                  userRecipeQueryPage: $route.query.userRecipeQueryPage,
-                },
-              })
-            "
-            class="nav__btn"
-            :disabled="$route.name === 'userRecipe'"
-          >
-            <svg class="nav__icon">
-              <use :href="`${icons}#icon-user`"></use>
-            </svg>
-            <span class="nav_label">{{ USER_RECIPES_TAB_NAME }}</span>
-          </button>
-        </li> -->
 
         <VBookmarks v-if="loggedIn" />
         <li class="nav__item" v-if="!loggedIn">
@@ -311,12 +258,6 @@
           </button>
         </li>
         <li class="nav__item" v-if="!loggedIn">
-          <!-- <router-link :to="{ name: 'Home' }">
-            <v-btn color="primary" large>
-              <v-icon left>mdi-home</v-icon>
-              <span>Home</span>
-            </v-btn>
-          </router-link> -->
           <button @click="toggleRegisterModal" class="nav__btn not-logged-in">
             <span>Sign Up</span>
           </button>
@@ -401,20 +342,6 @@ export default {
   display: none;
 }
 
-// .offcanvas-backdrop {
-//   display: none !important;
-//   @media all and (max-width: 655px) {
-//     display: block;
-//   }
-// }
-
-// .sticky-top {
-//   z-index: 0;
-//   // @media all and (max-width: 655px) {
-//   //   z-index: 1020;
-//   // }
-// }
-
 .btn-close {
   font-size: 1.5rem !important;
   margin-top: 0.4rem !important;
@@ -483,11 +410,6 @@ export default {
   }
 }
 
-// .logo {
-//   margin-left: 3rem;
-//   height: 4.6rem;
-//   display: block;
-// }
 .logo-text,
 .logo-text-narrow {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

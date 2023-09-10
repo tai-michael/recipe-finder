@@ -4,7 +4,7 @@ Epicurist is a full-stack web application that allows users to search for recipe
 
 ## Demo
 
-<a href="https://epicurist.netlify.app/home" target="_blank">https://epicurist.netlify.app/home</a>
+https://epicurist.netlify.app/home
 
 ## Features
 
